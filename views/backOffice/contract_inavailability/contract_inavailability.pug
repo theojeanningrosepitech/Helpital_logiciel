@@ -1,0 +1,118 @@
+extends ../../header
+block content
+    link(rel='stylesheet', href='/stylesheets/back_office/back_office.css')
+    link(rel='stylesheet', href='/stylesheets/back_office/contract_inavailability/contract_inavailability.css')
+    script(type='text/javascript', src='/javascripts/back_office/back_office.js')
+    script(type='text/javascript', src='/javascripts/back_office/contract_inavailability/contract_inavailability.js')
+    #pop_up_add_contract(class='display_none')
+        a.display_cross(onclick="backContractCI()")
+            i.fas.fa-times-circle
+        h2(class="form-header title") Contrat
+        label Intérimaires sans contrat
+            select(name="user_contract" id="user_contract")
+                each user in data.allUsers
+                    if user.contract == 0
+                        option(value=`${user.id}`)=user.firstname + ' ' + user.lastname
+        label
+            select(name="contract" id="type_contract")
+                option(value=`CDD`) CDD
+                option(value=`CDI`) CDI
+                option(value=`Periode de test`) Periode de test
+        label
+            input(type="submit" id="submit_add" value="Ajouter un contrat", onclick=`addContract()`)
+    #pop_up_detail(class='display_none')
+        a.display_cross_detail(onclick="backCIDetail()")
+            i.fas.fa-times-circle
+        div.pop_up_details_user
+            div#detail_user_pop
+            div#detail_img_user_pop
+            div#detail_availability_user_pop
+            div#detail_log_user_pop
+    #pop_up_availability(class='display_none')
+        a.display_cross(onclick="backServiceAvailability()")
+            i.fas.fa-times-circle
+        label="Personnel "
+            select(name="availability_user" id="availability_user")
+                each user in data.allUsers
+                    if user.contract == 1
+                        option(value=`${user.id}`)=user.firstname + ' ' + user.lastname
+        label="Indisponibilité "
+            select(name="inavailability" id="inavailability")
+                option(value=1) Vacances
+                option(value=2) Accident de Travail
+                option(value=3) Arrêt Maladie
+        label
+            textarea(type="text" id="availability_note" name="availability_note" placeholder="Note ou observations" required rows=4 cols=50)
+        label
+            input(type="submit" id="submit_availability" value="Ajouter l'indisponibilité", onclick=`newAvailability(${JSON.stringify(data.allUsers)}, ${data.myUser.id}, ${JSON.stringify(data.availabilities)})`)
+    .msg_block
+        .content_msg(id="width_content_msg")
+            .header_page
+                .option_page
+                    button.margin_bottom1(onclick='showPopUpAvailability()') Ajouter une indisponibilité
+                    button(onclick=`showPopUpContract()`) Ajouter un contrat
+                .search_box_back_office
+                    input(type="text" id="search_name_user" placeholder="Rechercher" onkeyup="searchNameUserAvailability()" name="search_bar_user")
+                    label.check_box_label Tous
+                    input(type="radio" name="availability_check_box" id="check_all_user" onclick="searchAllUserCI()" checked)
+                    label.check_box_label Vacances
+                    input(type="radio" name="availability_check_box" id="check_holiday" onclick="searchHoliday()")
+                    label.check_box_label Accident de travail
+                    input(type="radio" name="availability_check_box" id="check_crash" onclick="searchCrash()")
+                    label.check_box_label Arrêt maladie
+                    input(type="radio" name="availability_check_box" id="check_seek" onclick="searchSeek()")
+                    label.check_box_label Sans contrat
+                    input(type="radio" name="availability_check_box" id="check_contract" onclick="searchContract()")
+                    label.check_box_label CDI
+                    input(type="radio" name="availability_check_box" id="check_cdi" onclick="searchCdi()")
+                    label.check_box_label CDD
+                    input(type="radio" name="availability_check_box" id="check_cdd" onclick="searchCdd()")
+                    label.check_box_label Période de test
+                    input(type="radio" name="availability_check_box" id="check_test" onclick="searchPeriod()")
+            .flex-item
+                .flex-box-table-availability
+                    .table-header-ci
+                        .table-header-item-ci Prénom
+                        .table-header-item-ci Nom
+                        .table-header-item-ci Rôle
+                        .table-header-item-ci Email
+                        .table-header-item-ci Contrat
+                        .table-header-item-ci Indisponibilité
+                        .table-header-item-ci Info
+                    .wrap-row-ci
+                        each user in data.allUsers
+                            .table-row.block_name_user_ci(class=(user.contract == 0) ? 'background_gray' : (user.availability == 0) ? 'background_green' : 'background_red')
+                                span#id(style="display: none") #{user.id}
+                                .table-row-item.get_name_firstname=user.firstname
+                                .table-row-item.get_name_lastname=user.lastname
+                                .table-row-item.get_role=data.allRoles[user.user_role - 1].role_name
+                                .table-row-item=user.email
+                                -let y = 0;
+                                span.get_contract(style="display: none")=user.contract
+                                -for (let i = data.allContract.length - 1; data.allContract[i]; i--)
+                                    if data.allContract[i].user_id == user.id
+                                        span.get_contract_name(style="display: none")=data.allContract[i].title
+                                        if data.allContract[i].close_at != null
+                                            .table-row-item=data.allContract[i].title + " fini"
+                                        else
+                                            a.table-row-item(onclick=`finishContract(${user.id}, ${data.allContract[i].id})`)=data.allContract[i].title
+                                        -y = 1
+                                        -break;
+                                if y == 0
+                                    .table-row-item.get_contract_name Pas de contrat
+                                span.get_availability(style="display: none")=user.availability
+                                if user.availability == 0
+                                    .table-row-item.get_availability_name Non
+                                else
+                                    each availability in data.availabilities
+                                        if availability.user_id == user.id && availability.close_at == null
+                                            span.get_availability_name(style="display: none")=availability.title
+                                            if availability.title == 1
+                                                a.table-row-item(onclick=`comeBackToWork(${user.id}, ${user.availability}, ${user.service}, ${data.myUser.id}, ${JSON.stringify(data.availabilities)})`)="Vacances"
+                                            if availability.title == 2
+                                                a.table-row-item(onclick=`comeBackToWork(${user.id}, ${user.availability}, ${user.service}, ${data.myUser.id}, ${JSON.stringify(data.availabilities)})`)="Accident de travail"
+                                            if availability.title == 3
+                                                a.table-row-item(onclick=`comeBackToWork(${user.id}, ${user.availability}, ${user.service}, ${data.myUser.id}, ${JSON.stringify(data.availabilities)})`)="Arrêt maladie"
+                                .table-row-item
+                                    button.user_detailCI(onclick=`checkDetailCI(${JSON.stringify(user)}, ${JSON.stringify(data.allServices)}, "${data.allRoles[user.user_role - 1].role_name}", ${JSON.stringify(data.allLog)}, ${JSON.stringify(data.allUsers)}, ${JSON.stringify(data.availabilities)}, ${JSON.stringify(data.allContract)})`)
+                                        i.fa.fa-info

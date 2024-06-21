@@ -1,0 +1,198 @@
+extends ../header
+include ../popUp
+block content
+    //- Move profil css from styles-2.1.0.css to profil.css
+    link(rel='stylesheet', href='/stylesheets/profil.css')
+
+    #tutorial_display.display_none
+        #pop-up-container-tuto
+            .triangle1
+            .tutorial_text_box
+                div.message Dans la zone avatar et bannière, vous pouvez choisir de modifier la photo de votre profil en cliquant sur le +. <br> Cliquez sur la palette de couleurs pour styliser votre bannière.
+            .triangle2
+            .tutorial_text_box_two
+                div.message Si vous souhaitez modifier votre email personnel dans l'annuaire, modifier le dans le champ si contre et cliquer sur le crayon.
+            .triangle3
+            .tutorial_text_box_three
+                div.message Si vous souhaitez modifier votre numéro de téléphone personnel dans l'annuaire, modifier le dans le champ si contre et cliquer sur le crayon.
+            .robothelp
+                img(src='/images/robothelp.gif', alt="robothelp")
+                .triangle4
+                .tutorial_text_box_four
+                    div.message Ici tu peux consulter les donnés d'un profil et modifier les champs.
+
+    +popUp({
+        popUpName: "AlertUser",
+        id: "pop-up-container", 
+        className: "alert-user",
+        title: "Maintenance 👷",
+        description: "Cet élément est actuellement en développement.",
+        type: "alert"
+    })
+
+    +popUp({
+        popUpName: "ReportBugForm",
+        id: "pop-up-container", 
+        className: "report-bug-form",
+        title: "Signaler un bug 🛠️", 
+        description: "Vous avez rencontré un bug ?", 
+        type: "form",
+        name: "report-bug-form", 
+        method: "post", 
+        action: "api/mailPage", 
+        onSubmit: "event.preventDefault(); sendMail();",
+        inputs: { 
+                0: { id: "mail-subject", name: "subject", type: "text", placeholder: "Localisation du problème" }, 
+                1: { id: "mail-content", name: "content", type: "text", placeholder: "Explication du problème" },
+                2: { id: "submit", type: "submit", value: "Envoyer" }
+        }
+    })
+
+    .page
+        .side-menu
+            .summary
+                ul.summary-content
+                    li#item(onclick="window.location.href='/profil'") Profil
+                ul.summary-content
+                    li#item(onclick="showPopUpAlertUser()") Notifications
+                ul.summary-content
+                    li#item(onclick="window.location.href='/preferences'") Paramètres
+            .side-menu-footer
+                button Se déconnecter
+        .main-container
+            #profil-viewer.profil-viewer(style="background-color: " + data.user.banner)
+                .pfp(id="displayImage" style="background-image: url('" + data.user.avatar + "')")
+                    label.material-icons(for="file_name", class="plus-button") add box 
+                    input.display_none(name="file_name" id="file_name" type="file" accept="image/png, image/jpeg, image/jpg" onchange="openFile()")
+                .informations
+                    h1=data.user.firstname + " " + data.user.lastname
+                    span=data.services[data.user.service - 1].title
+                .palette
+                    button.material-icons-button(onclick='showColor()')
+                        span.material-icons palette
+                    #colorpalette.display_none
+                        button.color1(onclick='colorBanner("#4a9eff")') 
+                        button.color2(onclick='colorBanner("#44cf60")')
+                        button.color3(onclick='colorBanner("#ffb637")')
+                        button.color4(onclick='colorBanner("#de5daa")')
+                        button.color5(onclick='colorBanner("#ec3a3a")')
+                        button.color6(onclick='colorBanner("#5931c5")')
+                a.right-icon-button(onclick="ShowTutorial()")
+                    label.material-icons(class="help-button") help
+            #profil.profil(userId=data.user.id)
+                .private
+                    label Email 
+                    input(id="emailvalue" type='email' placeholder='Email' value=data.user.email pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$' required)
+                    label Mot de passe 
+                    input#password(type='password' placeholder='Mot de passe' value='password' required)
+                    label Téléphone 
+                    input(id="phonevalue" type='tel' placeholder='Téléphone' value=data.user.phone pattern='^9[0-9]{7}' minlength='10' maxlength='10' required)
+                    //- label TOTP
+                    //- if data.totpEnabled
+                    //-     button#totp Désactiver l'authentification TOTP
+                    //- else
+                    //-     button#totp Activer l'authentification TOTP
+                    //- if data.qrcode2fa !== ''
+                    //-     label QR Code 2FA
+                    //-     button#qrcode Afficher le QR Code
+                .public
+                    label Service 
+                    input(type='text' placeholder='Service' value=data.services[data.user.service - 1].title)
+                    label Rôle 
+                    input(type='text' placeholder='Rôle' value=data.roles[data.user.user_role - 1].role_name required)
+                    label.label-hidden Enregistrer 
+                    button(onclick="updateProfil(" + JSON.stringify(data.user.id) + ")") Enregistrer
+                    label.label-hidden Signaler un bug 
+                    button(onclick="showPopUpReportBugForm()") Signaler un bug 
+                .contacts
+                    .directory
+                        table
+                            thead
+                                tr
+                                    th Contacts (#{data.contacts.length})
+                            tbody
+                                each contact in data.contacts
+                                    tr.blue
+                                        td=contact.name
+                    .contacts-footer
+                        button(onclick="window.location.href='/directory'") Voir l'annuaire
+
+    script(type='text/javascript' src='/javascripts/profil.js')
+
+    //- script(type='text/javascript' src='/javascripts/profil.js')
+
+    //- Old profil page
+    //- vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+
+    //- div.display_none.display_all_avatars(id="all_avatars")
+    //-     a.display_cross(onclick="back_profil()")
+    //-         i.fas.fa-times-circle
+    //-     -for (let i = 0; i < data.avatars.length; i++) {
+    //-         a(onclick=`update_avatar(${i}, ${data.user.id})`)
+    //-             img.img_avatar(src=`/images/${data.avatars[i].avatar_link}` alt=data.avatars[i].avatar_link)
+    //-     -}
+
+    //- #profil.profil(user-id=`${data.user.id}`)
+    //-     div.profil_details
+    //-         h2 Nom
+    //-         div.div_update(id="lastname")
+    //-             //rendre le champ modifiable
+    //-             //input.entry(type="text", value="#{data.userProfil.data[0].lastname}", placeholder="#{data.userProfil.data[0].lastname}")=data.userProfil.data[0].lastname
+    //-             p(name="lastname") #{data.user.lastname}
+
+    //-         h2 Prénom
+    //-         div.div_update(id="firstname")
+    //-             //rendre le champ modifiable
+    //-             //input.entry(type="text", value="#{data.userProfil.data[0].firstname}", placeholder="#{data.userProfil.data[0].firstname}")=data.userProfil.data[0].firstname
+    //-             p(name="firstname") #{data.user.firstname}
+
+    //-         h2 Connexion
+    //-         div.div_update(id="login")
+    //-             p(name="login") #{data.user.login}
+
+    //-         h2 Mot de passe
+    //-         div
+    //-             button#password(user_id=`${data.user.id}`) Réinitialiser le mot de passe
+
+    //-         //input(class="pswd" type="password" placeholder="Mot de passe" name="password" id="myInput_neverco" value="password")
+    //-         //.display_mdp
+    //-             //- Cela renvoie vers une fonction plus bas qui permet d'afficher ou cacher les mdp
+    //-             //input(type="checkbox" onclick="showPassword_neverco()")
+    //-             //span(style="margin-left: 0.5rem; font-size: 0.9rem;") Afficher mot de passe
+
+    //-         h2 Email
+    //-         div.div_update(id="email")
+    //-             input.entry(type="text", id="emailvalue", value=`${data.user.email}`, placeholder=`${data.user.email}`)
+    //-             a(onclick=`update_email(${data.user.id})`)
+    //-                 i.fas.fa-pen
+
+    //-         h2 Téléphone
+    //-         div.div_update(id="phone")
+    //-             input.entry(type="text", id="phonevalue", value=`${data.user.phone}`, placeholder=`${data.user.phone}`)
+    //-             a(onclick=`update_phone(${data.user.id})`)
+    //-                 i.fas.fa-pen
+
+    //-     div.profil_avatar
+    //-         h2 Avatar
+    //-         div.div_avatar
+    //-             img.img_avatar(src=`../images/${data.avatars[data.user.avatar - 1].avatar_link}` alt=data.avatars[data.user.avatar - 1].avatar_link)
+    //-             a(onclick="show_choose_avatar()") Changer d'avatar
+    //-                 i.fas.fa-pen
+    //-         h2 Service
+    //-         div.div_update(id="service")
+    //-             p(name="service") #{data.services[data.user.service - 1].title}
+    //-         h2 Rôle
+    //-         div.div_update(id="role")
+    //-             p(name="role") #{data.roles[data.user.user_role - 1].role_name}
+    //-         h2 TOTP
+    //-         div
+    //-             if data.totpEnabled
+    //-                 button#totp Désactiver l'authentification TOTP
+    //-             else
+    //-                 button#totp Activer l'authentification TOTP
+    //-         if data.qrcode2fa !== ''
+    //-             h2 QR Code 2FA
+    //-             div
+    //-                 button#qrcode Afficher le QR Code
+
+    //- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

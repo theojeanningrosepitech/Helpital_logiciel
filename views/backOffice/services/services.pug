@@ -1,0 +1,20 @@
+extends ../../header
+block content
+    link(rel='stylesheet', href='/stylesheets/back_office/back_office.css')
+    link(rel='stylesheet', href='/stylesheets/back_office/services/services.css')
+    script(type='text/javascript', src='/javascripts/back_office/back_office.js')
+    script(type='text/javascript', src='/javascripts/back_office/services/services.js')
+    .block_msg
+        .content_msg(id="width_content_msg")
+            .page-header
+                .page-informations
+                    .page-title
+                        h1 Tous les Services
+                    .page-description
+                        p 📍 Tous les services de l'hopital
+            div#list.content_all_services
+                each service in data.allServices
+                    if (data.myUser.service == 1 && service.id == 1) || service.id != 1
+                        include services_fragment
+    script.
+        initServicesList()

@@ -1,0 +1,126 @@
+extends ../header
+block content
+    link(rel='stylesheet', href='/stylesheets/preferences.css')
+    script(type='text/javascript' src='/javascripts/preferences.js')
+
+    //- .page
+    //-     .side-menu
+    //-         .summary
+    //-             ul.summary-content
+    //-                 li#item(onclick="window.location.href='/profil'") Profil
+    //-             ul.summary-content
+    //-                 li#item Notifications
+    //-             ul.summary-content
+    //-                 li#item(onclick="window.location.href='/preferences'") Paramètres
+    //-         .side-menu-footer
+    //-             button Se déconnecter
+    //-     .main-container
+    //-         .profil-viewer
+    //-             .pfp
+    //-             .informations
+    //-                 h1=data.myUser.firstname + " " + data.myUser.lastname
+    //-                 span=data.services[data.myUser.service - 1].title
+    //-             .palette
+    //-                 button.material-icons-button
+    //-                     span.material-icons palette
+    //-         #profil.profil(userId=data.myUser.id)
+    //-             .private
+    //-                 div
+    //-                     label Option d'accessibilité : 
+    //-                     - if (data.accessibility)
+    //-                         input#accessibility(type="checkbox", checked)
+    //-                     - else
+    //-                         input#accessibility(type="checkbox")
+    //-                 div 
+    //-                     span
+    //-                         a(href='/insult') Option filtrer les mots
+    //-                     if data.myUser.filter == 0
+    //-                         input#filter(type="checkbox")
+    //-                     else
+    //-                         input#filter(type="checkbox" checked)
+    //-                 div
+    //-                     span Service :
+    //-                     select#service
+    //-                         each service in data.services
+    //-                             -if (service.id == data.service)
+    //-                                 option(value=service.id, selected) #{service.title}
+    //-                             -else
+    //-                                 option(value=service.id) #{service.title}
+    //-                 div
+    //-                     span Etage :
+    //-                     input#prefered_floor(placeholder="1", type="number", value=data.prefered_floor)
+    //-                 div
+    //-                     each route in navigation
+    //-                         div
+    //-                             span Pages favorites :
+    //-                             div.list#favorites
+    //-                                 each page in route.list
+    //-                                     span.namePage #{page.name} :
+    //-                                         -if (page.favorite)
+    //-                                             input(type="checkbox", class="star", checked, link=`${page.link}`)
+    //-                                         -else
+    //-                                             input(type="checkbox", class="star", link=`${page.link}`)
+    //-             .public
+    //-             .contacts
+    //-                 .directory
+    //-                     table
+    //-                         thead
+    //-                             tr
+    //-                                 th Contacts (#{data.contacts.length})
+    //-                         tbody
+    //-                             each contact in data.contacts
+    //-                                 tr.blue
+    //-                                     td=contact.name
+    //-                 .contacts-footer
+    //-                     button(onclick="window.location.href='/directory'") Voir l'annuaire
+
+    #inner-body.margin-top-element(user-id=`${data.id}`)
+        div.property-list
+            div.actions
+                button.add(onClick="savePreferences()") Sauvegarder
+            h3 Préférences
+            div
+                span Option d'accessibilité :
+                -if (data.accessibility)
+                    input#accessibility(type="checkbox", checked)
+                -else
+                    input#accessibility(type="checkbox")
+            div
+                span Option filtrer les mots
+                if data.myUser.filter == 0
+                    input#filter(type="checkbox")
+                else
+                    input#filter(type="checkbox" checked)
+            div(style="display: none")
+                span Thème :
+                select#prefered_theme
+                    each theme in data.themes
+                        -if (theme.id == data.prefered_theme)
+                            option(value=theme.id, selected) #{theme.name}
+                        -else
+                            option(value=theme.id) #{theme.name}
+            div
+                span Service :
+                select#service
+                    each service in data.services
+                        -if (service.id == data.service)
+                            option(value=service.id, selected) #{service.title}
+                        -else
+                            option(value=service.id) #{service.title}
+            div
+                span Etage :
+                input#prefered_floor(placeholder="1", type="number", value=data.prefered_floor)
+
+            div
+                each route in navigation
+                    div
+                        span Pages favorites :
+                        div.list#favorites
+                            each page in route.list
+                                span.namePage #{page.name} :
+                                    -if (page.favorite)
+                                        input(type="checkbox", class="star", checked, link=`${page.link}`)
+                                    -else
+                                        input(type="checkbox", class="star", link=`${page.link}`)
+    script.
+        initPreferences();

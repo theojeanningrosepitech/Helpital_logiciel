@@ -1,0 +1,33 @@
+#patients-container
+    .section-1-flex-box
+        .capsule(style="padding: 15px")
+            .capsule-content(style="flex-wrap: wrap")
+                #informations(style="min-width: 65vw")
+                    h2(style="margin-top: 2em;")=rdv.title
+                    span=rdv.description
+                #notes(style="min-width: 10vw; margin-top:20px")
+                    h2 Notes précédentes
+                        if data.notes.data.length > 0
+                            table.sortable
+                                tr
+                                    th#titleName Auteur
+                                    th#titleType Contenu
+                                    each note in data.notes.data
+                                        tr.item
+                                            td#creator=note.n_creator.split('.').join(' ')
+                                            td#content=note.n_content
+                                    if data.prescriptions.data.length > 0
+                                        each prescription in data.prescriptions.data
+                                            tr.item
+                                                td#creator=prescription.p_creator
+                                                td#content=prescription.p_content
+                        else
+                            div
+                                span Aucune note
+                #note-text(style="min-width: 65vw; margin-top:50px")
+                    h2 Prendre des notes
+                    textarea(id="data" style="width: 60%; height: 30vh; margin: auto" placeholder="Prenez des notes sur le rendez-vous ici !")
+                #create(style="min-width: 65vw; margin-top:50px")
+                    button(onclick="popPrescription(\"" + data.all_patients[0].ss_number + "\")") Créer une ordonnance
+                #close(style="min-width: 65vw; margin-top:15vmax")
+                    button(onclick="postData('" + user.login + "'," + JSON.stringify(data.all_patients[0]) + ")") Terminer la consultation

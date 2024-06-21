@@ -1,0 +1,471 @@
+
+#canv {
+    position: relative;
+    width: 100%;
+    height: calc(100vh - 4em);
+    cursor: move;
+}
+canvas {
+    width: 100%;
+    height: 100%;
+}
+
+#plan-popup-background{
+    z-index: 1;
+    display: none;
+    position: fixed;
+    top: 3em;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: calc(100% - 3em);
+    padding: 0;
+    margin: 0;
+    background-color: #00000082;
+    border-radius: 0;
+    text-align: center;
+}
+
+#plan-room-capacity{
+    position: absolute;
+    right: 1em;
+    top: 1em;
+}
+
+.plan-popup {
+    display: none;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%,-40%);
+    width: 65vw;
+    height: 70%;
+    flex-direction: column;
+    padding-top: 0.5em;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.plan-popup div {
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.plan-popup > button.close {
+    position: absolute;
+    top: -1.25em;
+    right: -1.25em;
+    padding: 0.5em;
+    width: 2.5em;
+    height: 2.5em;
+    text-align: center;
+    border-radius: 50%;
+    background: #000;
+    border: 0px;
+    color: #FFF;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.plan-popup > img.back {
+    width: 2em;
+    height: 2em;
+    position: absolute;
+    top: 0.5em;
+    left: 0.5em;
+    cursor: pointer;
+}
+
+.plan-popup > h1,
+.plan-popup > a > h1{
+    margin-top: 0.25em;
+}
+
+.plan-popup > #add-patient{
+    position: absolute;
+    left: 1em;
+    top: 1em;
+}
+
+.plan-popup > #create-patient,
+.plan-popup > #create-inventory{
+    position: absolute;
+    right: 2em;
+    top: 1em;
+}
+
+.plan-popup > .beds {
+    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    flex-grow: 1;
+    padding: 1em;
+    text-align: start;
+}
+
+.plan-popup > .beds > div {
+    background-color: #e9b9b9;
+    height: 100%;
+    width: 25vh;
+    display: inline-block;
+    margin-right: 1em;
+    position: relative;
+    margin-bottom: 1em;
+}
+.plan-popup > .beds > div.empty {
+    background-color: #e1e1e1;
+}
+.plan-popup > .beds > div.empty:hover {
+    background-color: #c7c7c7;
+}
+
+.plan-popup > .beds > div > button.transfer {
+    position: absolute;
+    left: 10%;
+    bottom: 5%;
+    width: 80%;
+    background-color: #FFF;
+    color: var(--p-color);
+}
+.plan-popup > .beds > div > button.transfer:hover {
+    background-color: #e9b9b9;
+}
+
+.plan-popup > .beds > div > div:nth-child(1) {
+    position: absolute;
+    background-color: #ffffff;
+    left: 10%;
+    top: 5%;
+    width: 80%;
+    height: 4.5em;
+}
+
+.plan-popup > .beds > div > a:nth-child(2) {
+    position: absolute;
+    top: 2em;
+    left: 50%;
+    width: 50%;
+    transform: translate(-50%, 0);
+}
+
+.plan-popup > .beds > div > a:nth-child(2) > img {
+    position: absolute;
+    top: -0.4em;
+    right: 0;
+    width: 1em;
+    height: 1em;
+}
+.plan-popup > .beds > div > a:nth-child(2) > img:hover {
+    border: 1px solid black;
+}
+
+.plan-popup > .inventory {
+    background-color: var(--lightPrimaryColor);
+    position: relative;
+}
+
+.plan-popup > .inventory > h1 {
+    position: relative;
+    left: 1em;
+    margin-bottom: 0.25em;
+    text-align: left;
+    color: white;
+}
+.plan-popup > .inventory > button.add {
+    position: absolute;
+    top: 0.5em;
+    right: 1em;
+    background-color: #FFF;
+    color: var(--p-color);
+}
+.plan-popup > .inventory > button.add:hover {
+    background-color: #f1dada;
+}
+
+.plan-popup > .inventory > div {
+    display: grid;
+    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+    grid-gap: 1em;
+    padding: 1em;
+    grid-auto-flow: column;
+    background-color: var(--lightPrimaryColor);
+    min-height: 6em;
+}
+.plan-popup > .inventory > div > div {
+    background-color: white;
+    text-align: left;
+    border-radius: 5em;
+    padding: 0.5em;
+}
+.plan-popup > .inventory > div > div > a {
+    line-height: 1.9em;
+    padding-left: 0.5em;
+}
+.plan-popup > .inventory > div > div > img {
+    float: right;
+    background-color: #e9b9b9;
+    border-radius: 5em;
+    padding: 0.2em;
+    margin-left: 0.4em;
+    width: 1.5em;
+    height: 1.5em;
+    cursor: pointer;
+}
+.plan-popup > .inventory > div > div > img:nth-child(2):hover {
+    background-color: red;
+}
+.plan-popup > .inventory > div > div > img:nth-child(3):hover {
+    background-color: black;
+}
+
+.plan-popup > .list-header {
+    display: flex;
+    padding-bottom: 0.5em !important;
+    margin: 0 4em;
+    background-color: var(--lightPrimaryColor);
+    padding: 0.5em 1em;
+}
+.plan-popup > .list-header > p {
+    flex: 1;
+    text-align: left;
+}
+.plan-popup > .list-header > p:nth-child(3) {
+    flex: 0.8;
+}
+.plan-popup > .list-header > p:last-child {
+    text-align: right;
+}
+
+.plan-popup > .list {
+    overflow-y: overlay;
+    height: 70%;
+    padding-top: 0 !important;
+}
+
+#plan-room-capacity.full,
+.plan-popup > .list > div > .full {
+    color: red;
+}
+
+.plan-popup > .list > div {
+    padding: 0.5em 1em;
+    border-bottom: 1px solid black;
+    border-radius: 0;
+    cursor: pointer;
+}
+.plan-popup > .list > div:hover {
+    background-color: #e9b9b9;
+}
+
+.plan-popup > .list > div > p {
+    flex: 1;
+    text-align: left;
+}
+.plan-popup > .list > div > p:nth-child(3) {
+    flex: 0.8;
+}
+.plan-popup > .list > div > p:last-child {
+    text-align: right;
+}
+
+.plan-popup > .details {
+    padding: 2em 4em;
+}
+
+.plan-popup > .details > div {
+    display: flex;
+}
+
+.plan-popup > .details > div > span {
+    width: 35%;
+    text-align: left;
+}
+.plan-popup > .details > div > input,
+.plan-popup > .details > div > select {
+    flex-grow: 1;
+    margin-bottom: 0.5em;
+}
+
+.plan-popup > .details > input:not(:last-child),
+.plan-popup > .details > select:not(:last-child) {
+    margin-right: 0.5em;
+}
+
+.plan-popup > .buttons {
+    position: absolute;
+    bottom: 3em;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+#plan-filters {
+    position: absolute;
+    top: 0;
+    left: -20em;
+    height: 100%;
+    width: 20em;
+    border-radius: 0 8px 8px 0;
+    transition-duration: 1s;
+    background-color: white;
+}
+
+#plan-filters > .tab {
+    width: 1.5em;
+    height: 20%;
+    position: absolute;
+    top: calc(40%);
+    left: 24em;
+    background-color: var(--darkerGrey);
+    border-radius: 0 8px 8px 0;
+    border: 1px solid white;
+    border-left: none;
+    cursor: pointer;
+}
+#plan-filters > .tab:hover {
+    background-color: #dddddd;
+}
+
+#plan-filters > div:nth-child(1) {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    text-align: center;
+}
+#plan-filters > div:nth-child(1) > h1 {
+    padding: 0.5em;
+}
+#plan-filters > div:nth-child(1) > button.add {
+    position: absolute;
+    bottom: 5%;
+    left: 10%;
+    width: 80%;
+}
+#plan-filters > div:nth-child(1) > input,
+#plan-filters > div:nth-child(1) > select {
+    width: 80%;
+    display: flex;
+    transform: translate(10%, 0);
+    justify-content: center;
+    margin-bottom: 1em;
+}
+
+#search-result-count{
+    display: none;
+    position: absolute;
+    bottom: 13%;
+    left: 10%;
+    width: 80%;
+    font-size: small;
+}
+
+/* TUTO CSS */
+
+.display_none {
+    display: none;
+}
+
+#pop-up-container-tuto {
+    position: absolute;
+    width: 100%;
+    height: 94%;
+    background-color: rgba(32, 32, 32, 0.2);
+    z-index: 2;
+}
+
+.robothelp {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+.message {
+    color: black;
+    margin: 5px;
+}
+
+.tutorial_text_box {
+    height: 30%;
+    width: 45%;
+    position: absolute;
+    top: 20%;
+    left: 75%;
+    background-color: whitesmoke;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.triangle {
+    width: 0;
+	height: 0;
+    position: absolute;
+    top: 40%;
+    left: 71%;
+	border-top: 25px solid transparent;
+	border-right: 25px solid whitesmoke;
+	border-bottom: 25px solid transparent;
+}
+
+.tutorial_text_box_two {
+    height: 10%;
+    width: 18%;
+    position: absolute;
+    top: 5%;
+    left: 18%;
+    background-color: whitesmoke;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.triangle2 {
+    width: 0;
+	height: 0;
+    position: absolute;
+    top: 8%;
+    left: 17%;
+	border-top: 25px solid transparent;
+	border-right: 25px solid whitesmoke;
+	border-bottom: 25px solid transparent;
+}
+
+.tutorial_text_box_three {
+    height: 9%;
+    width: 20%;
+    position: absolute;
+    top: 65%;
+    left: 34%;
+    background-color: whitesmoke;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.triangle3 {
+    width: 0;
+	height: 0;
+    position: absolute;
+    top: 63%;
+    left: 44%;
+	border-left: 25px solid transparent;
+	border-right: 25px solid transparent;
+	border-bottom: 25px solid whitesmoke;
+}
+
+.tutorial_text_box::-webkit-hiddenbar,.tutorial_text_box_one::-webkit-hiddenbar,.tutorial_text_box_two::-webkit-hiddenbar,.tutorial_text_box_three::-webkit-hiddenbar,.tutorial_text_box_four::-webkit-hiddenbar,.tutorial_text_box_five::-webkit-hiddenbar {
+    width: 15px; /* width of the entire hiddenbar */
+}
+
+.tutorial_text_box::-webkit-hiddenbar-thumb,.tutorial_text_box_one::-webkit-hiddenbar-thumb,.tutorial_text_box_two::-webkit-hiddenbar-thumb,.tutorial_text_box_three::-webkit-hiddenbar-thumb,.tutorial_text_box_four::-webkit-hiddenbar-thumb,.tutorial_text_box_five::-webkit-hiddenbar-thumb {
+    background-color: rgb(172, 172, 172); /* color of the hidden thumb */
+    border-radius: 25px; /* roundness of the hidden thumb */
+    border: 3px solid white; /* creates padding around hidden thumb */
+}

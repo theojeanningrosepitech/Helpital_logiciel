@@ -1,0 +1,38 @@
+extends ../../header
+block content
+    link(rel='stylesheet', href='/stylesheets/back_office/back_office.css')
+    link(rel='stylesheet', href='/stylesheets/inventory.css')
+    script(type='text/javascript', src='/javascripts/back_office/back_office.js')
+    script(type='text/javascript' src='/javascripts/inventory.js')
+    div.flex-box
+        div.navbar.flex-item
+            if favorites.length
+            div.navbar-title Accès rapide
+            ul.navbar-container
+                each section in favorites
+                    li.navbar-button(onclick='load(this)')
+                        a(href=`${section.section_path}`)=section.section_display_name
+            if sections.length
+            div.navbar-title Toutes
+            ul.navbar-container
+                each section in sections
+                    li.navbar-button(onclick='load(this)')
+                        a(href=`${section.section_path}`)=section.section_display_name
+        #inner-body.margin-top-element
+            div.property-list
+                div.actions
+                    button.add(onClick="saveInventoryObject(" + data.item.id + ")") Sauvegarder
+                h3 Informations
+                div
+                    span Nom :
+                    input#inventory-name(placeholder="nom", value=data.item.title)
+                div
+                    span Type :
+                    select#inventory-type
+                        each type in data.inventoryTypes
+                            -if (type.id == data.item.type.id)
+                                option(value=type.id, selected) #{type.display_name}
+                            -else
+                                option(value=type.id) #{type.display_name}
+    script.
+        initEditInventory()

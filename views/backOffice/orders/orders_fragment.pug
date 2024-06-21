@@ -1,0 +1,14 @@
+.table-row(item-id=`${order.id}`)
+    .table-row-item #{order.title}
+    select.table-row-item(name="status")
+        if order.status == 0
+            option(value="0" selected) En cours
+        else
+            option(value="0") En cours
+        if order.status == 1
+            option(value="1" selected) Terminé
+        else
+            option(value="1") Terminé
+    .table-row-item #{(new Date(order.created_at)).toLocaleDateString()}
+    .table-row-item
+        button(onclick="apiDelete(\'orders\', '" + order.id + "')") Supprimer

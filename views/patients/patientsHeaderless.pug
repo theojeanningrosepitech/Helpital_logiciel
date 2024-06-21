@@ -1,0 +1,53 @@
+block content
+    meta(http-equiv='Content-Security-Policy' content="script-src 'self' https://www.kryogenix.org/code/browser/sorttable/sorttable.js 'unsafe-inline' 'unsafe-eval';")
+    link(rel='stylesheet', href='https://fonts.googleapis.com/css2?family=Nunito:wght@800&display=swap')
+    link(href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet")
+    link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous")
+    link(rel='stylesheet', href='/stylesheets/styles.css')
+    link(rel='stylesheet', href='/stylesheets/patients.css')
+    script(type='text/javascript' src='/javascripts/patients.js')
+    script(type='text/javascript' src='https://www.kryogenix.org/code/browser/sorttable/sorttable.js')
+
+    #patients-container
+        .section-1-flex-box
+            .capsule
+                .capsule-content
+                    #patient(style="display: block;")
+                        h2 Informations
+                        div
+                            label Id :
+                            input(id="patientId" type="text" placeholder="Id" value=patient.id)
+                        div
+                            label Prénom :
+                            input(id="firstName" type="text" placeholder="Prénom" value=patient.firstname)
+                        div
+                            label Nom :
+                            input(id="lastName" type="text" placeholder="Nom" value=patient.lastname)
+                        div
+                            label Date de naissance :
+                            input(id="birthDate" type="text" placeholder="Date de naissance" value=patient.birthdate)
+                        div
+                            label Chambre :
+                            input(id="roomId" type="text" placeholder="Numéro de chambre" value=patient.room_id)
+                        div
+                            label Carte vitale :
+                            input(id="ssNumber" type="text" placeholder="Numéro de carte vitale" value=patient.ss_number)
+                    //#patient
+                    //    h2 Fichiers et archives
+                    //    if patient.files.length > 0 && patient.archives.length > 0
+                    //        table.sortable
+                    //            tr
+                    //                th#titleName Titre
+                    //                th#titleType Type
+                    //                each file in data.patient_files.data
+                    //                    tr.item
+                    //                        td#filename=file.filename
+                    //                        td#type=file.type
+                    //                each archive in data.patient_archives.data
+                    //                    tr.item
+                    //                        td#filename=archive.filename
+                    //                        td#type=archive.type
+                    //    else
+                    //        div
+                    //            span Aucun fichier
+                    //    button Ajouter un fichier

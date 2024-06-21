@@ -1,0 +1,64 @@
+fieldset {
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+#editor {
+    border-radius: 3px;
+    background-color: white;
+}
+
+#editor:hover {
+    background-color: lightgray;
+}
+
+#color-picker {
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 0px !important;
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+}
+
+/* CSS for editor icons used by Google Icons */
+#editor-icon {
+    font-size: 24px !important;
+    color: black;
+}
+
+#editor-icon:hover {
+    color: black;
+}
+
+#p_content, #n_content {
+    background-color: white;
+    border-radius: 3px;
+    overflow-y: scroll;
+    height: 20vh;
+}
+
+.bold {
+    font-weight: 1000 !important;
+}
+
+.italic {
+    font-style: italic !important;
+}
+
+.underlined {
+    text-decoration: underline !important;
+}
+
+.align-left {
+    text-align: left !important;
+}
+
+.align-center {
+    text-align: center !important;
+}
+
+.align-right {
+    text-align: right !important;
+}

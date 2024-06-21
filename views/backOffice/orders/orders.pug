@@ -1,0 +1,51 @@
+extends ../../header
+include ../../popUp
+block content
+    link(rel='stylesheet', href='/stylesheets/back_office/back_office.css')
+    link(rel='stylesheet', href='/stylesheets/back_office/orders/orders.css')
+    script(type='text/javascript', src='/javascripts/back_office/back_office.js')
+    script(type='text/javascript', src='/javascripts/back_office/orders/orders.js')
+
+    +popUp({
+        popUpName: "AddOrderForm",
+        id: "pop-up-form-container",
+        title: "Ajouter une commande",
+        type: "form",
+        method: "post",
+        action: "api/orders",
+        onSubmit: "addOrder()",
+        inputs: {
+            0: { id: "title", name: "title", type: "text", placeholder: "titre de la commande"},    
+            1: { id: "submit", type: "submit", value: "Ajouter" }
+        }
+    })
+
+    div.flex-box
+        #pop-up-form-container
+            .form-section
+                .form-header
+                    .close-pop-up
+                            a(onclick="hidePopUpForm()")
+                                span.material-icons clear
+                    h2(class="form-header title") Ajouter une commande
+                .form-content
+                    div(name="event")
+                        label
+                            input(type="text" id="title" name="title" placeholder="Nom de la commande" required)
+                .form-footer
+                    button(id="submit" value="Ajouter", onclick="addOrder()") Créer
+                    button(onclick="hidePopUpForm()") Annuler
+
+        #inner-body.full-width.flex-item
+                .flex-box-table
+                    .table-header
+                        .table-header-item Commandes
+                        .table-header-item Status
+                        .table-header-item Date
+                        .table-header-item
+                            a(onclick="showPopUpForm()" id="showform") Ajouter
+                    #list.wrap-row
+                        each order in data.orders
+                            include orders_fragment
+        script.
+            initOrdersList()

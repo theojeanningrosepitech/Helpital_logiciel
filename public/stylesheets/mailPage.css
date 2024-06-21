@@ -1,0 +1,10 @@
+.form-section {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2rem;
+}
+
+.input_mess {
+    height: 8rem;
+    width: 20rem;
+}

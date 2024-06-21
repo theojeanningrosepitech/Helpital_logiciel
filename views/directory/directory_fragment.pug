@@ -1,0 +1,32 @@
+tr.blue.block_name_contact
+    td.get_contact(onclick="showContactViewer(" + JSON.stringify(contact) + "," + data.myUser.id + ")")=contact.name
+    td(onclick="showContactViewer(" + JSON.stringify(contact) + "," + data.myUser.id + ")")=contact.email
+    td(onclick="showContactViewer(" + JSON.stringify(contact) + "," + data.myUser.id + ")")=contact.phone
+    td
+        if contact.fav == 0
+            span.material-icons(onclick=`newFavUser(${contact.id})`) star_outline
+        else
+            span.material-icons(onclick=`delFavUser(${contact.id})`) star
+    td
+        span(onclick="apiDelete(\'contacts\', '" + contact.id + "')").material-icons clear
+
+//- tr(item-id=`${contact.id}` contact-id=`${contact.contact_user_id}`)
+//-     td
+//-         a.user_msg(href=`/conversation?user_two=${contact.contact_user_id}` onclick=`new_conversation(${data.myUser.id}, ${contact.contact_user_id})`)
+//-             button Message
+//-     td(name="call")
+//-         a(href=`tel:${contact.phone}`)
+//-             button Appeler
+//-     td
+//-         a(href=`/profil?user_profil=${contact.contact_user_id}`)
+//-             button Profil
+//-     td
+//-         button(onclick="apiDelete(\'contacts\', '" + contact.id + "')") Supprimer
+//-     td
+//-         input.entry(type="text", value=contact.name, placeholder=contact.name)
+//-     if contact.service
+//-         td(name="service")=contact.service
+//-     else
+//-         td(name="service")
+//-     td(name="email")=contact.email
+//-     td(name="phone")=contact.phone

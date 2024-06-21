@@ -1,0 +1,36 @@
+extends  ../header
+block content
+    link(rel='stylesheet' href='/stylesheets/emergency.css')
+    script(type='text/javascript' src='/javascripts/doctors.js')
+    link(rel='stylesheet' href='/stylesheets/patients.css')
+
+    #header-container
+        .page-header
+            .page-informations
+                .page-title
+                    h1 Listes de médecins disponibles aux urgences
+                .page-description
+                    p ⏲️ Outil de gestion de médecins
+
+    a.button(href='/emergency' id='button-veh') Urgence
+
+    #patients-container
+        .section-1-flex-box
+            .capsule
+                .capsule-header
+                    .search-box
+                        input.entry(id="searchInput" type="text" placeholder="Rechercher un médecin")
+
+    #inner-body-em.flex-item
+        .flex-box-table-em
+            .table-header-em
+                .table-header-item-em Service
+                .table-header-item-em Nom
+                .table-header-item-em Prénom
+                .table-header-item-em Identifiant
+                .table-header-item-em E-mail
+                .table-header-item-em Téléphone
+            #list.wrap-row-em
+                include doctors_list
+    script.
+        initDoctors()

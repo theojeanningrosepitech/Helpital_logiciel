@@ -1,0 +1,231 @@
+.page {
+    display: flex !important;
+}
+
+.side-menu{
+    width: 20% !important;
+}
+
+.side-menu button {
+    margin: 3% !important;
+}
+
+.display_none {
+    display: none;
+}
+
+#pop-up-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(32, 32, 32, 0.2);
+}
+
+.robothelp {
+    position: absolute;
+    top: 35%;
+    left: 10%;
+}
+
+.tutorial_text_box {
+    height: 32%;
+    width: 40%;
+    position: absolute;
+    top: 35%;
+    left: 75%;
+    background-color: whitesmoke;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 10px;
+    overflow: scroll;
+}
+
+.triangle {
+    width: 0;
+	height: 0;
+    position: absolute;
+    top: 45%;
+    left: 72%;
+	border-top: 25px solid transparent;
+	border-right: 25px solid whitesmoke;
+	border-bottom: 25px solid transparent;
+}
+
+.tutorial_text_box_one {
+    height: 7%;
+    width: 25%;
+    position: absolute;
+    top: -2%;
+    left: 14%;
+    background-color: whitesmoke;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 10px;
+    overflow: scroll;
+}
+
+.triangle1 {
+    width: 0;
+	height: 0;
+    position: absolute;
+    top: -1%;
+    left: 13%;
+	border-top: 25px solid transparent;
+	border-right: 25px solid whitesmoke;
+	border-bottom: 25px solid transparent;
+}
+
+.tutorial_text_box_two {
+    height: 7%;
+    width: 18%;
+    position: absolute;
+    top: 35%;
+    left: 59%;
+    background-color: whitesmoke;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 10px;
+    overflow: scroll;
+}
+
+.triangle2 {
+    width: 0;
+	height: 0;
+    position: absolute;
+    top: 37%;
+    left: 58%;
+	border-top: 25px solid transparent;
+	border-right: 25px solid whitesmoke;
+	border-bottom: 25px solid transparent;
+}
+
+.tutorial_text_box::-webkit-scrollbar,.tutorial_text_box_one::-webkit-scrollbar,.tutorial_text_box_two::-webkit-scrollbar {
+    width: 15px; /* width of the entire scrollbar */
+}
+
+.tutorial_text_box::-webkit-scrollbar-thumb,.tutorial_text_box_one::-webkit-scrollbar-thumb,.tutorial_text_box_two::-webkit-scrollbar-thumb {
+    background-color: rgb(172, 172, 172); /* color of the scroll thumb */
+    border-radius: 25px; /* roundness of the scroll thumb */
+    border: 3px solid white; /* creates padding around scroll thumb */
+}
+
+.rooms_list {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    width: 100%;
+    justify-content: none;
+    background-color: transparent;
+}
+  
+.room {
+    min-width: 15%;
+    padding: 10px 5px 10px 5px;
+    margin: 15px 10px 0px 10px;
+    border-radius: 10px;
+    background-color: rgb(250, 250, 250);
+    color: white;
+    box-shadow: 0px 0px 36px 0px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+  
+.details {
+    background-color: rgb(255, 83, 83);
+    border: 1px solid rgb(255, 83, 83);
+    color: white;
+    max-width: 20%;
+    padding: 10px 20px;
+    margin: 10px 0px 10px 0px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    outline: none;
+    display: block;
+}
+  
+.details:hover {
+    background-color: rgb(255, 145, 145);
+    color: white;
+}
+  
+.room_title {
+    font-size: 20px;
+    color: black;
+    background-color: transparent;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+.id_service {
+    flex-wrap: wrap;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+  
+.floor {
+    flex-wrap: wrap;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+  
+.max {
+    flex-wrap: wrap;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}  
+
+.spe-dropdown:hover .spe-dropdown-child {
+    position: relative !important;
+}
+
+.spe-dropdown-child li {
+    display: flex !important;
+    width: 80% !important;
+    text-align: left !important;
+}
+
+.spe-dropdown-child a {
+    color: var(--a-color) !important;
+}
+
+.spe-dropdown-child a:hover {
+    color:  white !important;
+}
+
+.floor-title {
+    margin-left: 1rem !important;
+    color: var(--darkerGrey);
+}
+.summary-content {
+    display: flex;
+    flex-direction: column;
+    height: 100%
+}
+
+.summary {
+    height: 100% !important
+}
+
+.spe-dropdown{
+    top: 1rem !important;
+    position: relative;
+    max-width: 51%;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--lightGrey);
+    margin: 0.4rem 0;
+    padding: 5px 0;
+    border-radius: 0 10px 10px 0;
+}
+
+.spe-dropdown::after {
+    margin-right: 0.5rem;
+}
+
+.spe-dropdown-child {
+    padding: 0 0 10px 0 !important;
+}

@@ -1,0 +1,121 @@
+extends ../header
+block content
+    link(rel='stylesheet', href='/stylesheets/list.css')
+    link(rel='stylesheet', href='/stylesheets/inventory.css')
+    script(type='text/javascript' src='/javascripts/inventory.js')
+    script(type='text/javascript' src='https://www.kryogenix.org/code/browser/sorttable/sorttable.js')
+    //script(type='text/javascript' src='/javascripts/list.js')
+
+    #tutorial_display.display_none
+        #pop-up-container-tuto
+            .robothelp
+                img(src='/images/robothelp.gif', alt="robothelp")
+                .triangle
+                .tutorial_text_box
+                    div.message Ici, tu peux retrouver toutes les informations nécessaires à propos des objets et un historique de leur utilisation.
+            .triangle1
+            .tutorial_text_box_one
+                div.message Clique sur Ajouter un objet pour avoir accès à l'outil de création d'objets et de catégories.
+            .tutorial_text_box_three
+                div.message Tu peut consulter le tableau d'inventaire pour avoir des informations sur chaque objet de l'hopital.
+
+    .page
+        .side-menu
+            .side-menu-header
+                button.active-button(onclick=`window.location.href = "/back_office/inventory/"`) Ajouter un objet
+            .summary
+                ul.summary-header
+                    li#today-li.active Historique
+                ul.summary-content
+                    each obj in data.inventory
+                        .block-historie
+                            span=obj.title
+                            span=obj.update_date.substr(0, 19).replace('T', " à ")
+
+
+
+        .main-container
+            .main-container-header
+                label
+                    input(id="search_obj" type='text' placeholder='Rechercher un objet' onkeyup="#")
+                .tutorial-button
+                a.right-icon-button(onclick="ShowTutorial()")
+                    label.material-icons(class="help-button") help
+            .inventory
+                - console.log(data);
+                .tab-content
+                    each day in [" ", "Nom", "Type", "Quantité", "Chambre", "Type de chambre", "Étage", "Service"]
+                        .title_block
+                            p.text_content #{day}
+                    each obj, index in data.inventory
+                        td.line_obj
+                            .title_block
+                                p.text_content #{index}
+                            .content_block
+                                p.text_content.get_name_obj #{obj.title}
+                            .content_block
+                                p.text_content #{obj.type.display_name}
+                            .content_block
+                                p.text_content #{obj.quantity}
+                            if (obj.room != null)
+                                .content_block
+                                    p.text_content #{obj.room.title}
+                                .content_block
+                                    p.text_content #{obj.room.type.display_name}
+                                .content_block
+                                    p.text_content #{obj.room.floor}
+                                .content_block
+                                    p.text_content #{obj.room.service.title}
+                            else
+                                .content_block
+                                    p.text_content
+                                .content_block
+                                    p.text_content
+                                .content_block
+                                    p.text_content
+                                .content_block
+                                    p.text_content
+                        //div(id=headerId class=headerId)
+
+                //div.list-box
+                //    div.list-header
+                //        p Nom
+                //        p Quantité
+                //        input.centered(id="search-input", placeholder="Recherche", search-uri="/api/inventory", object-uri='/inventory?id=', websocket-ressource='inventory')
+                //        p Type
+                //        p Numéro
+                //    div.details.list(id="list")
+                //div.bottom-buttons
+                //script(type='text/javascript' src='/javascripts/list.js')
+                //each object in data.inventory
+
+    //datalist(id="inventory-list")
+        each object in data.inventory
+            option=object.title
+
+
+    //#header-container
+    //    .page-header
+    //        .page-informations
+    //            .page-title
+    //                h1 Inventaire
+    //            .page-description
+    //                p 🏬 gestionnaire d'objet au sein des services de l'hôpital
+    //        .page-option
+    //            .tutorial-button
+    //                a(onclick="ShowTutorial()")
+    //                    span(class="material-icons") help
+    //
+    //#inner-body.margin-top-element
+    //    div.list-box
+    //        div.list-header
+    //            p Nom
+    //            p Quantité
+    //            input.centered(id="search-input", placeholder="Recherche", search-uri="/api/inventory", object-uri='/inventory?id=', websocket-ressource='inventory')
+    //            p Type
+    //            p Numéro
+    //        div.details.list(id="list")
+    //    div.bottom-buttons
+    //script(type='text/javascript' src='/javascripts/list.js')
+
+

@@ -1,0 +1,99 @@
+extends ../header
+block content
+    link(rel='stylesheet', href='/stylesheets/equipe.css')
+
+    #tutorial_display.display_none
+        #pop-up-container-tuto
+            .robothelp
+                img(src='/images/robothelp.gif', alt="robothelp")
+                .triangle
+                .tutorial_text_box
+                    div.message Sur cette page tu dois pointer tes heures de travail dans l'hopitâl, tu vois aussi qu'elle membre de ton équipe est présent.
+            .triangle1
+            .tutorial_text_box_one
+                div.message Clique ici pour valider ta présence au sein de ton équip, les heures de présence son enregistrer et votre chef d'équipe y a accès.
+
+    #pop_up_add(class='display_none')
+        a.display_cross(onclick="backServiceAdd()")
+            i.fas.fa-times-circle
+        label Listes des personnes disponnibles
+            select(name="users_add_group" id="users_add_group" size=(data.usersNoGroup - 1) multiple)
+                each user in data.allUser
+                    if user.group_service == 0 && user.user_role > 2
+                        option(value=`${user.id}`)=user.firstname + ' ' + user.lastname
+        label
+            input(type="submit" id="submit_add" value="Ajouter", onclick=`addPersonal(${data.id_service}, ${data.myUser.id})`)
+    .block_msg
+        .msg_content(id="width_content_msg")
+            .header_page
+                .page-informations
+                    .tutorial-button
+                        a(onclick="ShowTutorial()")
+                            span(class="material-icons") help
+                    h1=data.service
+                .page-option
+                    button#check-user-button(onclick=`checkMyUser(${data.myUser.id},${data.myUser.here}, ${data.id_service}, null, ${data.myUser.availability})`) Pointer
+                div#service_chief.chief_service_info
+                    each user in data.allUser
+                        if user.user_role == 2
+                            p(user-id=`${user.id}`)="Chef de service : "
+                                span(class=(user.availability == 0) ? 'background_green' : 'background_red')=user.firstname + ' ' + user.lastname
+                                if data.myUser.id == user.id && user.availability == 0
+                                    button.user_here(onclick=`checkMyUser(${user.id}, ${user.here}, ${data.id_service}, ${data.myUser.id}, ${user.availability})` style='font-size: 18px;')
+                                        i.fa.fa-circle(class=(user.here == 0) ? 'red_color' : 'green_color')
+                                else
+                                    i.user_here.fa.fa-circle(class=(user.here == 0) ? 'red_color_dark' : 'green_color_dark' style='font-size: 18px;')
+                div#list.content_users_no_group
+                    each user in data.allUser
+                        if user.group_service == 0 && user.user_role != 2
+                            div.user_no_group(user-id=`${user.id}`)
+                                p.name_no_group
+                                    span(class=(user.availability == 0) ? 'background_green' : 'background_red')=user.firstname + ' ' + user.lastname
+                                if data.myUser.id == user.id && user.availability == 0
+                                    button.user_here(onclick=`checkMyUser(${user.id}, ${user.here}, ${data.myUser.service}, ${data.myUser.id}, ${user.availability})`)
+                                        i.fa.fa-circle(class=(user.here == 0) ? 'red_color' : 'green_color')
+                                else
+                                    i.user_here.fa.fa-circle(class=(user.here == 0) ? 'red_color_dark' : 'green_color_dark')
+                                p.role_user=data.roles[user.user_role - 1].role_name
+
+            div.content_users_equipe
+                each group in data.allGroups
+                    div.users_equipe
+                        if data.myUser.id == group.chief
+                            div
+                                p Nom de l'équipe :
+                                input.title(type="text", id=`namegroupvalue${group.id}`, value=`${group.name}`, placeholder=`${group.name}`)
+                                a(onclick=`updateNameGroup(${group.id}, "${group.name}", ${group.service}, ${data.myUser.id})`)
+                                    i.fas.fa-pen
+                        else
+                            p Nom de l'équipe :
+                            p.title=group.name
+                        each user in data.allUser
+                            if user.id == group.chief
+                                p='Chef de groupe : '
+                                    span(class=(user.availability == 0) ? 'background_green' : 'background_red')=user.firstname + ' ' + user.lastname
+                                    if data.myUser.id == group.chief && user.availability == 0
+                                        button.user_here(onclick=`checkMyUser(${user.id}, ${user.here}, ${data.myUser.service}, ${data.myUser.id}, ${user.availability})`)
+                                            i.fa.fa-circle(class=(user.here == 0) ? 'red_color' : 'green_color')
+                                    else
+                                        i.user_here.fa.fa-circle(class=(user.here == 0) ? 'red_color_dark' : 'green_color_dark')
+                        each user in data.allUser
+                            each user_group in group.users_id
+                                if user.id == user_group
+                                    div
+                                        p.name_user_no_group
+                                            span(class=(user.availability == 0) ? 'background_green' : 'background_red')=user.firstname + ' ' + user.lastname
+                                        if data.myUser.id == group.chief && user.availability == 0
+                                            button.user_here(onclick=`checkMyUser(${user.id}, ${user.here}, ${data.myUser.service}, ${data.myUser.id}, ${user.availability})`)
+                                                i.fa.fa-circle(class=(user.here == 0) ? 'red_color' : 'green_color')
+                                        else if data.myUser.id == user.id && user.availability == 0
+                                            button.user_here(onclick=`checkMyUser(${user.id}, ${user.here}, ${data.myUser.service}, ${data.myUser.id}, ${user.availability})`)
+                                                i.fa.fa-circle(class=(user.here == 0) ? 'red_color' : 'green_color')
+                                        else
+                                            i.user_here.fa.fa-circle(class=(user.here == 0) ? 'red_color_dark' : 'green_color_dark')
+                                        if data.myUser.id == group.chief
+                                            button.user_delete(onclick=`deleteUser(${user.service}, ${data.myUser.id}, "${group.name}", "${user.id}", ${group.id}, "${user.firstname} ${user.lastname}")`)
+                                                i.red_color.fas.fa-times
+                        if data.myUser.id == group.chief
+                            button(onclick=`showPopUpAdd(${group.id}, "${group.name}")`) Ajouter
+    script(type='text/javascript' src='/javascripts/equipe.js')

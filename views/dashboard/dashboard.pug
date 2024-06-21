@@ -1,0 +1,18 @@
+extends ../header
+block content
+    script(type='text/javascript' src='/gridstack/dist/gridstack-all.js')
+    link(rel='stylesheet', href='/gridstack/dist/gridstack.min.css')
+    link(rel='stylesheet', href='/stylesheets/dashboard.css')
+    link(rel='stylesheet', href='https://fonts.googleapis.com/icon?family=Material+Icons')
+    script.
+        let contactsWidgetHTML = "#{encodeURIComponent(contacts)}"
+        let planningWidgetHTML = "#{encodeURIComponent(planning)}"
+        let pointageWidgetHTML = "#{encodeURIComponent(pointage)}"
+        let all_widgets = "#{encodeURIComponent(all_widgets)}"
+        let layout = "#{encodeURIComponent(dashboard_layout)}"
+    div(class="dashboard grid-stack")
+        div(id="edit" class="grid-stack-item" gs-x="10" gs-y="0" gs-w="2" gs-h="1" gs-locked="true" gs-no-resize="true" gs-no-move="true" gs-id="edit")
+            div(class="grid-stack-item-content" id="buttons")
+                button(id="edit-button" onclick="editMode()" style="margin:5px") Editer la page
+                button(id="add-button" onclick="addWidget()" style="display:none;margin:5px") Ajouter un widget
+    script(type='text/javascript' src='/javascripts/dashboard.js')

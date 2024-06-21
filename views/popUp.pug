@@ -1,0 +1,240 @@
+//- mixin popUp(popUpName, id, className, title, description, type, name, method, action, onSubmit, inputs, user)
+mixin popUp(object)
+    script(type='text/javascript' src='/javascripts/patients.js')
+    script(type='text/javascript' src='/javascripts/prescription.js')
+    link(rel='stylesheet', href='/stylesheets/prescription.css')
+    link(rel='stylesheet', href='/stylesheets/pop_up.css')
+
+    - var hidePopUpName = "hidePopUp" + object.popUpName + "()";
+    - var showPopUpName = "showPopUp" + object.popUpName + "()";
+
+    script.
+        function #{hidePopUpName} {
+            const elem = document.getElementsByClassName("#{object.className}");
+            elem[0].style.display = 'none';
+        }
+        function #{showPopUpName} {
+            const elem = document.getElementsByClassName("#{object.className}");
+            elem[0].style.display = 'block';
+        }
+
+    div(id=object.id class=object.className)
+        if object.type == "form"
+            .form-section
+                .form-header
+                    .close-pop-up
+                        a(onclick=hidePopUpName)
+                            span.material-icons clear
+                    h2(class="form-header title")=object.title
+                    //- h3(class="form-header desc")=object.description
+                .form-content
+                    form(name=object.name method=object.method action=object.action onsubmit=object.onSubmit)
+                        each input in object.inputs
+                            label=input.placeholder
+                            input(id=input.id type=input.type name=input.name placeholder=input.placeholder value=input.value list=input.list)
+                .form-footer
+                    button(onclick=hidePopUpName) Fermer
+        else if object.type == "welcome"
+            .form-section
+                .form-header
+                    .close-pop-up
+                        a(onclick=hidePopUpName)
+                            span.material-icons clear
+                    h2(class="form-header title")=object.title
+                    h3(class="form-header desc")=object.description
+        else if object.type == "alert"
+            .form-section
+                .form-header
+                    .close-pop-up
+                        a(onclick=hidePopUpName)
+                            span.material-icons clear
+                    h2(class="form-header title")=object.title
+                    h3(class="form-header desc")=object.description
+        else if object.type == "event"
+            .form-section
+                .form-header
+                    .close-pop-up
+                        a(onclick=hidePopUpName)
+                            span.material-icons clear
+                    h2(class="form-header title")=object.title
+                    h3(class="form-header event-id")
+                .form-content
+                    form(name=object.name method=object.method action=object.action onsubmit=object.onSubmit)
+                        each input in object.inputs
+                            label=input.placeholder
+                            input(id=input.id type=input.type name=input.name placeholder=input.placeholder value=input.value list=input.list)
+                .form-footer
+                    button#deleteEvent Supprimer
+        else if object.type == "patient"
+            .form-section
+                .form-header
+                    .close-pop-up
+                        a(onclick=hidePopUpName)
+                            span.material-icons clear
+                    h2(class="form-header title")=object.title
+                    //- h3(class="form-header desc")=object.description
+                .form-content
+                    form(name=object.name method=object.method action=object.action onsubmit=object.onSubmit)
+                        .form-split-two
+                            .form-inputs-left
+                                each column, index in object.columnLeft
+                                    label=column.title
+                                    if column.columnType == 'select'
+                                        select(id=column.id class=column.className name=column.name)
+                                            each option in column.options
+                                                if option.value == column.value
+                                                    option(value=option.value selected) #{option.title}
+                                                else
+                                                    option(value=option.value) #{option.title}
+                                    else
+                                        input(id=column.id class=column.className type=column.type name=column.name placeholder=column.placeholder value=column.value list=column.list)
+                            .form-inputs-right
+                                each column, index in object.columnRight
+                                    label=column.title
+                                    if column.columnType == 'select'
+                                        select(id=column.id class=column.className name=column.name)
+                                            each option in column.options
+                                                if option.value == column.value
+                                                    option(value=option.value selected) #{option.title}
+                                                else
+                                                    option(value=option.value) #{option.title}
+                                    else
+                                        input(id=column.id class=column.className type=column.type name=column.name placeholder=column.placeholder value=column.value list=column.list)
+                        each input, index in object.inputs
+                            label=input.placeholder
+                            input(id=input.id class=input.className type=input.type name=input.name placeholder=input.placeholder value=input.value list=input.list)
+                .form-footer
+                    button(onclick=hidePopUpName) Fermer
+        else if object.type == "report"
+            .form-section
+                .form-header
+                    .close-pop-up
+                        a(onclick=hidePopUpName)
+                            span.material-icons clear
+                    h2(class="form-header title")=object.title
+                    //- h3(class="form-header desc")=object.description
+                .form-content
+                    form(name=object.name method=object.method action=object.action onsubmit=object.onSubmit)
+                        each input in object.inputs
+                            label=input.placeholder
+                            input(id=input.id type=input.type name=input.name placeholder=input.placeholder value=input.value list=input.list)
+                .form-footer
+                    button#printReport Imprimer
+        else if object.type == "note"
+            .form-section
+                .form-header
+                    .close-pop-up
+                        a(onclick=hidePopUpName)
+                            span.material-icons clear
+                    h2(class="form-header title")=object.title
+                    h3(class="form-header note-id")
+                    .form-content
+                        +editor( {
+                            id: "n_content"
+                        })
+                        form(name=object.name method=object.method action=object.action onsubmit=object.onSubmit)
+                            each input in object.inputs
+                                label=input.placeholder
+                                input(id=input.id type=input.type name=input.name placeholder=input.placeholder value=input.value list=input.list)
+                .form-footer
+                    button(onclick=hidePopUpName) Fermer
+        else if object.type == "ordonnance"
+            .form-section
+                .form-header
+                    .close-pop-up
+                        a(onclick=hidePopUpName)
+                            span.material-icons clear
+                    h2(class="form-header title")=object.title
+                    .template-section
+                        button(id='template', onClick="select_template()") Utiliser un template d'ordonnance
+                        #template-popup.display_none
+                            div.box
+                                .box-header
+                                    .close-pop-up
+                                        a(onclick="hidePopUpForm()")
+                                            span.material-icons clear
+                                    h1 Sélectionné le template a utilisé.
+
+                                    .firsttemplate Ordonnance simple : comporte l'établissement et le nom du medecin.
+                                        img(src="images/p_simple.jpg", alt="p_simple" style="position: relative; top: 30px; left: 40px; height: 450px;")
+                                        button(onClick="select_tempone()").bottombutton choisir
+                                    .secondtemplate Ordonnance Bi-zone : ordonnance simple avec une zone pour les traitement longue durée en plus.
+                                        img(src="images/p_bizone.png", alt="p_bizone" style="position: relative; left: -200px; height: 500px")
+                                        button(onClick="select_temptwo()").bottombutton choisir
+                    .form-content
+                        +editor( {
+                            id: "p_content"
+                        })
+                        form(name=object.name method=object.method action=object.action onsubmit=object.onSubmit)
+                            each input in object.inputs
+                                label=input.placeholder
+                                input(id=input.id type=input.type name=input.name placeholder=input.placeholder value=input.value list=input.list)
+                .form-footer
+                    button(onclick=hidePopUpName) Fermer
+        else if object.type == "file"
+            .form-section
+                .form-header
+                    .close-pop-up
+                        a(onclick=hidePopUpName)
+                            span.material-icons clear
+                    h2(class="form-header title")=object.title
+                    .form-content
+                        form(name=object.name method=object.method action=object.action onsubmit=object.onSubmit)
+                            each input in object.inputs
+                                label=input.placeholder
+                                input(id=input.id type=input.type name=input.name accept=input.accept  onchange=input.onchange)
+                .form-footer
+                    button(onclick=hidePopUpName) Fermer
+        else if object.type == "mail"
+            .form-section
+                .form-header
+                    .close-pop-up
+                        a(onclick=hidePopUpName)
+                            span.material-icons clear
+                    h2(class="form-header title")=object.title
+                    //- h3(class="form-header desc")=object.description
+                .form-content
+                    form(name=object.name method=object.method action=object.action onsubmit=object.onSubmit)
+                        each input in object.inputs
+                            if input.type == 'textarea'
+                                label=input.placeholder
+                                textarea(id=input.id type=input.type name=input.name placeholder=input.placeholder value=input.value list=input.list)
+                            else 
+                                label=input.placeholder
+                                input(id=input.id type=input.type name=input.name placeholder=input.placeholder value=input.value list=input.list)
+                .form-footer
+                    button(onclick=hidePopUpName) Fermer
+        //- else if type == "file"
+        //-     .file-section
+        //-         .file-header
+        //-             .close-pop-up
+        //-                 a(onclick=hidePopUpID)
+        //-                     span.material-icons clear
+        //-             h2(class="file-header title")=title
+        //-             h3(class="file-header desc")=description
+        //-         .file-content
+        //-             textarea(type="text" placeholder="Contenu de la note" value=content)
+        //-         .file-footer
+        //-             button(onclick=hidePopUpID)=close
+        //- else if type == "viewer"
+        //-     .viewer-section
+        //-         .viewer-header
+        //-             .close-pop-up
+        //-                 a(onclick=hidePopUpID)
+        //-                     span.material-icons clear
+        //-             h2(class="viewer-header title")=title
+        //-             h3(class="viewer-header desc")=description
+        //-         .viewer-content
+        //-         .viewer-footer
+        //-             button(onclick=hidePopUpID)=close
+        //- else if type == "summary"
+        //-     .summary-section
+        //-         .summary-header
+        //-             .close-pop-up
+        //-                 a(onclick=hidePopUpID)
+        //-                     span.material-icons clear
+        //-             h2(class="summary-header title")=title
+        //-             h3(class="summary-header desc")=description
+        //-         .summary-content
+        //-         .summary-footer
+        //-             button(onclick=hidePopUpID)=close

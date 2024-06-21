@@ -1,0 +1,75 @@
+
+.list-box{
+    margin: 0 20vw;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+}
+
+.list-header {
+    display: flex;
+    background-color: #ffcece;
+    padding: 0.5em 1em;
+    border-radius: 10px;
+}
+.list-header > * {
+    flex: 1;
+}
+.list-header > p {
+    text-align: left;
+}
+.list-header > p:nth-child(3) {
+    flex: 0.8;
+}
+.list-header > p:last-child {
+    text-align: right;
+}
+.list-header > input.centered {
+    text-align: center;
+    margin: 0 1em;
+}
+
+.list {
+    overflow-y: overlay;
+    height: 70%;
+    padding-top: 0 !important;
+}
+
+.list > div > .full {
+    color: red;
+}
+
+.list > div {
+    display: flex;
+    padding: 0.5em 1em;
+    border-bottom: 1px solid black;
+    border-radius: 0;
+    cursor: pointer;
+}
+.list > div:last-child {
+    border-bottom: none;
+}
+.list > div:hover {
+    background-color: #e9b9b9;
+}
+
+.list > div > p {
+    flex: 1;
+    text-align: left;
+}
+.list > div > p:nth-child(3) {
+    flex: 0.8;
+}
+.list > div > p:last-child {
+    text-align: right;
+}
+
+.bottom-buttons{
+    background: none;
+    margin: 2em 20vw;
+    text-align: left;
+}
+
+.bottom-buttons > a{
+    display: block;
+    margin-bottom: 0.5em;
+}

@@ -1,0 +1,41 @@
+.table-row(item-id=`${user.id}`)
+    .table-row-item(onclick="window.location.replace('/profil?user_profil=" + user.id + "')") #{user.lastname}
+    .table-row-item(onclick="window.location.replace('/profil?user_profil=" + user.id + "')") #{user.firstname}
+    if data.myUser.user_role == 1
+        select.table-row-item(name="role")
+            each role in data.roles
+                if user.user_role == role.id
+                    option(value=`${role.id}` selected) #{role.role_name}
+                else
+                    option(value=`${role.id}`) #{role.role_name}
+    else
+        select.table-row-item(name="role" disabled)
+            each role in data.roles
+                if user.user_role == role.id
+                    option(value=`${role.id}` selected) #{role.role_name}
+                else
+                    option(value=`${role.id}`) #{role.role_name}
+    if data.myUser.user_role == 1
+        select.table-row-item(name="service")
+            each service in data.services
+                if user.service == service.id
+                    option(value=`${service.id}` selected) #{service.title}
+                else
+                    option(value=`${service.id}`) #{service.title}
+    else
+        select.table-row-item(name="service" disabled)
+            each service in data.services
+                if user.service == service.id
+                    option(value=`${service.id}` selected) #{service.title}
+                else
+                    option(value=`${service.id}`) #{service.title}
+    .table-row-item(onclick="window.location.replace('/profil?user_profil=" + user.id + "')") #{user.login}
+    .table-row-item(onclick="window.location.replace('/profil?user_profil=" + user.id + "')") #{user.email}
+    .table-row-item(onclick="window.location.replace('/profil?user_profil=" + user.id + "')") #{user.phone}
+    .table-row-item.nfc
+        if typeof user.nfc_code == 'string' && user.nfc_code.indexOf('null') == -1
+            button(onclick="NFCDeleteTag('" + user.id + "')") Désactiver
+        else
+            button(onclick="NFCWriteTag('" + user.id + "')") Ajouter
+    .table-row-item
+        button(onclick="apiDelete(\'users\', '" + user.id + "')") Supprimer

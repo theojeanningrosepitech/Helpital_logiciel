@@ -1,0 +1,21 @@
+.table-row(onclick='f(this)', item-id=`${row.id}`)
+    span(style="display: none") #{row.id}
+    .table-row-item #{row.item}
+    .table-row-item #{row.room}
+    .table-row-item #{row.service}
+    if (row.state)
+        .table-row-item Réparation en cours
+    else
+        .table-row-item
+            a(href=`mailto:?${encodeURI("subject=Demande de réparation")}`) Faire une demande
+    if (row.created_at)
+        .table-row-item #{row.created_at.slice(0, 10).split("-").reverse().join("-")}
+    else
+        .table-row-item Aucune demande
+    .table-row-item #{row.reports}
+    if (row.reports < 10)
+        .table-row-item.low-prio Basse
+    else if (row.reports < 25)
+        .table-row-item.medium-prio Moyenne
+    else
+        .table-row-item.high-prio Haute

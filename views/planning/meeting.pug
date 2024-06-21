@@ -1,0 +1,103 @@
+extends  ../header
+block content
+    link(rel='stylesheet' href='/stylesheets/planning.css')
+    link(rel='stylesheet' href='/stylesheets/patients.css')
+    link(rel='stylesheet' href='/stylesheets/meeting.css')
+    link(rel='stylesheet' href='/stylesheets/emergency.css')
+    script(type='text/javascript' src='/javascripts/meeting.js')
+    script(src="jquery.min.js")
+
+    #header-container
+        .page-header
+            .page-informations
+                .page-title
+                    h1 Réunions et comptes rendu
+                .page-description
+                    p ⏲️ Outil de gestion des réunions et de comptes rendu
+
+    a(href="/planning")
+        button(type="button") Retour 
+
+    button(onclick="showPopUpMeeting()") Créer un compte rendu
+
+    #patients-container
+        .section-1-flex-box
+            .capsule
+                .capsule-header
+                    ul#displayResult
+                        each meeting in data
+                            li(id=meeting.id tabindex="0" onclick="displayInformations('" + meeting.id + "','" + meeting.title + "','" + meeting.description + "','" + meeting.n_creator + "','" + meeting.identity + "','" + meeting.n_content + "','" + meeting.file + "','" + meeting.creation_date + "')")
+                                a=meeting.title
+
+
+    #inner-body-em.flex-item
+        .flex-box-table-em
+            .table-header-em
+                .table-header-item-em Titre
+            .wrap-row-em
+                each meeting in data
+                    .table-row-em
+                        .button(onclick="showPopUpMeetingRecap(this)" meeting_id=`${meeting.id}`) #{meeting.title}
+
+    #pop-up-form-container-meeting
+        .form-section
+            .form-header
+                .close-pop-up
+                    a(onclick="hidePopUpMeeting()")
+                        span.material-icons clear
+                h2(class="form-header title") Créer un compte rendu
+            .form-content
+                .event
+                    label
+                        input(type="text" id="title" name="title" placeholder="Titre du compte rendu")
+                    label
+                        input(type="text" id="description" name="description" placeholder="Description du compte rendu")
+                    label
+                        input.entry(type="text" id="responsable" name="responsable" onkeyup="searchList()" placeholder="Responsable de la réunion" required)
+                        ul#displayResponsable
+                            each meeting in data
+                                li(id=meeting.id onclick="displayInformations('" + JSON.stringify(meeting) +"',)")
+                                    a=meeting.n_creator
+                                script.
+                                    listenKeyEnter("#{meeting.id}");
+                    label
+                        input.entry(type="text" id="participent" name="participent" onkeyup="searchListParticipent()" placeholder="Participants présents" required)
+                        ul#displayParticipant
+                            each meeting in data
+                                li(id=meeting.id onclick="displayParticipentInformations('" + JSON.stringify(meeting) +"',)")
+                                    a=meeting.identity
+                                script.
+                                    listenKeyEnter("#{meeting.id}");
+                        br
+                        br
+                        button(onclick="addPatient(this)") Ajouter un participant
+                        br
+                        .delPatient
+                            div(th:each='element : ${interestList}')
+                                span(th:text='${element}')
+                        select.list(multiple='')
+                        br
+                        br
+                        button.btnRemove(onclick='removePatient(this)') Supprimer
+                    label
+                        textarea(cols="50" rows="5" type="textarea" id="note" name="note" placeholder="Notes")
+                    div
+                        label(for='myfile') Selectionner un fichier:
+                        input#myfile(type='file' name='myfile' multiple='')
+                    label
+                        input(type="datetime-local" id="begin_at" name="begin_at" placeholder="Date de la réunion")
+                    label
+                        button(onclick="addRecap()") Enregistrer
+            .form-footer
+                button(onclick="hidePopUpMeeting()") Annuler
+
+    #pop-up-form-container-meeting-recap
+        .form-section
+            .form-header
+                .close-pop-up
+                    a(onclick="hidePopUpMeetingRecap()")
+                        span.material-icons clear
+                h2(class="form-header title") Récapitulatif du compte rendu
+            .form-content
+                form(name="event")
+                    .wrap-row-em

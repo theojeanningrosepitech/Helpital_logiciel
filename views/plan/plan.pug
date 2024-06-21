@@ -1,0 +1,183 @@
+extends ../header
+block content
+    link(rel='stylesheet', href='/stylesheets/plan.css')
+
+    #tutorial_display.display_none
+        #pop-up-container-tuto
+            .robothelp
+                img(src='/images/robothelp.gif', alt="robothelp")
+                .triangle
+                .tutorial_text_box
+                    div.message Ici c'est le plan du bâtiment ! tu peux te déplacer en cliquant avec la souris, tu peux aussi zoomer et dézoomer avec la molette.
+            .triangle2
+            .tutorial_text_box_two
+                div.message Dans la zone filtre vous pouvez rechercher une salle, un patient ou un objet par son nom et le voir en surbrillance dans le plan.
+            .triangle3
+            .tutorial_text_box_three
+                div.message Cliquez directement sur une chambre pour consulter sont contenus et interagir avec celi-ci !
+            .triangle4
+            .tutorial_text_box_four
+                div.message
+
+    #inner-body
+        div(id='plan-popup-background')
+            div(id='plan-room', class='plan-popup')
+                h3(id='plan-room-capacity')
+                button(class='close', onClick="closePopup()") X
+                a(id='plan-room-link')
+                    h1 RoomName
+                button(id="add-patient", class="add", onClick="addPatient()") Ajouter un patient
+                div.beds
+                    div
+                        span
+                            | Lastname
+                            br
+                            | Firstname
+                div.inventory
+                    h1 Inventaire
+                    button(class="add", onClick="addInventoryObject()") Ajouter un objet
+                    div
+                        a object 1
+            div(id='plan-add-room', class='plan-popup')
+                img(class='back', src='/images/arrow_back_black.svg', onClick="closePopup()")
+                h1 Ajouter une salle
+                div.details
+                    div
+                        span Nom de la salle:
+                        input(id="room-name", type="text", placeholder="nom")
+                    div
+                        span Type de salle:
+                        select(id="room-type")
+                    div
+                        span Capacité:
+                        input(id="room-capacity", type="number", placeholder="nombre de patients", value="1", min="0")
+                    div
+                        span Superviseur:
+                        select(id="room-supervisor")
+                            option -
+                div.buttons
+                    button.add(onClick="createRoom(this)") Créer
+            div(id='plan-create-patient', class='plan-popup')
+                img(class='back', src='/images/arrow_back_black.svg', onClick="closePatientPopup()")
+                h1 Créer un patient
+                div.details
+                    div
+                        span Prénom:
+                        input(id="patient-firstname", type="text", placeholder="prénom")
+                    div
+                        span Nom:
+                        input(id="patient-lastname", type="text", placeholder="nom")
+                    div
+                        span Numéro de sécurité sociale:
+                        input(id="patient-ss-number", type="text", maxlength="13", placeholder="0000000000000")
+                    div
+                        span Date de naissance:
+                        input(id="patient-birthdate", type="date", maxlength="10", placeholder="jj/mm/aaaa")
+                div.buttons
+                    button.add(onClick="createPatientInRoom(this)") Créer
+            div(id='plan-add-patient', class='plan-popup')
+                button(class='close', onClick="closePopup()") X
+                img(class='back', src='/images/arrow_back_black.svg', onClick="closePatientPopup()")
+                button.add(id="create-patient", onclick="createPatient()") Nouveau patient
+                h1 Transférer un patient
+                div.details
+                    input(id='search-add-patient-name', placeholder='Recherche patient')
+                    select(id='search-add-patient-service')
+                    select(id='search-add-patient-room-type')
+                    select(id='search-add-patient-floor')
+                div.list-header
+                    p Service
+                    p Prénom nom
+                    p Salle
+                    p N° Sécurité Sociale
+                div.details.list(id="add-patient-list")
+            div(id='plan-transfer-patient', class='plan-popup')
+                button(class='close', onClick="closePopup()") X
+                img(class='back', src='/images/arrow_back_black.svg', onClick="closePatientPopup()")
+                h1 Transférer un patient
+                div.details
+                    input(id='search-transfer-patient-room-name', placeholder='Recherche salle')
+                    select(id='search-transfer-patient-room-type')
+                    select(id='search-transfer-patient-service')
+                    select(id='search-transfer-patient-floor')
+                div.list-header
+                    p Service
+                    p Nom
+                    p Etage
+                    p Type
+                    p Capacité
+                div.details.list(id="transfer-patient-list")
+            div(id='plan-create-inventory', class='plan-popup')
+                button(class='close', onClick="closePopup()") X
+                img(class='back', src='/images/arrow_back_black.svg', onClick="closeInventoryPopup()")
+                h1 Créer un objet
+                div.details
+                    div
+                        span Nom de l'objet:
+                        input(id="inventory-name", type="text", placeholder="nom")
+                    div
+                        span Type d'objet:
+                        select(id="inventory-type")
+                div.buttons
+                    button.add(onClick="createInventory(this)") Créer
+            div(id='plan-add-inventory', class='plan-popup')
+                button(class='close', onClick="closePopup()") X
+                img(class='back', src='/images/arrow_back_black.svg', onClick="closeInventoryPopup()")
+                button.add(id="create-inventory", onclick="createInventoryObject()") Créer un objet
+                h1 Transférer un objet
+                div.details
+                    input(id='search-add-inventory-name', placeholder='Recherche objet')
+                    select(id='search-add-inventory-type')
+                    select(id='search-add-inventory-service')
+                    select(id='search-add-inventory-room-type')
+                    select(id='search-add-inventory-floor')
+                div.list-header
+                    p Type
+                    p Nom
+                    p Etage
+                    p Salle
+                div.details.list(id="add-inventory-list")
+            div(id='plan-transfer-inventory', class='plan-popup')
+                button(class='close', onClick="closePopup()") X
+                img(class='back', src='/images/arrow_back_black.svg', onClick="closeInventoryPopup()")
+                h1 Transférer un objet
+                div.details
+                    input(id='search-transfer-inventory-room', placeholder='Recherche salle')
+                    select(id='search-transfer-inventory-room-type')
+                    select(id='search-transfer-inventory-service')
+                    select(id='search-transfer-inventory-floor')
+                div.list-header
+                    p Service
+                    p Nom
+                    p Etage
+                    p Type
+                div.details.list(id="transfer-room-list")
+            div(id='plan-unsized-rooms', class='plan-popup')
+                button(class='close', onClick="closePopup()") X
+                h1 Sélectionnez une salle
+                div.details
+                    input(id='search-unsized-room-name', placeholder='Recherche salle')
+                    select(id='search-unsized-room-type')
+                    select(id='search-unsized-room-service')
+                div.list-header
+                    p Service
+                    p Nom
+                    p Type
+                    p Capacité
+                div.details.list(id="unsized-rooms-list")
+        div(id="canv")
+            canvas(service_id=`${preferences.service}`, floor=`${preferences.prefered_floor}`)
+            div(id='plan-filters')
+                div
+                    a.right-icon-button(onclick="ShowTutorial()")
+                        label.material-icons(class="help-button") help
+                    h1 Filtres
+                    select(id="search-service")
+                    select(id="search-type")
+                    input(id="search-room", placeholder="Recherche salle")
+                    input(id="search-patient", placeholder="Recherche patient")
+                    input(id="search-inventory", placeholder="Recherche inventaire")
+                    p(id="search-result-count") Résultat 0/0
+                    button(class='add', onClick="searchPlan(true)") Recherche
+                button.tab(onClick="showFilterTab()")
+        script(type='text/javascript' src='/javascripts/plan.js')

@@ -1,0 +1,124 @@
+extends ../header
+include ../popUp
+block content
+    link(rel='stylesheet', href='/stylesheets/directory.css')
+    script(type='text/javascript' src='/javascripts/directory.js')
+    script(type='text/javascript' src='/javascripts/tutorial.js')
+
+    #tutorial_display.display_none
+        #pop-up-container-tuto
+            .robothelp
+                img(src='/images/robothelp.gif', alt="robothelp")
+                .triangle
+                .tutorial_text_box
+                    div.message Dans l'annuaire tu peux enregistrer des profils utilisateurs de l'hôpital, en ajouter et en supprimer de ta liste. Grâce à lui retrouvent facilement les utilisateurs de ton choix.
+            .triangle1
+            .tutorial_text_box_one
+                div.message Cliquez sur ajouter un utilisateur ouvre un pop-up qui permet d'ajouter un utilisateur existant à ta liste.
+            .triangle2
+            .tutorial_text_box_two
+                div.message La liste te permettent : d'ouvrir la messagerie, l'ajouter en favoris ou le supprimer de ta liste.
+
+    +popUp({
+        popUpName: "AlertUser",
+        id: "pop-up-container", 
+        className: "alert-user",
+        title: "Maintenance 👷", 
+        description: "Cet élément est actuellement en développement.", 
+        type: "alert"
+    })
+
+    +popUp({
+        popUpName: "AddContactForm",
+        id: "pop-up-container", 
+        className: "add-contact-form",
+        title: "Ajouter un contact", 
+        description: "Description",
+        type: "form", 
+        name: "add-contact-form", 
+        method: "post", 
+        action:"api/contacts", 
+        onSubmit: "event.preventDefault(); addContact(" + JSON.stringify(data.allUsers) + ");",
+        inputs: {
+                0: { id: "user_id", name: "user_id", type: "text", placeholder: "Rechercher un contact", list: "contacts-list" },
+                1: { id: "submit", type: "submit", value: "Ajouter" }
+        }
+    })
+
+    .page
+        .side-menu
+            .side-menu-header
+                button.active-button(onclick="showPopUpAddContactForm()") Ajouter un contact
+            .summary
+                ul.summary-content
+                    li#item(onclick="window.location.href='/directory'") Contacts
+            .side-menu-footer
+        .main-container
+            #contact-viewer.contact-viewer
+                .pfp
+                //-(style="background-image: url('" + data.contacts.avatar + "')")
+                .informations
+                .favoris
+                    button.material-icons-button(onclick="showPopUpAlertUser()")
+                        span.material-icons star_outline
+                .options
+                    button Envoyer un message
+            .main-container-header.flex.white
+                label
+                    input(type='text' placeholder='Rechercher' id="search_contact" onkeyup="searchNameContact()" name="search_bar_contact")
+                a.right-icon-button(onclick="ShowTutorial()")
+                    span.material-icons help
+            .directory
+                table
+                    thead
+                        tr
+                            th Contacts (#{data.contacts.length}) 
+                            th E-mail 
+                            th Téléphone 
+                            th
+                            th
+                    tbody
+                        each contact in data.contacts
+                            include directory_fragment
+
+    datalist(id="contacts-list")
+        each user in data.allUsers
+            option=user.firstname + " " + user.lastname
+
+    //- #header-container
+    //-     .page-header
+    //-         .page-informations
+    //-             .page-title
+    //-                 h1 Annuaire
+    //-             .page-description
+    //-                 p 📓 Retrouver les informations des membres du personelle
+    //-         .page-option
+    //-             .tutorial-button
+    //-                 a(onclick="ShowTutorial()")
+    //-                     span(class="material-icons") help
+    //-             button(onclick="showPopUpForm()") Ajouter un utilisateur
+
+
+
+    //- #section2(user-id=`${data.myUser.id}`)
+    //-     //recherche pour filtrer dans l'annuaire
+    //-     .search
+    //-         //afficher le tableau de contacts
+    //-         #display-success(style='color: red;') No contact filtered
+    //-         .data_display#table
+    //-             table
+    //-                 tbody
+    //-                     tr
+    //-                         td
+    //-                         td
+    //-                         td
+    //-                         td
+    //-                         td Nom
+    //-                         td Service
+    //-                         td Email
+    //-                         td Téléphone
+    //-                     each contact in data.contacts
+    //-                         include directory_fragment
+    //- script(type='text/javascript' src='/javascripts/messagerie.js')
+    //- script.
+    //-     initDirectoryList()

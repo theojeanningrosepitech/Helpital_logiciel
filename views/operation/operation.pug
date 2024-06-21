@@ -1,0 +1,12 @@
+extends ../header
+block content
+    link(rel='stylesheet', href='/stylesheets/patients.css')
+    script(type='text/javascript' src='/javascripts/consultation.js')
+    div(style="display: flex; flex-direction: row; flex-wrap: nowrap; height: calc(100vh - 54px)")
+        //iframe(id="1" src=operationURL height="100%" width="65%")
+        div(id="1" style="height:100%; width:65%; flex-direction: column")
+        div(id="2" style="height:100%; width:35%; flex-direction: column")
+        script.
+            loadContent("#{operationURL}", 1);
+            loadContent("#{capsuleURL}", 2);
+        //iframe(id="2" src=capsuleURL height="100%" width="35%")

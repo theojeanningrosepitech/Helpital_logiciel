@@ -1,0 +1,86 @@
+extends ../../header
+include ../../popUp
+block content
+    link(rel='stylesheet', href='/stylesheets/back_office/back_office.css')
+    link(rel='stylesheet', href='/stylesheets/back_office/users/users.css')
+    script(type='text/javascript', src='/javascripts/back_office/back_office.js')
+    script(type='text/javascript', src='/javascripts/back_office/users/users.js')
+    script(type='text/javascript' src='https://www.kryogenix.org/code/browser/sorttable/sorttable.js')
+
+    +popUp({
+        id: "pop-up",
+        title: "Ajouter un utilisateur",
+        method: "post",
+        action: "api/users",
+        inputs: {
+            0: { id: "firstname", name: "firstname", type: "text", placeholder: "Prénom"},
+            1: { id: "lasname", name: "lastname", type: "text", placeholder: "Nom"},
+            2: { id: "email", name: "email", type: "text", placeholder: "Email"},
+            3: { id: "phone", name: "phone", type: "text", placeholder: "Téléphone"},
+            6: { id: "submit", type: "submit", value: "Ajouter" }
+        }
+    })
+
+    div.flex-box
+        div.navbar.flex-item
+            if favorites.length
+            div.navbar-title Accès rapide
+            ul.navbar-container
+                each section in favorites
+                    li.navbar-button(onclick='load(this)')
+                        a(href=`${section.section_path}`)=section.section_display_name
+            if sections.length
+            div.navbar-title Toutes
+            ul.navbar-container
+                each section in sections
+                    li.navbar-button(onclick='load(this)')
+                        a(href=`${section.section_path}`)=section.section_display_name
+
+        #pop-up-form-container
+            .form-section
+                .form-header
+                    .close-pop-up
+                            a(onclick="hidePopUpForm()")
+                                span.material-icons clear
+                    h2(class="form-header title") Ajouter un utilisateur
+                .form-content
+                    div(name="event")
+                        label
+                            input(type="text" id="firstname" name="firstname" placeholder="Prénom" required)
+                        label
+                            input(type="text" id="lastname" name="lastname" placeholder="Nom" required)
+                        label
+                            input(type="text" id="email" name="email" placeholder="Email" required)
+                        label
+                            input(type="text" id="phone" name="phone" placeholder="N° de téléphone" required)
+                        label
+                            select#services
+                                each service in data.services
+                                    option(value=service.id) #{service.title}
+                        label
+                            select#role
+                                each role in data.roles
+                                    option(value=role.id) #{role.role_name}
+                .form-footer
+                    button(id="submit" value="Ajouter", onclick="addUser()") Envoyer
+                    button(onclick="hidePopUpForm()") Annuler
+
+        #inner-body.flex-item
+                input#searchbar(placeholder="Rechercher dans les utilisateurs")
+                .flex-box-table
+                    .table-header
+                        .table-header-item Nom
+                        .table-header-item Prénom
+                        .table-header-item Rôle
+                        .table-header-item Service
+                        .table-header-item Identifiant
+                        .table-header-item Email
+                        .table-header-item Téléphone
+                        .table-header-item.nfc NFC
+                        .table-header-item
+                            a(onclick="showPopUpForm()" id="showform") Ajouter
+                    #list.wrap-row
+                        each user in data.users
+                            include users_fragment
+        script.
+            initUsersList()

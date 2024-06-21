@@ -1,0 +1,28 @@
+.room(onclick=`window.location.href='/rooms?id=${room.id}'` item-id=`${room.id}`)
+    span.title #{room.title}
+    span.floor Étage #{room.floor}
+    if room.r_sex == 'H'
+        span.material-icons(style='color: var(--primaryColor) !important') man
+    else if room.r_sex == 'F'
+        span.material-icons(style='color: var(--primaryColor) !important') woman
+    else if room.r_sex == 'M'
+        span.material-icons(style='color: var(--primaryColor) !important') wc
+    .viewer
+        div
+            span.disponibility Place libre
+            span.disponibility-number #{room.patients.length}
+        span.slash /
+        div
+            span.capacity Capacité
+            span.capacity-number #{room.capacity}
+    if room.patients.length == room.capacity
+        p(style="color: red") Cette salle est pleine.
+
+//- div(class="room", item-id=`${room.id}`)
+//-     .room_title #{room.title}
+//-     br
+//-     span Etage : #{room.floor}
+//-     br
+//-     span Place maximale : #{room.capacity}
+//-     br
+//-     a(href=`/rooms?id=${room.id}`, class="details") Détail

@@ -1,0 +1,29 @@
+extends ../header
+block content
+    link(rel='stylesheet', href='/stylesheets/planning.css')
+    link(rel='stylesheet', href='/stylesheets/mailPage.css')
+    script(type='text/javascript' src='/javascripts/mailPage.js')
+
+    #header-container
+        .page-header
+            .page-informations
+                .page-title
+                    h1 Envoie de Mail
+                .page-description
+                    p 👨‍⚕️ Envoyez des mails personnalisé au destinataire de votre choix
+
+    .container-mail
+        .form-section
+            h2.form-header Rédigez votre mail
+            .form-content
+                .form-dest
+                    label Destinataire : 
+                        input.input_dest(name="dest" id="dest" type='text', placeholder="Destinataire")
+                .form-subject
+                    label Sujet : 
+                        input.input_dest(name="sujet" id="subject" type='text', placeholder="Sujet")
+                .form-mess
+                    label Message
+                    textarea.input_mess(name="mess" id="mess" type='text', placeholder="Rédigez votre message")
+            label
+                input.add(type='submit', id='submit', value='Envoi', onClick=`sendMail()`)

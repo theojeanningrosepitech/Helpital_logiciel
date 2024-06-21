@@ -1,0 +1,205 @@
+extends ../header
+include ../popUp
+block content
+    //- Move planning css from styles-2.1.0.css to planning.css
+    link(rel='stylesheet', href='/stylesheets/planning.css')
+    script(type='text/javascript' src='/javascripts/planning.js')
+    script(type='text/javascript' src='/javascripts/ics.js')
+    script(type='text/javascript' src='https://www.kryogenix.org/code/browser/sorttable/sorttable.js')
+
+    //- Rework pop-up CSS in styles-2.1.0.css
+    //- vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+    if data.displayWelcomingPopup === true
+        +popUp({
+            popUpName: "WelcomeUser",
+            id: "pop-up-container",
+            className: "welcome-user",
+            title: "Bienvenue " + data.userSelf.firstname + " ! 👋",
+            description: "Découvrez votre nouveau tableau de bord Helpital.",
+            type: "welcome"
+        })
+    //- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+    #tutorial_display.display_none
+        #pop-up-container-tuto
+            .robothelp
+                img(src='/images/robothelp.gif', alt="robothelp")
+                .triangle
+                .tutorial_text_box
+                    div.message Bienvenue sur la page planning de l'application. Ici tu peux consulter ton emploie du temps et ajouter des évènements à celui-ci.
+            .triangle2
+            .tutorial_text_box_two
+                div.message Cliquez sur ajouter un évènement pour ouvrir un onglet dans lequel vous pourrez créer un créneau d'évènement.
+            .triangle3
+            .tutorial_text_box_three
+                div.message Utiliser les flèches pour changer de semaines et voir les évènements passer ou qui arrivent.
+            .triangle5
+            .tutorial_text_box_five
+                div.message Exporte et importe ton emploie du temps sous format .ics .
+
+    +popUp({
+        popUpName: "AlertUser",
+        id: "pop-up-container",
+        className: "alert-user",
+        title: "Maintenance 👷",
+        description: "Cet élément est actuellement en développement.",
+        type: "alert"
+    })
+
+    +popUp({
+        popUpName: "AddEventForm",
+        id: "pop-up-container",
+        className: "add-event-form",
+        title: "Ajouter un événement",
+        description: "Description",
+        type: "form",
+        name: "add-event-form",
+        method: "post",
+        action: "api/planning",
+        onSubmit: "event.preventDefault(); addEvent();",
+        inputs: {
+                0: { id: "title", name: "title", type: "text", placeholder: "Titre de l'évènement" },
+                1: { id: "description", name: "description", type: "text", placeholder: "Description" },
+                2: { id: "ss_number", name: "ss_number", type: "text", placeholder: "N° sécurité sociale patient", list: "patients-list" },
+                3: { id: "type", name: "type", type: "text", placeholder: "Type de l'évènement", list: "event-types-list" },
+                4: { id: "begin_at", name: "begin_at", type: "datetime-local", placeholder: "Date de début" },
+                5: { id: "end_at", name: "end_at", type: "datetime-local", placeholder: "Date de fin" },
+                6: { id: "submit", type: "submit", value: "Ajouter" }
+        }
+    })
+
+    +popUp({
+        popUpName: "EventInformations",
+        id: "pop-up-container",
+        className: "event-informations",
+        title: "Aperçu de l'événement",
+        description: "Description",
+        type: "event",
+        name: "event-informations",
+        method: "post",
+        action: "api/planning",
+        onSubmit: "event.preventDefault(); editEvent();",
+        inputs: {
+                0: { id: "title", name: "title", type: "text", placeholder: "Titre de l'évènement" },
+                1: { id: "description", name: "description", type: "text", placeholder: "Description" },
+                2: { id: "ss_number", name: "ss_number", type: "text", placeholder: "N° sécurité sociale patient", list: "patients-list" },
+                3: { id: "type", name: "type", type: "text", placeholder: "Type de l'évènement", list: "event-types-list" },
+                4: { id: "begin_at", name: "begin_at", type: "datetime-local", placeholder: "Date de début" },
+                5: { id: "end_at", name: "end_at", type: "datetime-local", placeholder: "Date de fin" },
+                6: { id: "report", name: "report", type: "text", placeholder: "Rapport" },
+                7: { id: "submit", type: "submit", value: "Sauvegarder" }
+        }
+    })
+
+    .page
+        .side-menu
+            .side-menu-header
+                button.active-button(onclick="showPopUpAddEventForm()") Ajouter un événement
+            .summary
+                ul.summary-header
+                    li#today-li.active(onclick="todayEvents()") Aujourd'hui
+                    li#future-li(onclick="futureEvents()") À venir
+                    li#past-li(onclick="pastEvents()") Finis
+                ul.summary-content
+                    #todaylay
+                    #futurelay
+                    #pastlay
+                    if (data.planning[0])
+                        script.
+                            displayEvents("#{JSON.stringify(data.planning)}", "{\"id\": #{data.userSelf.id}}");
+            .side-menu-footer
+                script.
+                    var cal = ics();
+                each event in data.planning
+                    script.
+                        cal.addEvent("#{event.title}", "#{event.description}", "#{event.type}", "#{event.begin_at}", "#{event.end_at}");
+                label(id="label-file" for="input-file") Importer des évènements
+                input(id="input-file" type="file" accept=".ics" value="Importer des évènements")
+                //- Display none ?
+                script.
+                    const fileSelector = document.getElementById("input-file");
+                    fileSelector.addEventListener('change', (event) => {
+                        const file = event.target.files;
+                        importEvents(file[0], !{JSON.stringify(data.planning)}, "#{JSON.stringify(data.userSelf)}");
+                    });
+                button(onclick="exportEvents()") Exporter les événements
+
+        .main-container
+            .main-container-header
+                button.material-icons-button(onclick="previousWeek(" + JSON.stringify(data.planning) + "," + JSON.stringify(data.userSelf) + ")")
+                    span.material-icons arrow_left
+                span#month-date
+                button.material-icons-button(onclick="nextWeek(" + JSON.stringify(data.planning) + "," + JSON.stringify(data.userSelf) + ")")
+                    span.material-icons arrow_right
+                a.right-icon-button(onclick="ShowTutorial()")
+                    label.material-icons(class="help-button") help
+            .planning
+                //- Generate headers
+                //- vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+                each day in ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+                    - var headerId = day + "-header";
+                    div(class=day)
+                        div(id=headerId class=headerId)
+                //- Generate displayed hours
+                //- vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+                .displayed-hours
+                    each hour in [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 0]
+                        if (hour < 10)
+                            div
+                                span 0#{hour}h
+                        else
+                            div
+                                span #{hour}h
+                //- Generate day's hours columns
+                //- vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+                each day in ["monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday"]
+                    - var hoursId = day + "-hours";
+                    div(id=hoursId class=hoursId)
+
+    script.
+        generatePlanning(new Date(), "#{JSON.stringify(data.planning)}", "#{JSON.stringify(data.userSelf)}");
+
+    datalist(id="event-types-list")
+        option Opération
+        option Consultation
+        option Visites
+        option Garde
+        option Réunion
+        option Déjeuner
+        option Pause
+        option Vacances
+
+    datalist(id="patients-list")
+        each patient in data.patients
+            option=patient.ss_number
+
+    //- Keep export events and import events scripts
+    //- vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+    //- #header-container
+    //-     .page-header
+    //-         .page-informations
+    //-             .page-title
+    //-                 h1 Planning
+    //-             .page-description
+    //-                 p 📍 Consultez votre planning de la semaine
+    //-         .page-option
+    //-             .tutorial-button
+    //-                 a(onclick="ShowTutorial()")
+    //-                     span(class="material-icons") help
+    //-             button(onclick="showPopUpSummary()") Évènements
+    //-             button(onclick="showPopUpForm()") Ajouter un évènement
+    //-             script.
+    //-                 var cal = ics();
+    //-             each event in data.planning
+    //-                 script.
+    //-                     cal.addEvent("#{event.title}", "#{event.description}", "France", "#{event.begin_at}", "#{event.end_at}");
+    //-             button(onclick="exportEvents()") Exporter les évènements
+    //-             label(id="label-file" for="input-file") Importer des évènements
+    //-                 input(id="input-file" type="file" accept=".ics" value="Importer des évènements")
+    //-             script.
+    //-                 const fileSelector = document.getElementById("input-file");
+    //-                 fileSelector.addEventListener('change', (event) => {
+    //-                     const file = event.target.files;
+    //-                     importEvents(file[0], !{JSON.stringify(data.planning)});
+    //-                 });
+    //- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

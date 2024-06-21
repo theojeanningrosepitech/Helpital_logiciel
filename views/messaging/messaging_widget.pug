@@ -1,0 +1,21 @@
+div
+    .profil-viewer
+        .informations
+            span.display_none(id="myId")=data.myUserID
+            h1=data.conversation.title
+        .favoris
+            button.material-icons-button
+                span.material-icons star_outline
+    .conversation#scroll_bar_bottom.height_conv
+        #conversation-content.conversation-content
+            span#id_conv.display_none=data.conversation.id
+            each message in data.messages
+                include messaging_dynam
+    .conversation-footer
+        div.input_text_msg
+            div.form_new_msg(name="message")
+                input.input_img(name="file_name" id="file_name" type="file" accept="image/png, image/jpeg, image/jpg, application/pdf" onchange="openFile()")
+                input.input_picture_buffer(name="file" id="file" type='content')
+                input.input_btn_emergency.btn_green(name="emergency_btn" id="emergency_btn" value=0 onclick="updateBtn()")
+                input.input_msg(name="content" id="content" type="textarea" value='' placeholder="Envoyer un message")
+                input.input_submit(type="submit" value="Envoyer" onclick=`sendMessageFree(${data.myUserID}, ${data.conversation.id}, 2, ${JSON.stringify(data.insult)})`)

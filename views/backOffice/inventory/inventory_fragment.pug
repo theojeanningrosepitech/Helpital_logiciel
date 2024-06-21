@@ -1,0 +1,7 @@
+.table-row(item-id=`${row.id}`)
+    .table-row-item #{row.name}
+    .table-row-item #{row.quantity}
+    .table-row-item #{row.update.slice(0, 10).split("-").reverse().join("-")}
+    .table-row-item #{row.type.display_name}
+    .table-row-item
+        a.commander(href="/mailPage") Commander

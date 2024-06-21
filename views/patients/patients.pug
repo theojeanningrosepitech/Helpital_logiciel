@@ -1,0 +1,406 @@
+extends ../header
+include ../popUp
+include ../editor
+block content
+    link(rel='stylesheet', href='/stylesheets/patients.css')
+    script(type='text/javascript' src='/javascripts/patients.js')
+    script(type='text/javascript' src='https://www.kryogenix.org/code/browser/sorttable/sorttable.js')
+
+    #dialog_display(onclick="hidePopUp()")
+        .form_section_patient
+            .form_header
+                .close_pop_up
+                    a(onclick="hidePopUp()")
+                        span.material-icons close
+                .form_content
+                    div.dialog_img_width(id="img_dialog")
+    #tutorial_display.display_none
+        #pop-up-container-tuto
+            .robothelp
+                img(src='/images/robothelp.gif', alt="robothelp")
+                .triangle
+                .tutorial_text_box
+                    div.message Consulte toutes les informations d'un patient depuis la capsule !
+            .triangle1
+            .tutorial_text_box_one
+                div.message Cherche un patient grace à son prénom.
+            .triangle2
+            .tutorial_text_box_two
+                div.message Cliquez sur ajouter un patient ouvre un pop-up qui permet d'ajouter un patient à la liste.
+            .triangle3
+            .tutorial_text_box_three
+                div.message Tu peux consulter les informations d'un patient en cliquant pour ouvrir sa capsule.
+            //- .triangle4
+            //- .tutorial_text_box_four
+            //-     div.message Consulte les fichiers médicaux du patient dans ce rang, tu peux aussi en ajouter.
+
+    +popUp({
+        popUpName: "AlertUser",
+        id: "pop-up-container",
+        className: "alert-user",
+        title: "Maintenance 👷",
+        description: "Cet élément est actuellement en développement.",
+        type: "alert"
+    })
+
+    +popUp({
+        popUpName: "AddPatientForm",
+        id: "pop-up-container",
+        className: "add-patient-form",
+        title: "Ajouter un patient",
+        description: "Description",
+        type: "patient",
+        name: "add-patient-form",
+        method: "post",
+        action: "api/patients",
+        onSubmit: "event.preventDefault(); addPatient();",
+        columnLeft: {
+                0: { id: "firstname", columnType:"input", name: "firstname", type: "text", placeholder: "Prénom du patient", title: "Prénom du patient" },
+                1: { id: "lastname", columnType:"input", name: "lastname", type: "text", placeholder: "Nom de famille du patient", title: "Nom de famille du patient" },
+                2: { id: "birthdate", columnType:"input", name: "birthdate", type: "date", placeholder: "Date de naissance du patient", title: "Date de naissance du patient" },
+                3: { id: "ss_number", columnType:"input", name: "ss_number", type: "text", placeholder: "Numéro de sécurité sociale", title: "Numéro de sécurité sociale" },
+                4: { id: "height", columnType:"input", name: "height", type: "number", min: "30", max: "300", placeholder: "Taille", title: "Taille" },
+                5: { id: "weight", columnType:"input", name: "weight", type: "number", min: "0", max: "1000", placeholder: "Poids", title: "Poids" }
+        },
+        columnRight: {
+                0: { id: "age", columnType:"input", name: "age", type: "number", min: "0", max: "200", placeholder: "Âge", title: "Âge" },
+                1: { id: "blood_type", columnType:"select", name: "blood_type", type: "text", title: "Groupe sanguin", options: data.bloodTypes },
+                2: { id: "gender", columnType:"select", name: "gender", type: "text", title: "Genre", options: data.genres },
+                3: { id: "allergies", columnType:"input", name: "allergies", type: "text", placeholder: "Allergies", title: "Allergies" },
+                4: { id: "service_id", columnType:"select", name: "service_id", type: "text", title: "Service", options: data.services },
+                5: { id: "doctor", columnType:"select", name: "doctor_id", type: "text", title: "Médecin responsable", options: data.users }
+        },
+        inputs: {
+                0: { id: "submit", type: "submit", value: "Ajouter" }
+        }
+    })
+
+    +popUp({
+        popUpName: "NoteInformations",
+        id: "pop-up-container",
+        className: "note-informations",
+        title: "Aperçu de la note",
+        description: "Description",
+        type: "note",
+        name: "note-informations",
+        method: "post",
+        action: "api/note",
+        onSubmit: "event.preventDefault(); editNote();",
+        inputs: {
+                0: { id: "n_creator", name: "n_creator", type: "hidden", value:`${data.my_user.id}` },
+                1: {
+                    id: "n_attached_to",
+                    name: "n_attached_to",
+                    type: "text",
+                    placeholder: "N° sécurité sociale patient",
+                    list: "ss-number-list"
+                },
+                2: {
+                    id: "n_priority",
+                    name: "n_priority",
+                    type: "text",
+                    placeholder: "Prioritée de la note",
+                    list: "priority-list"
+                },
+                3: { id: "submit", type: "submit", value: "Modifier" }
+        }
+    })
+
+    +popUp({
+        popUpName: "AddNoteForm",
+        id: "pop-up-container",
+        className: "add-note-form",
+        title: "Ajouter une note",
+        description: "Description",
+        type: "note",
+        name: "add-note-form",
+        method: "post",
+        action: "api/note",
+        onSubmit: "event.preventDefault(); addNote();",
+        inputs: {
+                0: { id: "n_creator_add", name: "n_creato_add", type: "hidden", value:`${data.my_user.id}` },
+                1: {
+                    id: "n_attached_to_add",
+                    name: "n_attached_to_add",
+                    type: "text",
+                    placeholder: "N° sécurité sociale patient",
+                    list: "ss-number-list"
+                },
+                2: {
+                    id: "n_priority_add",
+                    name: "n_priority_add",
+                    type: "text",
+                    placeholder: "Prioritée de la note",
+                    list: "priority-list"
+                },
+                3: { id: "submit", type: "submit", value: "Ajouter" }
+        }
+    })
+
+    +popUp({
+        popUpName: "AddPrescriptionForm",
+        id: "pop-up-container",
+        className: "add-prescription-form",
+        title: "Ajouter une prescription",
+        description: "Description",
+        type: "ordonnance",
+        name: "add-prescription-form",
+        method: "post",
+        action: "api/prescription",
+        onSubmit: "event.preventDefault(); addPrescription();",
+        inputs: {
+                0: { id: "p_creator", name: "p_creator", type: "hidden", value:`${data.my_user.login}` },
+                1: { id: "p_attached_to", name: "p_attached_to", type: "text", placeholder: "N° sécurité sociale patient", list: "ss-number-list" },
+                2: { id: "submit", type: "submit", value: "Ajouter" },
+                3: { type:'hidden', id:'namecrea',  name:'namecrea', value:`${data.my_user.firstname} ${data.my_user.lastname}`}
+        }
+    })
+
+    +popUp({
+        popUpName: "AddFileForm",
+        id: "pop-up-container",
+        className: "add-file-form",
+        title: "Ajouter un fichier",
+        description: "Description",
+        type: "file",
+        name: "add-note-form",
+        onSubmit: "event.preventDefault(); addFile();",
+        inputs: {
+            0: {
+                name: "file_name",
+                id: "file_name",
+                type: "file",
+                accept: "image/png, image/jpeg, image/jpg, application/pdf",
+                onchange: "openFilePatient()"
+            },
+            1: {id: "submit", type: "submit", value: "Ajouter"}
+        }
+    })
+
+    .page
+        .side-menu
+            .side-menu-header
+                button.active-button(onclick="showPopUpAddPatientForm()") Ajouter un patient
+            .summary
+                ul.summary-content
+                    li#item(onclick="displayAllPatientContent()") Tous les patients
+                    li#item(onclick="displayMyPatients()") Mes patients
+                    //- script.
+                    //-     console.log("#{data.patients[0].doctor_id}", "#{data.my_user.id}");
+                    li#item(onclick="displayFavPatient()") Favoris
+                    li(style="display: none;")
+                        span#id-buffer
+
+            .side-menu-footer
+        .main-container
+            .main-container-header.flex.white
+                a.left-icon-button(onclick="window.location.href='/patients'")
+                    span.material-icons arrow_upward
+                label
+                    input(id="input-list-all-patient"  type='text' placeholder='Rechercher un patient' list="patients-list" onkeyup="displayNewList()")
+                    input(id="input-list-my-patients" style="display: none" type='text' placeholder='Rechercher un patient' list="my-patients-list" onkeyup="displayNewListMyPatients()")
+                    input(id="input-list-favoris-patient" style="display: none" type='text' placeholder='Rechercher un patient' list="patients-favoris-list" onkeyup="displayNewListFavoris()")
+                a.right-icon-button(onclick="ShowTutorial()")
+                    span.material-icons help
+
+            #capsule-viewer.capsule-viewer
+                .capsule-header
+                    .informations
+                        h1
+                        span
+                    .data
+                        .private
+                            label Médecin responsable
+                            input(id="input-doctor" type='text' placeholder='Médecin responsable')
+                            label Service
+                            input(id="input-serviceId" type='text' placeholder='Service')
+                        .private
+                            label Groupe sanguin
+                            input.small-width(id="input-bloodtype" type='text' placeholder='Groupe sanguin')
+                            label Genre
+                            input.small-width(id="input-gender" type='text' placeholder='Genre')
+                        .private
+                            label Âge
+                            input.small-width(id="input-age" type='text' placeholder='Âge')
+                            label IMC
+                            input.small-width(id="input-IMC" type='text' placeholder='IMC')
+                        .private
+                            label Taille (en m)
+                            input.small-width(id="input-height" type='text' placeholder='Taille')
+                            label Poids (en kg)
+                            input.small-width(id="input-weight" type='text' placeholder='Poids')
+                        .private
+                            label Date de naissance
+                            input(id="input-birthDate" type='text' placeholder='Date de naissance')
+                            label Chambre
+                            input(id="input-roomId" type='text' placeholder='Chambre')
+                        .private
+                            label Allergies
+                            input(id="input-allergies" type='text' placeholder='Allergies')
+                            label.label-hidden Enregistrer
+                            button(id="button-update-patient") Enregistrer
+                #capsule-vital-constants.capsule-vital-constants
+                    .vital-constants-parameter
+                        span.parameter-value 37°C
+                        span.parameter-name Température
+                    .vital-constants-parameter
+                        span.parameter-value 90
+                        span.parameter-name BPM
+                    .vital-constants-parameter
+                        span.parameter-value 12
+                        span.parameter-name Respiration
+                    .vital-constants-parameter
+                        span.parameter-value 142
+                        span.parameter-name Rythme
+                    .vital-constants-parameter
+                        span.parameter-value 76
+                        span.parameter-name Pulsation
+                .capsule-content
+                    .prescriptions
+                        .summary
+                            ul.summary-header
+                                li.active Prescriptions
+                            ul.summary-content
+                            ul.summary-footer
+                                button.active-button(onclick="showPopUpAddPrescriptionForm()") Ajouter une prescription
+                    .notes
+                        .summary
+                            ul.summary-header
+                                li.active Observations
+                            ul.summary-content
+                            ul.summary-footer
+                                button.active-button(onclick="showPopUpAddNoteForm()") Ajouter une note
+                    .files
+                        .summary
+                            ul.summary-header
+                                li#all-li.active(onclick="patientFilesALL(" + JSON.stringify(data.patients) + ")") Tous les fichiers
+                                li#pdf-li(onclick="patientFilesPDF(" + JSON.stringify(data.patients) + ")") PDF
+                                li#png-li(onclick="patientFilesPNG(" + JSON.stringify(data.patients) + ")") PNG
+                                li#jpeg-li(onclick="patientFilesJPEG(" + JSON.stringify(data.patients) + ")") JPG
+
+                                //- li#archives-li(onclick="patientArchives()") Archives
+                            ul.summary-content
+                                #overlay
+                                #underlay
+                            ul.summary-footer
+                                button.active-button(onclick="showPopUpAddFileForm()") Ajouter un fichiers
+            if (patient_id == -1)
+                .directory
+                    table
+                        thead
+                            tr
+                                th Patients (#{data.patients.length})
+                                th Sécurité sociale
+                                th Chambre
+                                th
+                                th
+                        tbody(id="list-all-patient")
+                            each patient in data.patients
+                                tr.blue.blueAll
+                                    span.getIdAll(style="display: none;")=patient.id
+                                    td(onclick="showPatientViewer(" + JSON.stringify(patient) + "," + JSON.stringify(data.notes.data) + "," + JSON.stringify(data.prescriptions.data) + "," + JSON.stringify(data.patient_files.data) + "," + JSON.stringify(data.patient_archives.data) + ", " + JSON.stringify(patient_id) + ", " + JSON.stringify(data.services) + ", " + JSON.stringify(data.users) + ")")=patient.firstname + " " + patient.lastname
+                                    td(onclick="showPatientViewer(" + JSON.stringify(patient) + "," + JSON.stringify(data.notes.data) + "," + JSON.stringify(data.prescriptions.data) + "," + JSON.stringify(data.patient_files.data) + "," + JSON.stringify(data.patient_archives.data) + ", " + JSON.stringify(patient_id) + ", " + JSON.stringify(data.services) + ", " + JSON.stringify(data.users) + ")")=patient.ss_number
+                                    td(onclick="showPatientViewer(" + JSON.stringify(patient) + "," + JSON.stringify(data.notes.data) + "," + JSON.stringify(data.prescriptions.data) + "," + JSON.stringify(data.patient_files.data) + "," + JSON.stringify(data.patient_archives.data) + ", " + JSON.stringify(patient_id) + ", " + JSON.stringify(data.services) + ", " + JSON.stringify(data.users) + ")")=patient.room_id
+                                    -let y = 0;
+                                    each fav in favoris
+                                        if (fav.patient_id == patient.id && y == 0)
+                                            td
+                                                span.material-icons(id="star", onclick=`removeFromAllFavoris(${fav.id}, ${patient.id})`) star
+                                            - y = 1;
+                                    if y == 0
+                                        td
+                                            span.material-icons(id="star", onclick=`setFavoris(${JSON.stringify(patient)}, ${data.my_user.id})`) star_outline
+
+                                    td
+                                        span(onclick="apiDelete(\'patients\', '" + patient.id + "')").material-icons clear
+                        tbody(id="list-my-patients" style="display: none")   
+                            each patient in data.patients
+                                if (patient.doctor_id == data.my_user.id)
+                                    tr.blue.MyPatients
+                                        span.getIdMyPatients(style="display: none;")=patient.id
+                                        td(onclick="showPatientViewer(" + JSON.stringify(patient) + "," + JSON.stringify(data.notes.data) + "," + JSON.stringify(data.prescriptions.data) + "," + JSON.stringify(data.patient_files.data) + "," + JSON.stringify(data.patient_archives.data) + ", " + JSON.stringify(patient_id) + ")")=patient.firstname + " " + patient.lastname
+                                        td(onclick="showPatientViewer(" + JSON.stringify(patient) + "," + JSON.stringify(data.notes.data) + "," + JSON.stringify(data.prescriptions.data) + "," + JSON.stringify(data.patient_files.data) + "," + JSON.stringify(data.patient_archives.data) + ", " + JSON.stringify(patient_id) + ")")=patient.ss_number
+                                        td(onclick="showPatientViewer(" + JSON.stringify(patient) + "," + JSON.stringify(data.notes.data) + "," + JSON.stringify(data.prescriptions.data) + "," + JSON.stringify(data.patient_files.data) + "," + JSON.stringify(data.patient_archives.data) + ", " + JSON.stringify(patient_id) + ")")=patient.room_id
+                                        -let y = 0;
+                                        each fav in favoris
+                                            if (fav.patient_id == patient.id && y == 0)
+                                                td
+                                                    span.material-icons(id="star", onclick=`removeFromAllFavoris(${fav.id}, ${patient.id})`) star
+                                                - y = 1;
+                                        if y == 0
+                                            td
+                                                span.material-icons(id="star", onclick=`setFavoris(${JSON.stringify(patient)}, ${data.my_user.id})`) star_outline
+
+                                        td
+                                            span(onclick="apiDelete(\'patients\', '" + patient.id + "')").material-icons clear
+                        tbody(id="list-favoris-patient" style="display: none")
+                            each patient in data.patients
+                                each fav in favoris
+                                    if (fav.patient_id == patient.id)
+                                        tr.blue.bluefav
+                                            span.getIdFav(style='display: none;')=patient.id
+                                            td(onclick="showPatientViewer(" + JSON.stringify(patient) + "," + JSON.stringify(data.notes.data) + "," + JSON.stringify(data.prescriptions.data) + "," + JSON.stringify(data.patient_files.data) + "," + JSON.stringify(data.patient_archives.data) + ", " + JSON.stringify(patient_id) + ")")=patient.firstname + " " + patient.lastname
+                                            td(onclick="showPatientViewer(" + JSON.stringify(patient) + "," + JSON.stringify(data.notes.data) + "," + JSON.stringify(data.prescriptions.data) + "," + JSON.stringify(data.patient_files.data) + "," + JSON.stringify(data.patient_archives.data) + ", " + JSON.stringify(patient_id) + ")")=patient.ss_number
+                                            td(onclick="showPatientViewer(" + JSON.stringify(patient) + "," + JSON.stringify(data.notes.data) + "," + JSON.stringify(data.prescriptions.data) + "," + JSON.stringify(data.patient_files.data) + "," + JSON.stringify(data.patient_archives.data) + ", " + JSON.stringify(patient_id) +")")=patient.room_id
+                                            td
+                                                span.material-icons(id="star", onclick=`removeFavoris(${fav.id}, ${patient.id})`) star
+                                            td
+                                                span(onclick="apiDelete(\'patients\', '" + patient.id + "')").material-icons clear
+            if (patient_id != -1)
+                each patient in data.patients
+                    if (patient_id == patient.id)
+                        script.
+                            showPatientViewer("#{JSON.stringify(patient)}", "#{JSON.stringify(data.notes.data)}", "#{JSON.stringify(data.prescriptions.data)}", "#{JSON.stringify(data.patient_files.data)}", "#{JSON.stringify(data.patient_archives.data)}", "#{JSON.stringify(patient_id)}");
+    
+    datalist(id="patients-list")
+        each patient in data.patients
+            option=patient.firstname + " " + patient.lastname + " (" + patient.ss_number + ")," + patient.id
+
+    datalist(id="my-patients-list")
+        each patient in data.patients
+                if (patient.doctor_id == data.my_user.id)
+                    option=patient.firstname + " " + patient.lastname + " (" + patient.ss_number + ")," + patient.id
+
+    datalist(id="patients-favoris-list")
+        each patient in data.patients
+            each fav in favoris
+                if (fav.patient_id == patient.id)
+                    option=patient.firstname + " " + patient.lastname + " (" + patient.ss_number + ")," + patient.id
+
+    datalist(id="services-list")
+        option(value='Pediatrie')
+        option(value='Cardiologie')
+        option(value='Radiologie')
+        option(value='Pneumologie')
+        option(value='Neurologie')
+        option(value='Cancerologie')
+        option(value='Néphrologie')
+        option(value='Psychologie')
+        option(value='Soins palliatifs')
+
+    datalist(id="gender-list")
+        option(value='Homme')
+        option(value='Femme')
+        option(value='Autre')
+
+    datalist(id="blood_type-list")
+        option(value='A+')
+        option(value='A-')
+        option(value='AB+')
+        option(value='AB-')
+        option(value='B+')
+        option(value='B-')
+        option(value='O+')
+        option(value='O-')
+
+    datalist(id="ss-number-list")
+        each patient in data.patients
+            option=patient.ss_number
+
+    datalist(id="priority-list")
+        each priority in data.priority.data
+            option=priority.title
+
+    datalist(id="priority-id-list")
+        each priority in data.priority.data
+            option=priority.id

@@ -1,0 +1,102 @@
+/* Custom container for the form on the login page */
+#login-container {
+    height: 100vh;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.login-section {
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    -webkit-box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    -moz-box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    background-color: white;
+    border-radius: 10px;
+    color: black;
+    padding: 5vh;
+    text-align: center;
+}
+
+.login-header .image {
+    width: 250px;
+    vertical-align: middle;
+    margin-bottom: 20px;
+}
+
+.login-content {
+    margin-bottom: 20px;
+}
+
+.login-content .title {
+    font-size: 1.5em;
+    display: inline-block;
+}
+
+.login-content form {
+    margin-bottom: 40px;
+}
+
+.login-content form input[type=text], 
+.login-content form input[type=password], 
+.login-content form input[type=submit]   {
+    margin: auto;
+}
+
+.login-content form .show-password-checkbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-content form .show-password-checkbox span {
+    font-weight: 400;
+}
+
+
+.login-content form span, .login-footer a {
+    font-size: 0.8em;
+    color: rgb(161, 161, 161);
+}
+
+.login-footer a:hover {
+    color: rgb(250, 65, 65);
+}
+
+.send-2FA-method {
+    margin-bottom: 0.5em;
+}
+
+.account {
+    width: 200px;
+}
+
+.accounts-section {
+    display: block;
+    margin: 10px 0px 10px 0px;
+}
+
+.accounts-section input[type=submit], .accounts-section .delete-account {
+    display: inline-block;
+}
+
+.delete-account {
+    background-color: transparent;
+    position: absolute;
+    border: none;
+    height: 35px;
+    cursor: pointer;
+    padding: 8px !important;
+}
+
+.delete-account:hover {
+    background-color: transparent;
+}
+
+.delete-account .material-icons {
+    color: lightgray;
+    font-size: 20px !important;
+}
+
+.delete-account:hover .material-icons {
+    color: rgb(255, 70, 70);
+}

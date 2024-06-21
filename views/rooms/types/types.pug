@@ -1,0 +1,13 @@
+extends ../../header
+block content
+    link(rel='stylesheet', href='/stylesheets/list.css')
+    #inner-body.margin-top-element
+        div.list-box
+            div.list-header
+                p Nom
+                input.centered(id="search-input", placeholder="Recherche", search-uri="/api/rooms/types", object-uri='/rooms/types/type?id=', websocket-ressource='room_type')
+                p Numéro
+            div.details.list(id="list")
+        div.bottom-buttons
+            a.add(href="/rooms/types/new") Créer une catégorie
+    script(type='text/javascript' src='/javascripts/list.js')

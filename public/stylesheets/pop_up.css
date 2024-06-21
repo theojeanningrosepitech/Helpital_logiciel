@@ -1,0 +1,80 @@
+#pop-up-container {
+    display: none;
+    z-index: 2;
+    position: fixed;
+    width: 100%;
+    height: calc(100vh - 75px);
+    background-color: rgba(32, 32, 32, 0.2);
+}
+
+.close-pop-up {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.form-section, .notes-section {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    -webkit-box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    -moz-box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    color: var(--section-color);
+    padding: 10px 10px 20px 20px;
+    width: 500px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+}
+
+.form-header .title, .notes-header .title {
+    font-size: 1.5em;
+    display: block;
+}
+
+.form-header .desc, .notes-header .desc {
+    font-size: 1em;
+    display: block;
+    color: rgb(161, 161, 161);
+}
+
+.form-content form {
+    margin: 1em 0;
+}
+
+.form-content form .form-split-two {
+    display: flex;
+    justify-content: space-around;
+}
+
+/* .form-content form .form-inputs-left {
+    background-color: red;
+}
+
+.form-content form .form-inputs-right {
+    background-color: blue;
+} */
+
+.form-content form label {
+    text-align: center !important;
+    width: 200px;
+    margin: 10px auto 10px auto;
+}
+
+.form-content form input {
+    margin: auto;
+}
+
+textarea {
+    display: block;
+    width: 450px;
+    height: 300px;
+    resize: none;
+    border: none;
+    padding: 10px;
+    margin: 10px;
+    outline: none;
+    background-color: #e8e8e8;
+    border-radius: 10px;
+}

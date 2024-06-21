@@ -1,0 +1,148 @@
+extends ../../header
+block content
+    link(rel='stylesheet', href='/stylesheets/back_office/back_office.css')
+    link(rel='stylesheet', href='/stylesheets/back_office/services/service.css')
+    script(type='text/javascript', src='/javascripts/back_office/back_office.js')
+    script(type='text/javascript', src='/javascripts/back_office/services/service.js')
+    if data.id_service != 1
+        #pop_up_create(class='display_none')
+            a.display_cross(onclick="backService()")
+                i.fas.fa-times-circle
+            label="Nom de l'équipe : "
+                input(type="text" id="name_equipe" name="name_equipe" placeholder="Nom de l'équipe")
+            label="Chef du groupe : "
+                select(name="chief_group" id="chief_group")
+                    each user in data.allUserService
+                        if user.group_service == 0 && user.user_role > 2
+                            option(value=`${user.id}`)=user.firstname + ' ' + user.lastname
+            label Personne du groupe
+                select(name="users_group" id="users_group" size=(data.usersNoGroup - 1) multiple)
+                    each user in data.allUserService
+                        if user.group_service == 0 && user.user_role > 2
+                            option(value=`${user.id}`)=user.firstname + ' ' + user.lastname
+            label
+                input(type="submit" id="submit" value="Créer le groupe", onclick=`createGroup(${data.id_service}, ${data.myUser.id})`)
+        #pop_up_add(class='display_none')
+            a.display_cross(onclick="backServiceAdd()")
+                i.fas.fa-times-circle
+            label Listes des personnes disponnibles
+                select(name="users_add_group" id="users_add_group" size=(data.usersNoGroup - 1) multiple)
+                    each user in data.allUserService
+                        if user.group_service == 0 && user.user_role > 2
+                            option(value=`${user.id}`)=user.firstname + ' ' + user.lastname
+            label
+                input(type="submit" id="submit_add" value="Ajouter", onclick=`addPersonal(${data.id_service}, ${data.myUser.id})`)
+        #pop_up_detail(class='display_none')
+            a.display_cross_detail(onclick="backServiceDetail()")
+                i.fas.fa-times-circle
+            div.pop_up_details_user
+                div#detail_user_pop
+                div#detail_img_user_pop
+                div#detail_availability_user_pop
+                div#detail_log_user_pop
+    .block_msg2
+        .msg_content
+            if data.id_service != 1
+                .header_page
+                    if data.id_service != 1
+                        .page-option
+                            button(onclick=`showPopUpCreate()`) Création de groupe
+                    div.chief_service_info
+                        each user in data.allUserService
+                            if user.user_role == 2
+                                p="Chef de service : "
+                                    span(class=(user.availability == 0) ? 'background_green' : 'background_red')=user.firstname + ' ' + user.lastname
+                                    if user.availability == 0
+                                        button.user_here(onclick=`checkMyUser(${user.id}, ${user.here}, ${data.id_service}, ${data.myUser.id}, 0)`)
+                                            i.fa.fa-circle(class=(user.here == 0) ? 'red_color' : 'green_color')
+                                    else
+                                        i.user_here.fa.fa-circle(class=(user.here == 0) ? 'red_color_dark' : 'green_color_dark')
+                                    button.user_detail(onclick=`checkDetailUser(${JSON.stringify(user)}, "${data.service}", "${data.roles[user.user_role - 1].role_name}", ${JSON.stringify(data.log)}, ${JSON.stringify(data.allUser)}, ${JSON.stringify(data.availabilities)}, ${JSON.stringify(data.contract)})`)
+                                        i.fa.fa-info
+                    div(class=(data.id_service != 1) ? 'content_log_service' : 'content_log_admin')
+                        -let i = 0;
+                        each log in data.log
+                            div(class=`background${i}`)
+                                -if (i == 0)
+                                    -i = 1;
+                                - else
+                                    -i = 0;
+                                if data.id_service == 1
+                                    p(style="text-align:center;")='Service : ' + data.allServices[log.service - 1].title
+                                if log.done_by != null
+                                    each user in data.allUser
+                                        if user.id == log.done_by
+                                            p="Fait par " + user.firstname + ' ' + user.lastname + " : "
+                                each user in data.allUser
+                                    if user.id == log.for_him
+                                        p=user.firstname + ' ' + user.lastname + ' ' + log.content + ' ' + log.send_at.substr(0, 19).replace('T', " à ")
+                div.content_data
+                    div.content_users_equipe
+                        each group in data.allGroups
+                            div.users_equipe
+                                a(onclick=`deleteGroup(${group.id}, ${group.service}, ${group.chief}, "${group.users_id}", "${group.name}", ${data.myUser.id})`)
+                                    i.red_color.fas.fa-times-circle
+                                div
+                                    p Nom de l'équipe :
+                                    input.title(type="text", id=`namegroupvalue${group.id}`, value=`${group.name}`, placeholder=`${group.name}`)
+                                    a(onclick=`updateNameGroup(${group.id}, "${group.name}", ${group.service}, ${data.myUser.id})`)
+                                        i.fas.fa-pen
+                                each user in data.allUserService
+                                    if user.id == group.chief
+                                        p='Chef de groupe : '
+                                            span(class=(user.availability == 0) ? 'background_green' : 'background_red')=user.firstname + ' ' + user.lastname
+                                            if user.availability == 0
+                                                button.user_here(onclick=`checkMyUser(${user.id}, ${user.here}, ${data.id_service}, ${data.myUser.id}, 0)`)
+                                                    i.fa.fa-circle(class=(user.here == 0) ? 'red_color' : 'green_color')
+                                            else
+                                                i.user_here.fa.fa-circle(class=(user.here == 0) ? 'red_color_dark' : 'green_color_dark')
+                                            button.user_detail(onclick=`checkDetailUser(${JSON.stringify(user)}, "${data.service}", "${data.roles[user.user_role - 1].role_name}", ${JSON.stringify(data.log)}, ${JSON.stringify(data.allUser)}, ${JSON.stringify(data.availabilities)}, ${JSON.stringify(data.contract)})`)
+                                                i.fa.fa-info
+                                each user in data.allUserService
+                                    each user_group in group.users_id
+                                        if user.id == user_group
+                                            div.margin_bot
+                                                p.name_user_no_group
+                                                    span(class=(user.availability == 0) ? 'background_green' : 'background_red')=user.firstname + ' ' + user.lastname
+                                                if user.availability == 0
+                                                    button.user_here(onclick=`checkMyUser(${user.id}, ${user.here}, ${data.id_service}, ${data.myUser.id}, 0)`)
+                                                        i.fa.fa-circle(class=(user.here == 0) ? 'red_color' : 'green_color')
+                                                else
+                                                    i.user_here.fa.fa-circle(class=(user.here == 0) ? 'red_color_dark' : 'green_color_dark')
+                                                button.user_detail(onclick=`checkDetailUser(${JSON.stringify(user)}, "${data.service}", "${data.roles[user.user_role - 1].role_name}", ${JSON.stringify(data.log)}, ${JSON.stringify(data.allUser)}, ${JSON.stringify(data.availabilities)}, ${JSON.stringify(data.contract)})`)
+                                                    i.fa.fa-info
+                                                button.user_delete(onclick=`deleteUser(${data.id_service}, ${data.myUser.id}, "${group.name}", "${user.id}", ${group.id}, "${user.firstname} ${user.lastname}")`)
+                                                    i.red_color.fas.fa-times
+                                button(onclick=`showPopUpAdd(${group.id}, "${group.name}")`) Ajouter
+                    div.content_users_no_group
+                        each user in data.allUserService
+                            if user.group_service == 0 && user.user_role != 2
+                                div.user_no_group
+                                    p.name_no_group
+                                        span(class=(user.availability == 0) ? 'background_green' : 'background_red')=user.firstname + ' ' + user.lastname + ' '
+                                    if user.availability == 0
+                                        button.user_here(onclick=`checkMyUser(${user.id}, ${user.here}, ${data.id_service}, ${data.myUser.id}, 0)`)
+                                            i.fa.fa-circle(class=(user.here == 0) ? 'red_color' : 'green_color')
+                                    else
+                                        i.user_here.fa.fa-circle(class=(user.here == 0) ? 'red_color_dark' : 'green_color_dark')
+                                    p.role_user=data.roles[user.user_role - 1].role_name
+                                    button.user_detail(onclick=`checkDetailUser(${JSON.stringify(user)}, "${data.service}", "${data.roles[user.user_role - 1].role_name}", ${JSON.stringify(data.log)}, ${JSON.stringify(data.allUser)}, ${JSON.stringify(data.availabilities)}, ${JSON.stringify(data.contract)})`)
+                                        i.fa.fa-info
+            else
+                div(class=(data.id_service != 1) ? 'content_log_service' : 'content_log_admin')
+                    -let i = 0;
+                    each log in data.log
+                        div(class=`background${i}`)
+                            -if (i == 0)
+                                -i = 1;
+                            -  else
+                                -i = 0;
+                            if data.id_service == 1
+                                p(style="text-align:center;")='Service : ' + data.allServices[log.service - 1].title
+                            if log.done_by != null
+                                each user in data.allUser
+                                    if user.id == log.done_by
+                                        p="Fait par " + user.firstname + ' ' + user.lastname + " : "
+                            each user in data.allUser
+                                if user.id == log.for_him
+                                    p=user.firstname + ' ' + user.lastname + ' ' + log.content + ' ' + log.send_at.substr(0, 19).replace('T', " à ")

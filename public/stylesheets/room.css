@@ -1,0 +1,79 @@
+.property-list {
+    position: relative;
+    width: calc(50vw - 4em);
+    transform: translate(-50%,0);
+    left: 50%;
+    padding: 1em 2em;
+    background-color: white;
+    margin-top: 2em;
+    border-radius: 10px;
+}
+
+.property-list > div{
+    margin-bottom: 0.5em;
+    display: flex;
+    margin-left: 1em;
+}
+.property-list > div > *:first-child{
+    flex: 0.2;
+    text-align: left;
+}
+.property-list > div > *:last-child{
+    flex: 1;
+    text-align: left;
+}
+
+.property-list > .actions{
+    position: absolute;
+    right: 2em;
+    top: 1em;
+}
+.property-list > .actions > *{
+    display: inline-block;
+    margin-left: 0.5em;
+}
+
+.property-list > h3:nth-child(1),
+.property-list > h3:nth-child(2) {
+    margin-top: 0 !important;
+}
+
+.property-list > h3 {
+    text-decoration: underline;
+    text-align: left;
+    margin: 1em 0;
+}
+
+
+.full {
+    color: red;
+}
+
+.beds {
+    text-align: left;
+    padding: 1em 0;
+    width: 100%;
+    display: grid;
+    grid-template: repeat(1, 1fr) / repeat(3, 1fr);
+    grid-gap: 1em;
+    grid-auto-flow: row;
+    font-size: 1rem;
+}
+
+.inventory {
+    text-align: left;
+    padding: 1em 0;
+    width: 100%;
+    display: grid;
+    grid-template: repeat(1, 1fr) / repeat(3, 1fr);
+    grid-gap: 1em;
+    grid-auto-flow: row;
+    font-size: 1rem;
+}
+
+.beds > a,
+.inventory > a {
+    background: var(--bg-color);
+    border-radius: 10px;
+    padding: 0.5em 1em;
+}

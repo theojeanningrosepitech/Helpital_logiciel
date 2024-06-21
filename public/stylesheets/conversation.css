@@ -1,0 +1,143 @@
+.material-icons {
+    position: relative;
+}
+
+.display_none {
+    display: none;
+}
+
+.delete_msg {
+    text-align: end;
+    display: block;
+}
+
+/* TUTO CSS */
+
+#pop-up-container-tuto {
+    position: absolute;
+    width: 100%;
+    height: calc(100vh - 75px);
+    background-color: rgba(32, 32, 32, 0.2);
+    z-index: 2;
+}
+
+.robothelp {
+    position: absolute;
+    top: 20%;
+    left: -5%;
+}
+
+.tutorial_text_box {
+    height: 25%;
+    width: 50%;
+    position: absolute;
+    top: 5%;
+    left: 35%;
+    background-color: whitesmoke;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.triangle {
+    width: 0;
+	height: 0;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+	border-left: 25px solid transparent;
+	border-right: 25px solid transparent;
+	border-top: 25px solid whitesmoke;
+}
+
+.tutorial_text_box_one {
+    height: 8%;
+    width: 15%;
+    position: absolute;
+    top: 82%;
+    left: 1%;
+    background-color: whitesmoke;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.triangle1 {
+    width: 0;
+	height: 0;
+    position: absolute;
+    top: 92%;
+    left: 3%;
+	border-left: 25px solid transparent;
+	border-right: 25px solid transparent;
+	border-top: 25px solid whitesmoke;
+}
+
+.tutorial_text_box_two {
+    height: 8%;
+    width: 15%;
+    position: absolute;
+    top: 82%;
+    left: 18%;
+    background-color: whitesmoke;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.triangle2 {
+    width: 0;
+	height: 0;
+    position: absolute;
+    top: 92%;
+    left: 20%;
+	border-left: 25px solid transparent;
+	border-right: 25px solid transparent;
+	border-top: 25px solid whitesmoke;
+}
+
+.tutorial_text_box_three {
+    height: 8%;
+    width: 15%;
+    position: absolute;
+    top: 82%;
+    left: 80%;
+    background-color: whitesmoke;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.triangle3 {
+    width: 0;
+	height: 0;
+    position: absolute;
+    top: 92%;
+    left: 88%;
+	border-left: 25px solid transparent;
+	border-right: 25px solid transparent;
+	border-top: 25px solid whitesmoke;
+}
+
+.help-button {
+    margin: 0;
+    padding: 0%, 10px, 0%, 10px;
+    cursor: pointer;
+    color: white !important;
+}
+
+.tutorial_text_box::-webkit-scrollbar,.tutorial_text_box_one::-webkit-scrollbar,.tutorial_text_box_two::-webkit-scrollbar,.tutorial_text_box_three::-webkit-scrollbar {
+    width: 15px; /* width of the entire scrollbar */
+}
+
+.tutorial_text_box::-webkit-scrollbar-thumb,.tutorial_text_box_one::-webkit-scrollbar-thumb,.tutorial_text_box_two::-webkit-scrollbar-thumb,.tutorial_text_box_three::-webkit-scrollbar-thumb {
+    background-color: rgb(172, 172, 172); /* color of the scroll thumb */
+    border-radius: 25px; /* roundness of the scroll thumb */
+    border: 3px solid white; /* creates padding around scroll thumb */
+}
+
+/* TUTO CSS END */

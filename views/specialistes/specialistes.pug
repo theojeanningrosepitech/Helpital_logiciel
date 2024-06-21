@@ -1,0 +1,82 @@
+extends ../header
+include ../popUp
+
+block content
+    link(rel='stylesheet', href='/stylesheets/planning.css')
+    link(rel='stylesheet', href='/stylesheets/specialistes.css')
+    script(type='text/javascript' src='/javascripts/specialistes.js')
+    script(type='text/javascript' src='/javascripts/mailPage.js')
+
+    +popUp({
+        popUpName: "SendMailForm",
+        id: "pop-up-container", 
+        className: "send-mail-form",
+        title: "Envoyer un mail", 
+        description: "Description",
+        type: "mail", 
+        name: "send-mail-form", 
+        method: "post", 
+        action: "api/mail", 
+        onSubmit: "event.preventDefault(); sendMail();",
+        inputs: {
+                0: { id: "dest", name: "dest", type: "text", placeholder: "Destinataire"},
+                1: { id: "subject", name: "subject", type: "text", placeholder: "Sujet"},
+                2: { id: "mess", name: "mess", type: "textarea", placeholder: "Corps du message"},
+                3: { id: "submit", type: "submit", value: "Envoyer" }
+        }
+    })
+
+    #header-container
+        .page-header
+            .page-informations
+                .page-title
+                    h1 👨‍⚕️ Spécialistes
+                .page-description
+                    p Visualisez les spécialistes disponibles
+
+    .list_specialistes
+        table.table
+            th Localisation
+            th Disponibilité
+            th Nom
+            th Prénom
+            th Téléphone
+            th Mail
+            th.spe-dropdown
+                a.spe-title Spécialité
+                    ul.spe-dropdown-child
+                        li
+                            a(href='/specialistes/') Tous
+                        li
+                            a(href='/specialistes/filter?specialite=Dermatologue') Dermatologue
+                        li
+                            a(href='/specialistes/filter?specialite=Radiologue') Radiologue
+                        li
+                            a(href='/specialistes/filter?specialite=Psychiatre') Psychiatre
+                        li
+                            a(href='/specialistes/filter?specialite=Ophtalmologue') Ophtalmologue
+            caption Liste des spécialistes
+            tbody
+                each specialiste in specialistes.data
+                    tr
+                        td
+                            if specialiste.onspot == 1
+                                span.material-icons(style='color: var(--primaryColor) !important' alt="Ce spécialiste se trouve dans l'hôpital") location_on
+                            else
+                                span.material-icons(style='color: grey !important' alt="Ce spécialiste ne se trouve pas dans l'hôpital") location_on
+                        td
+                            if specialiste.state == 'présent'
+                                a(href='#')
+                                    i.i.fa.fa-check-circle(aria-hidden='true', style='color: green')
+                            else if specialiste.state == 'absent'
+                                a(href='#')
+                                    i.i.fa.fa-check-circle(aria-hidden='true', style='color: orange')
+                            else
+                                a(href='#')
+                                    i.i.fa.fa-check-circle(aria-hidden='true', style='color: red')
+                        td #{specialiste.lastname}
+                        td #{specialiste.firstname}
+                        td #{specialiste.phone}
+                        td 
+                            a(id="specialiste_mail" onclick="showPopup(" + JSON.stringify(specialiste.mail) + ")") #{specialiste.mail}
+                        td #{specialiste.specialite}

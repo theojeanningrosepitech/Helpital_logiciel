@@ -1,0 +1,31 @@
+.notecontainer
+    #form-container
+        div(style="width: 100%; text-align: center")
+            .form-header
+                h2(class="form-header title") Créer une ordonnance :
+            .form-content
+                button(id='template', onClick="select_template()") Utiliser un template d'ordonnance
+                form(name="event" method="post" action="/api/prescription")
+                    label(for='p_creator')
+                        input(type='text' id='p_creator' name='p_creator' style="display: none" value=user.login required)
+                    label(for='p_attached_to')
+                        input(type="text" id="p_attached_to" name="p_attached_to" style="display: none" value="0123456789014" required)
+                    label(for='p_content') Prescription médicale :
+                        textarea.entry(type='text' id='p_content' name='p_content' placeholder='Contenu de l ordonnance' required)
+                    label
+                        input.add(type='submit', id='submit', value='Créer l ordonnance' onclick="sendData()")
+    #template-popup.display_none
+        div.box
+            .box-header
+                .close-pop-up
+                    a(onclick="hidePopUpForm()")
+                        span.material-icons clear
+                h1 Sélectionné le template a utilisé.
+
+                .firsttemplate Ordonnance simple : comporte l'établissement et le nom du medecin.
+                    img(src="/images/p_simple.jpg", alt="p_simple" style="position: relative; top: 30px; left: 125px; height: 450px;")
+                    button(onClick="select_tempone()").bottombutton choisir
+                .secondtemplate Ordonnance Bi-zone : ordonnance simple avec une zone pour les traitement longue durée en plus.
+                    img(src="/images/p_bizone.png", alt="p_bizone" style="position: relative; left: -200px; height: 500px")
+                    button(onClick="select_temptwo()").bottombutton choisir
+

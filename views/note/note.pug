@@ -1,0 +1,65 @@
+extends ../header
+block content
+    include ../editor
+    link(rel='stylesheet', href='/stylesheets/note.css')
+    script(type='text/javascript' src='/javascripts/note.js')
+    script(type='text/javascript' src='https://www.kryogenix.org/code/browser/sorttable/sorttable.js')
+
+    #header-container
+        .page-header
+            .page-informations
+                .page-title
+                    h1 Créations de note
+                .page-description
+                    p 📝 Assigner des notes a un patient
+            .page-options
+                .tutorial-button
+                    a(onclick="ShowTutorial()")
+                        span(class="material-icons") help
+
+    #tutorial_display.display_none
+        #pop-up-container
+            .robothelp
+                img(src='/images/robothelp.gif', alt="robothelp")
+                .triangle
+                .tutorial_text_box
+                    div.message Sur cette page tu peux ajouter une note à un patient, cette note sera disponible dans ça capsule patient.
+            .triangle1
+            .tutorial_text_box_one
+                div.message Dans ce champ rentré votre identifiant Helpital, il sera affiché comme créateur de la note.
+            .triangle2
+            .tutorial_text_box_two
+                div.message Dans ce champ indiquait le numéro de sécurité sociale du patient auquel attacher la note.
+            .triangle3
+            .tutorial_text_box_three
+                div.message Ici inscrivez la note destiner au patient.
+            .triangle4
+            .tutorial_text_box_four
+                div.message Enfin cliquez ici pour enregistrer la note !
+
+    .notecontainer
+        #form-container
+            .form-section
+                .form-header
+                    h2(class="form-header title") Ajouter une note :
+                .form-content
+                    //formulaire qui ajoute une ligne dans la table "note"
+                    form(name="note")
+                        input.entry(type='hidden' id='n_creator' value=`${data.my_user.login}` name='n_creator' onkeyup="searchListCreator()" placeholder="Identifiant utilisateur" required)
+                        input(type='hidden' id='namecrea' value=`${data.my_user.firstname} ${data.my_user.lastname}` name='namecrea')
+
+
+                        label(for='n_attached_to') Numéro de sécurité sociale du patient :
+                        .search-box
+                            input(id="n_attached_to" name="n_attached_to" type="text" onkeyup="searchListAttached()" placeholder="Numéro de sécurité sociale" required)
+                            ul#patientDropdown
+                                each patients in data.all_patients.data
+                                    li(id=patients.id patients.ss_number onclick="displaySsNumber('" + patients.ss_number + "')")
+                                        a=patients.ss_number
+                                    script.
+                                        listenKeyEnter("#{patients.id}");
+
+                        label(for='n_content') Contenu de la note :
+                            +editor(type='text' id='n_content' name='n_content' required)
+                        label
+                            input(type='button', id='submit', value='Créer la note', onclick="addNote(this)")

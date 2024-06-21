@@ -1,0 +1,52 @@
+extends ../header
+include ../popUp
+block content
+    link(rel='stylesheet', href='/stylesheets/planning.css')
+    link(rel='stylesheet', href='/stylesheets/recruiting.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/stylesheets/specialistes.css')
+    script(type='text/javascript' src='/javascripts/recruiting.js')
+
+    +popUp({
+        popUpName: "AddOffer",
+        id: "pop-up-container", 
+        className: "add-offer-form",
+        title: "Ajouter une offre d'emploi", 
+        description: "Description",
+        type: "form", 
+        name: "add-offer-form", 
+        method: "post", 
+        action: "api/offer", 
+        onSubmit: "event.preventDefault(); addOffer();",
+        inputs: {
+                0: { id: "type_offer", name: "type", type: "text", placeholder: "Type de l'offre"}, 
+                1: { id: "date_offer", name: "date", type: "text", placeholder: "Date de l'offre"},
+                2: { id: "compensation_offer", name: "compensation", type: "text", placeholder: "Salaire de l'offre"},
+                3: { id: "skills_offer", name:"skills", type: "text", placeholder: "Compétences demandées"},
+                4: { id: "submit", type: "submit", value: "Ajouter"}
+        }
+    })
+
+    #header-container
+        .page-header
+            .page-informations
+                .page-title
+                    h1 👨‍⚕️ Offres d'emploi
+                .page-description
+                    p Visualisez les offres d'emploi
+
+    .list_specialistes
+        table.table
+            th Type d'emploi
+            th Rémunération moyenne
+            th Etudes requises et compétences recherchées
+            th Date de début
+            caption Liste des offres d'emploi
+            tbody
+                each offer in offers.data
+                    tr
+                        td #{offer.type_emploiement}
+                        td #{offer.remuneration}
+                        td #{offer.skills}
+                        td #{offer.start_date}
+        button.active-button(onclick="showPopUpAddOffer()") Ajouter une offre d'emploi

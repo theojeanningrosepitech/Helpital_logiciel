@@ -1,0 +1,215 @@
+extends ../header
+block content
+
+    #tutorial_display.display_none
+        #pop-up-container-tuto
+            .robothelp
+                img(src='/images/robothelp.gif', alt="robothelp")
+                .triangle
+                .tutorial_text_box
+                    div.message Voici la page de messagerie depuis la quelle tu peut envoyer et recevoir des messages entre utilisateurs Helpital.
+            .triangle1
+            .tutorial_text_box_one
+                div.message Mentionne des patients pour partager leur profil dans la messagerie.
+            .triangle2
+            .tutorial_text_box_two
+                div.message Tu peux sélectionner un fichier depuis ton ordinateur pour l'envoyer au destinataire.
+            .triangle3
+            .tutorial_text_box_three
+                div.message Remplis le champ et clique sur envoyer pour distribuer ton message.
+
+
+    #pop_up_add_users_in_group(class='display_none')
+        a.display_cross(onclick="backPopUpAddUsersInGroup()")
+            i.fas.fa-times-circle
+        div.add_users_in_group_pop_up
+            label Ajouter les membres du groupe
+            select(name="users_group_add" id="users_group_add" size=(data.allUsers.length - data.usersConv.length) multiple mandatory)
+                -let i = 0;
+                each user in data.allUsers
+                    -i = 0;
+                    each user_conv in data.usersConv
+                        if user_conv == user.id
+                            -i = 1;
+                    if i == 0
+                        option(value=`${user.id}`)=user.firstname + ' ' + user.lastname
+            label
+            input(type="submit" id="submit-add_group" value="Ajouter des utilisateurs", onclick=`addUsersInGroup(${data.conversation.id})`)
+    #dialog_display(onclick="hidePopUp()")
+        .form_section
+            .form_header
+                .close_pop_up
+                    a(onclick="hidePopUp()")
+                        span.material-icons leave
+                .form_content
+                    div.dialog_img_width(id="img_dialog")
+    #patients_display.display_none
+        .list_patient
+            select(name="patient_list" id="patient_list" size=6 multiple)
+                each patient in data.patients
+                    option(value=`${patient.id}` onclick=`add_in_input(${JSON.stringify(patient)})`)=patient.firstname + ' ' + patient.lastname
+    #users_display.display_none
+        .list_users
+            select(name="users_list" id="users_list" size=5 multiple)
+                each user_conv in data.usersConv
+                    each user in data.allUsers
+                        if user_conv == user.id && user_conv != data.myUserID
+                            option.get_user_conv(value=`${user.id}` onclick=`add_in_input_user(${JSON.stringify(user)})`)="@" + user.firstname + user.lastname
+    if data.conversation.group_conv != 0
+        .block_msg
+            .msg_content(id="width_content_msg")
+                .header_page_msg
+                    h1 Groupe
+                    .page-option-msg
+                        each user_conv in data.usersConv
+                            each user in data.allUsers
+                                if user_conv == user.id && user_conv != data.myUserID
+                                    p.title_conv(style='display: flex; justify-content: space-between;')=user.firstname + " " + user.lastname
+                                        a(onclick=`deleteUserInGroup(${user.id}, ${data.conversation.id})` style="font-size: 10px;")
+                                            i.fas.fa-times
+                    .page-button-msg
+                        button(onclick=`showPopUpAddUsersInGroup()`) Ajouter un utilisateur
+                .main_msg_container
+                    .profil-viewer
+                        .pfp
+                        .informations
+                            span.display_none(id="myId")=data.myUserID
+                            h1=data.conversation.title
+                        .favoris
+                            button.material-icons-button
+                                span.material-icons star_outline
+                        .options
+                            //- button Envoyer un message
+                    .conversation#scroll_bar_bottom
+                        #conversation-content.conversation-content(conversation-id=`${data.conversation.id}`)
+                            each message in data.messages
+                                include conversation_fragment
+                            //- .receiver
+                            //-     span#message Rdv demain à 17h on prend un café.
+                            //-     span#date Mercredi 31 Mai à 8h
+                            //- .sender
+                            //-     span#message Ok !
+                            //-     span#date Mercredi 31 Mai à 9h
+                        .conversation-footer
+                            div.input_text_msg
+                                div.form_new_msg(name="message")
+                                    button.list_patient(onclick="displayList()")
+                                        i.fa.fa-users
+                                    input.input_img(name="file_name" id="file_name" type="file" accept="image/png, image/jpeg, image/jpg, application/pdf" onchange="openFile()")
+                                    input.input_picture_buffer(name="file" id="file" type='content')
+                                    input.input_btn_emergency.btn_green(name="emergency_btn" id="emergency_btn" value=0 onclick="updateBtn()")
+                                    input.input_msg(name="content" id="content" onkeyup="searchUserConv()" type="textarea" value='' placeholder="Envoyer un message")
+                                    input.input_submit(type="submit" value="Envoyer" onclick=`sendMessage(${data.myUserID}, '${data.conversation.user_id}', ${data.conversation.id}, ${data.conversation.group_conv}, ${JSON.stringify(data.insult)}, ${JSON.stringify(data.allUsers)})`)
+                        //- input.message(type='text' placeholder='Écrire un message')
+                        //- button.material-icons-button
+    else
+        .page
+            //- .side-menu.right
+            //-     .side-menu-header
+            //-         input(type='text' placeholder='Rechercher une conversation')
+            //-         .summary
+            //-             ul.summary-header
+            //-                 li.active Dernières conversations
+            //-             ul.summary-content
+            //-                 span#date.name Kevin HENS
+            //-                 li#item.message Rendez-vous demain &agrave; 17h
+            //-                 span#date.name Kevin HENS
+            //-                 li#item.message Rendez-vous demain &agrave; 18h
+            //-                 span#date.name Kevin HENS
+            //-                 li#item.message Rendez-vous demain &agrave; 19h
+            //-             ul.summary-header
+            //-                 li.active Toutes les conversations
+            //-             ul.summary-content
+            //-                 span#date.name Kevin HENS
+            //-                 li#item.message Rendez-vous demain &agrave; 17h
+            //-                 span#date.name Kevin HENS
+            //-                 li#item.message Rendez-vous demain &agrave; 18h
+            //-                 span#date.name Kevin HENS
+            //-                 li#item.message Rendez-vous demain &agrave; 19h
+            //-     .side-menu-footer
+            //-         button Créer une conversation
+            .main-container.full-page
+                .profil-viewer
+                    .pfp
+                    .informations
+                        span.display_none(id="myId")=data.myUserID
+                        each user_conv in data.usersConv
+                            each user in data.allUsers
+                                if user_conv == user.id && user_conv != data.myUserID
+                                    h1=user.firstname + " " + user.lastname
+                                    span=data.roles[user.user_role - 1].role_name
+                        //- h1 Kevin HENS
+                        //- span Chirurgien
+                    .favoris
+                        button.material-icons-button
+                            span.material-icons star_outline
+                        a.right-icon-button(onclick="ShowTutorial()")
+                            label.material-icons(class="help-button") help
+                    .options
+                        //- button Envoyer un message
+                .conversation#scroll_bar_bottom
+                    #conversation-content.conversation-content(conversation-id=`${data.conversation.id}`)
+                        each message in data.messages
+                            include conversation_fragment
+                        //- .receiver
+                        //-     span#message Rdv demain à 17h on prend un café.
+                        //-     span#date Mercredi 31 Mai à 8h
+                        //- .sender
+                        //-     span#message Ok !
+                        //-     span#date Mercredi 31 Mai à 9h
+                    .conversation-footer
+                        div.input_text_msg
+                            div.form_new_msg(name="message")
+                                button.list_patient(onclick="displayList()")
+                                    i.fa.fa-users
+                                input.input_img(name="file_name" id="file_name" type="file" accept="image/png, image/jpeg, image/jpg, application/pdf" onchange="openFile()")
+                                input.input_picture_buffer(name="file" id="file" type='content')
+                                input.input_btn_emergency.btn_green(name="emergency_btn" id="emergency_btn" value=0 onclick="updateBtn()")
+                                input.input_msg(name="content" id="content" onkeyup="searchUserConv()" type="textarea" value='' placeholder="Envoyer un message")
+                                input.input_submit(type="submit" value="Envoyer" onclick=`sendMessage(${data.myUserID}, '${data.conversation.user_id}', ${data.conversation.id}, ${data.conversation.group_conv}, ${JSON.stringify(data.insult)}, ${JSON.stringify(data.allUsers)})`)
+                    //- input.message(type='text' placeholder='Écrire un message')
+                    //- button.material-icons-button
+                    //-     span.material-icons add_reaction
+                    //- button.material-icons-button
+                    //-     span.material-icons image
+
+
+    //- .block_msg
+    //-     span.display_none(id="myId")=data.myUserID
+    //-     .content_msg(id="width_content_msg")
+    //-         if data.conversation.group_conv == 0
+    //-             each user_conv in data.usersConv
+    //-                 each user in data.allUsers
+    //-                     if user_conv == user.id && user_conv != data.myUserID
+    //-                         h1.title_messaging=user.firstname + " " + user.lastname
+    //-         else
+    //-             h1.title_messaging=data.conversation.title
+    //-                 each user_conv in data.usersConv
+    //-                     each user in data.allUsers
+    //-                         if user_conv == user.id && user_conv != data.myUserID
+    //-                             p=user.firstname + " " + user.lastname
+    //-         div.content_conv(id="scroll_bar_bottom", conversation-id=`${data.conversation.id}`)
+    //-             if data.nbrMessages == 0
+    //-                 div.no_msg
+    //-                     if data.conversation.group_conv == 0
+    //-                         each user_conv in data.usersConv
+    //-                             each user in data.allUsers
+    //-                                 if user_conv == user.id && user_conv != data.myUserID
+    //-                                     p#id='Souhaitez la bienvenue à ' + user.firstname
+    //-                     else
+    //-                         p#id='Souhaitez la bienvenue au groupe ' + data.conversation.title
+    //-             else
+    //-                 each message in data.messages
+    //-                     include conversation_fragment
+    //-         div.input_text_msg
+    //-             div.form_new_msg(name="message")
+    //-                 a(onclick="ShowTutorial()")
+    //-                     span(class="material-icons" style="padding left: 50%") help
+    //-                 input.input_img(name="file_name" id="file_name" type="file" accept="image/png, image/jpeg, image/jpg, application/pdf" onchange="openFile()")
+    //-                 input.input_picture_buffer(name="file" id="file" type='content')
+    //-                 input.input_btn_emergency.btn_green(name="emergency_btn" id="emergency_btn" value=0 onclick="updateBtn()")
+    //-                 input.input_msg(name="content" id="content" type="textarea" value='' placeholder="Envoyer un message")
+    //-                 input.input_submit(type="submit" value="Envoyer" onclick=`sendMessage(${data.myUserID}, '${data.conversation.user_id}', ${data.conversation.id}, ${data.conversation.group_conv}, ${JSON.stringify(data.insult)})`)
+    link(rel='stylesheet', href='/stylesheets/conversation.css')
+    script(type='text/javascript' src='/javascripts/conversation.js')
+    script(type='text/javascript' src='/javascripts/messaging_notifs.js')

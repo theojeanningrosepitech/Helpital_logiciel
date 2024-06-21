@@ -1,0 +1,31 @@
+extends ../../header
+block content
+    link(rel='stylesheet', href='/stylesheets/back_office/insult/insult.css')
+    link(rel='stylesheet', href='/stylesheets/back_office/back_office.css')
+    script(type='text/javascript', src='/javascripts/back_office/back_office.js')
+    script(type='text/javascript', src='/javascripts/back_office/insult/insult.js')
+
+    .msg_block
+        .content_msg(id="width_content_msg")
+            .header_page
+                .option_page
+                    h1 Les mots à filtrer
+                .search_box_back_office
+                    input(type="text" id="search_word" placeholder="Rechercher" onkeyup="searchWord()" name="search_bar_user")
+            .flex-item
+                .flex-box-table-insult
+                    .table-header-i
+                        .table-header-item-i Mot(s)
+                        .table-header-item-i Supprimer
+                    .wrap-row-i
+                        each insult in data.insult
+                            .table-row.block_name_user_i
+                                span#id(style="display: none") #{insult.id}
+                                .table-row-item.get_word=insult.name
+                                .table-row-item
+                                    button(onclick=`deleteInsult(${insult.id})`)
+                                        i.fas.fa-times
+                div.input_text_msg
+                    div.form_new_msg(name="message")
+                        input.input_msg(name="content" id="content" type="textarea" value='' placeholder="Mot insultant")
+                        input.input_submit(type="submit" value="Ajouter" onclick=`addInsult()`)

@@ -1,0 +1,10 @@
+.table-row(patient-id=`${patient.id}`)
+    .table-row-item #{patient.firstname}
+    .table-row-item #{patient.lastname}
+    .table-row-item #{patient.ss_number}
+    .table-row-item #{patient.birthdate.slice(0, 10).split("-").reverse().join("-")}
+    .table-row-item #{patient.height}
+    .table-row-item #{patient.weight}
+    .table-row-item #{patient.service_id}
+    .table-row-item
+    .table-row-item

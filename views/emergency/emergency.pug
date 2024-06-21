@@ -1,0 +1,36 @@
+extends  ../header
+block content
+    script(type='text/javascript' src='/javascripts/emergency.js')
+    link(rel='stylesheet' href='/stylesheets/emergency.css')
+
+    #header-container
+        .page-header
+            .page-informations
+                .page-title
+                    h1 Urgence
+                .page-description
+                    p Outil de gestion des urgences
+
+    div.flex-box-em
+        div.navbar-em.flex-item
+            div.navbar-title-em Accès rapide
+            ul.navbar-container-em
+                a(href='/doctors') Liste de médecins
+                br
+                a(href='/vehicle') Liste de véhicules
+                br
+                a(href='/') Salles de consultations
+
+            div.navbar-title-em Toutes
+            ul.navbar-container-em
+                a(href='/treatment_room') Salle de soin 
+                br
+                a(href='/nurses') Liste d’infirmiers
+                br
+                a(href='/') Salles d'hospitalisation
+                br
+                a(onclick='report()') Signaler
+                br
+                a(href='/prescription') Ordonnances
+                br
+                a(href='/note') Notes

@@ -1,0 +1,37 @@
+extends  ../header
+block content
+    link(rel='stylesheet' href='/stylesheets/emergency.css')
+    script(type='text/javascript' src='/javascripts/vehicle.js')
+
+    #header-container
+        .page-header
+            .page-informations
+                .page-title
+                    h1 Liste de véhicules
+                .page-description
+                    p ⏲️ Outil de gestion des véhicules 
+
+    button(href='/emergency' id='button-veh') Urgence
+
+
+    #inner-body-em.flex-item
+        .flex-box-table-em
+            .table-header-em
+                .table-header-item-em Véhicule 
+            .wrap-row-em
+                each vehicle in data
+                    .table-row-em
+                        .table-row-item-em #{vehicle.title}
+                        .table-row-item-em
+                            button(onclick="showPopUpVehicl(this)" vehicl_id=`${vehicle.id}`) Information sur les véhicule 
+
+    #pop-up-form-container-vehicle-info
+        .form-section
+            .form-header
+                .close-pop-up
+                    a(onclick="hidePopUpVehicl()")
+                        span.material-icons clear
+                h2(class="form-header title") Information sur le véhicule
+            .form-content
+                form(name="event")
+                    .wrap-row-em

@@ -1,0 +1,105 @@
+#pop_up_create_conv(class='display_none')
+    a.display_cross(onclick="backPopUpCreateConv()")
+        i.fas.fa-times-circle
+    div.create_conv_pop_up
+        label Nom du groupe
+        input(type="text" id="name_group" name="name_group")
+        label Ajouter les membres du groupe
+        select(name="users_group" id="users_group" size=(data.users - 1) multiple mandatory)
+            each user in data.users
+                if user.id != data.myUser.id
+                    option(value=`${user.id}`)=user.firstname + ' ' + user.lastname
+        label
+        input(type="submit" id="submit-conv" value="Créer la conversation", onclick=`newConversation(${data.myUser.id})`)
+div.div_top
+    h2.messaging-title Messagerie
+    .search-box
+        input(type="text" id="search_messaging" placeholder="Rechercher" onkeyup="searchNameUser()" name="search_bar_user")
+div.all_users
+    div.last_conv
+        h3.title_last_conv Dernières conversations
+            each conversation in data.conversations
+                a.user_msg.block_name_user(href=`/conversation?id_conv=${conversation.id}`)
+                    div.name_role
+                        if conversation.notif
+                            -let notif_conv = conversation.notif.split(',');
+                            -let count = 0;
+                            each notif in notif_conv
+                                if notif == data.myUser.id
+                                    -count += 1;
+                            if count != 0
+                                span.notif_count=count
+                        if conversation.group_conv == 0
+                            -let users_conv = conversation.user_id.split(',');
+                            each user_conv in users_conv
+                                each user in data.users
+                                    if user_conv == user.id && user_conv != data.myUser.id
+                                        span.inlineblock.get_name=user.firstname + ' ' + user.lastname
+                                        br
+                                        span.inlineblock.role_user=data.roles[user.user_role - 1].role_name
+                        else
+                            span.get_name=conversation.title
+                    -let i = data.messages.length;
+                    if i == 0
+                        p.fake_msg Aucun message
+                    else
+                        each message in data.messages
+                            if message.conversation_id == conversation.id
+                                -let state = [];
+                                -state = message.state.split(',');
+                                -let user_state_msg = [];
+                                -user_state_msg = message.receiver_id.split(',');
+                                if message.del_msg == 1
+                                    p(class=(message.emergency == 0) ? 'last_msg' : 'last_msg_emergency') Message s...
+                                    -break
+                                else if data.myUser.filter == 0
+                                    if user_state_msg.length != state.length || state.length == 1
+                                        if message.content.length > 12
+                                            p(class=(message.emergency == 0) ? "last_msg" : "last_msg_emergency")=message.content.substr(0, 10) + "..."
+                                        else if message.content != ""
+                                            p(class=(message.emergency == 0) ? "last_msg" : "last_msg_emergency")=message.content
+                                        else
+                                            p(class=(message.emergency == 0) ? "last_msg" : "last_msg_emergency")=message.file_name.substr(0, 10) + "..."
+                                        -break
+                                    else
+                                        if message.content.length > 12
+                                            p(class=(message.emergency == 0) ? "last_msg_vue" : "last_msg_emergency_vue")=message.content.substr(0, 12) + "..."
+                                        else if message.content != ""
+                                            p(class=(message.emergency == 0) ? "last_msg_vue" : "last_msg_emergency_vue")=message.content
+                                        else
+                                            p(class=(message.emergency == 0) ? "last_msg_vue" : "last_msg_emergency_vue")=message.file_name.substr(0, 12) + "..."
+                                        -break
+                                else
+                                    if user_state_msg.length != state.length || state.length == 1
+                                        if message.content.length > 12
+                                            p(class=(message.emergency == 0) ? "last_msg" : "last_msg_emergency")=message.content_filter.substr(0, 10) + "..."
+                                        else if message.content != ""
+                                            p(class=(message.emergency == 0) ? "last_msg" : "last_msg_emergency")=message.content_filter
+                                        else
+                                            p(class=(message.emergency == 0) ? "last_msg" : "last_msg_emergency")=message.file_name.substr(0, 10) + "..."
+                                        -break
+                                    else
+                                        if message.content.length > 12
+                                            p(class=(message.emergency == 0) ? "last_msg_vue" : "last_msg_emergency_vue")=message.content_filter.substr(0, 12) + "..."
+                                        else if message.content != ""
+                                            p(class=(message.emergency == 0) ? "last_msg_vue" : "last_msg_emergency_vue")=message.content_filter
+                                        else
+                                            p(class=(message.emergency == 0) ? "last_msg_vue" : "last_msg_emergency_vue")=message.file_name.substr(0, 12) + "..."
+                                        -break
+                            else if i == 1
+                                p.fake_msg Aucun message
+                            -i--;
+                    span.material-icons sms
+    div.views_users
+        h3.title_views_users Tous les utilisateurs
+        each user in data.users
+            if user.id != data.myUser.id
+                div.block_user
+                    a.user_msg.block_name_user(href=`#` onclick=`newConversationClickOnUser(${data.myUser.id}, ${user.id})`)
+                        div.name_role
+                            span.inlineblock.get_name=user.firstname + ' ' + user.lastname
+                            br
+                            span.inlineblock.role_user=data.roles[user.user_role - 1].role_name
+                        span.material-icons sms
+div.create_conv
+    button(onclick='showPopUpCreateConv()') Créer une conversation

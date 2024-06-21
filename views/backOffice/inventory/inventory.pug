@@ -1,0 +1,37 @@
+extends ../../header
+block content
+    link(rel='stylesheet', href='/stylesheets/back_office/back_office.css')
+    link(rel='stylesheet', href='/stylesheets/styles-2.1.0.css')
+    script(type='text/javascript', src='/javascripts/back_office/back_office.js')
+    script(type='text/javascript', src='/javascripts/back_office/inventory/inventory.js')
+    script(type='text/javascript' src='https://www.kryogenix.org/code/browser/sorttable/sorttable.js')
+    div.flex-box
+        div.navbar.flex-item
+            if favorites.length
+            div.navbar-title Accès rapide
+            ul.navbar-container
+                each section in favorites
+                    li.navbar-button(onclick='load(this)')
+                        a(href=`${section.section_path}`)=section.section_display_name
+            if sections.length
+            div.navbar-title Toutes
+            ul.navbar-container
+                each section in sections
+                    li.navbar-button(onclick='load(this)')
+                        a(href=`${section.section_path}`)=section.section_display_name
+        #inner-body.flex-item
+            div.bottom-buttons
+                a.categories(href="/back_office/inventory/types") Gérer les catégories d'objet
+            .flex-box-table
+                .table-header
+                    .table-header-item Nom
+                    .table-header-item Quantité
+                    .table-header-item Dernière mise à jour
+                    .table-header-item Type
+                    .table-header-item
+                        a.add(href="/back_office/inventory/new") Ajouter un objet
+                #list.wrap-row
+                    each row in data.data
+                        include inventory_fragment
+    script.
+        initInventoryList()

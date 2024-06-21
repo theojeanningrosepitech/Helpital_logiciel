@@ -1,0 +1,28 @@
+mixin editor(object)
+    link(rel='stylesheet', href='/stylesheets/editor.css')
+    script(type='text/javascript' src='/javascripts/editor.js')
+    #editor-container
+        .text-editor
+            fieldset 
+                button#editor(type="button" onclick="applyClass('bold')")
+                    span(id="editor-icon" class="material-icons") format_bold
+                button#editor(type="button" onclick="applyClass('italic')")
+                    span(id="editor-icon" class="material-icons") format_italic
+                button#editor(type="button" onclick="applyClass('underlined')")
+                    span(id="editor-icon" class="material-icons") format_underlined
+                button#editor(type="button" onclick="applyClass('align-left')")
+                    span(id="editor-icon" class="material-icons") format_align_left
+                button#editor(type="button" onclick="applyClass('align-center')")
+                    span(id="editor-icon" class="material-icons") format_align_center
+                button#editor(type="button" onclick="applyClass('align-right')")
+                    span(id="editor-icon" class="material-icons") format_align_right
+                button#editor(type="button")
+                    input(id="color-picker" type="color" onchange="changeColor(this)")
+                button#editor(type="button" onclick="changeSize()")
+                    span(id="editor-icon" class="material-icons") format_size
+                button#editor(type="button" onclick="printText()")
+                    span(id="editor-icon" class="material-icons") print
+
+        div(id=object.id, contenteditable="true")
+            div 
+                br

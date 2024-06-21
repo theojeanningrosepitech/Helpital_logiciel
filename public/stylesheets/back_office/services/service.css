@@ -1,0 +1,56 @@
+.msg_content {
+    display: flex;
+    height: 935px;
+    overflow: auto;
+}
+
+.header_page {
+    padding-top: 2%;
+    width: 20%;
+    background-color: #e9e9e9;
+}
+
+.page-option {
+    text-align: center;
+}
+
+.page-option button {
+    background-color: #ff3232;
+}
+
+.content_log_service {
+    width: 90%;
+    margin: 10% auto 0;
+    overflow-y: auto;
+    height: 680px;
+}
+
+.content_log_service p {
+    font-size: 11px;
+}
+
+.chief_service_info {
+    margin-top: 10%;
+    text-align: center;
+}
+
+.content_users_no_group {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    padding-left: 1%;
+    padding-top: 2%;
+}
+
+.content_data {
+    width: 79%;
+}
+
+.name_user_no_group {
+    display: inline-block;
+    text-align: left;
+}
+
+.margin_bot {
+    margin-bottom: 2%;
+}

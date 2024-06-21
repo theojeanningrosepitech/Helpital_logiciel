@@ -1,0 +1,137 @@
+doctype html
+html
+    head
+        title= Helpital
+        meta(charset='UTF-8')
+        meta(http-equiv='Content-Security-Policy' content="script-src 'self' https://www.kryogenix.org/code/browser/sorttable/sorttable.js 'unsafe-inline' 'unsafe-eval';")
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700;800;900;1000&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        link(rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous")
+        //- link(rel='stylesheet', href='/stylesheets/styles.css')
+        link(rel='stylesheet', href='/stylesheets/styles-2.1.0.css')
+        link(rel='stylesheet', href='/stylesheets/messaging.css')
+        link(rel='stylesheet', href='/stylesheets/msgBox.css')
+        script(type='text/javascript' src='/javascripts/websocket.js')
+        script(type='text/javascript' src='/javascripts/messaging.js')
+        script(type='text/javascript' src='/javascripts/utils.js')
+        script(type='text/javascript' src='/javascripts/tutorial.js')
+        script(type='text/javascript' src='/javascripts/msgBox.js')
+        script(type='text/javascript' src='/javascripts/notifications.js')
+    body
+        nav
+            ul
+                li
+                    a(href='/dashboard')
+                        img(src='/images/helpital_logo_heart.png')
+                li
+                    a(href='/dashboard') Tableau de bord
+                li
+                    a.nav-dropdown Outils
+                    ul.nav-dropdown-child
+                        li
+                            a(href='/planning') Planning
+                        li
+                            a(href='/directory') Annuaire
+                        li
+                            a(href='/patients') Capsule patient
+                        li
+                            a(href='/cloud') Cloud
+                        li
+                            a(href='/consultationsList') Consultations
+                        li
+                            a(href='/plan') Plan
+                        li
+                            a(href='/inventory') Inventaire
+                        li
+                            a(href='/room_management') Chambres
+                        li
+                            a(href='/messaging') Messagerie
+                        li
+                            a(href='/equipe') Mon équipe
+                        li
+                            a(href=`/reception`) Réception
+                        li
+                            a(href=`/restauration`) Restauration
+                        li
+                            a(href='/emergency') Urgences
+                        li
+                            a(href='/xrays') Radiographies
+                        li
+                            a(href=`/specialistes`) Spécialistes
+                        li
+                            a(href=`/mailPage`) Mail
+                        li
+                            a(onclick='report()') Signaler
+                li
+                    a.nav-dropdown(href='/back_office') Gestion
+                    ul.nav-dropdown-child
+                        li
+                            a(href='/back_office/orders') Commandes
+                        li
+                            a(href='/back_office/contract_inavailability') Contrats
+                        li
+                            a(href='/back_office/insult') Filter les mots
+                        li
+                            a(href='/back_office/inventory') Inventaire
+                        li
+                            a(href=`/recruiting`) Offres d'emploi
+                        li
+                            a(href='/exchangeLoanMaterial') Prêt de matériel
+                        li
+                            a(href='/back_office/repairs') Réparations
+                        li
+                            a(href='/back_office/services') Services
+                        li
+                            a(href='/statistics') Statistiques
+                        li
+                            a(href='/back_office/admin') Système
+                        li
+                            a(href='/back_office/users') Utilisateurs
+                li
+                    a(href=`/profil`)
+                        span.material-icons account_circle
+                li
+                    a(onclick='displayOngletMsg()')
+                        span.material-icons mail
+                li
+                    a(id="notification" onclick='popNotifications(this)')
+                        span.material-icons notifications
+                li
+                    a(href='/preferences')
+                        span.material-icons settings
+                li
+                    a(href='/auth/logout')
+                        span.material-icons logout
+            div#right-click-menu
+                p(type="copy") Copier
+                p(type="paste") Coller
+                p(type="cut") Couper
+                p(type="details").hidden Détails
+                p(type="download").hidden Télécharger
+                p(type="rename").hidden Renommer
+                p(type="delete").hidden Supprimer
+
+            div(id='messaging' class='onglet_msg')
+
+            div(id='alert-box-background')
+                div(id='alert-box')
+                    div.notification
+                    button(id='close-alert', onclick='closeAlert()') X
+        if navigation
+            div(id='navigation-bar')
+                button(onclick="historyBack()")
+                    span(class="material-icons") arrow_back
+                each route in navigation
+                    div
+                        a(href=`${route.link}`) #{route.name}
+                        div.list
+                            each list in route.list
+                                if !list.hide
+                                    if list.selected
+                                        a(href=`${list.link}`).selected #{list.name}
+                                    else
+                                        a(href=`${list.link}`) #{list.name}
+                    if route != navigation[navigation.length - 1]
+                        i.arrow
+
+        block content

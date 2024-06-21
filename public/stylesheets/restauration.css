@@ -1,0 +1,61 @@
+.bloc_list {
+    display: flex;
+    flex-direction: column;
+    margin: 2rem auto auto auto;
+    align-items: center;
+}
+
+.resto_list {
+    display: flex;
+}
+
+table {
+    width: 50rem;
+    margin-top: 2rem;
+    border: none;
+}
+
+#menu_relais_h {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#menu_medirest {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#menu_helpifood {
+    display: none;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.side-menu {
+    background-color: var(--inputColor);
+}
+
+.text_plate {
+    margin: 1rem;
+}
+
+.plate {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.plate_info > p {
+    color: var(--darkGrey);
+    font-size: smaller;
+}
+
+.plate_info {
+    margin-left: 1rem;
+}
+
+img {
+    width: 100%
+}

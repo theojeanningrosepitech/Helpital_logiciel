@@ -1,0 +1,54 @@
+extends ../header
+block content
+    - function getFloorName(floor) { return floor === 0 ? 'Rez de chaussée' : floor < 0 ? floor : floor === 1 ? floor + 'er étage' : floor + 'ème étage'};
+    link(rel='stylesheet', href='/stylesheets/room.css')
+    script(type='text/javascript' src='/javascripts/room.js')
+    #inner-body.margin-top-element(item-id=`${data.id}`)
+        div.property-list
+            div.actions
+                button.add(onClick="openLink('/rooms/edit?id=" + data.id + "')") Modifier
+                button.add(onClick="deleteRoom(" + data.id + ")") Supprimer
+            h3 Informations
+            div
+                span Numéro :
+                span #{data.id}
+            div
+                span Nom :
+                span(name="title") #{data.title}
+            div
+                span Type :
+                span(name="type") #{data.type.display_name}
+            div
+                span Occupation :
+                if data.capacity <= data.patients.length
+                    span.full(name="capacity") #{data.patients.length} / #{data.capacity}
+                else
+                    span(name="capacity") #{data.patients.length} / #{data.capacity}
+            if data.patients.length
+                h3 Patients
+                    div#patients.beds
+                        each patient in data.patients
+                            a.add(href="/patients?patientId=" + patient.id, item-id=`${patient.id}`) #{patient.lastname} #{patient.firstname}
+            if data.inventory.length
+                h3 Inventaire
+                    div#inventory.inventory
+                        each object in data.inventory
+                            a.add(href="/inventory?id=" + object.id, item-id=`${object.id}`) #{object.title}
+                a.add(href="/back_office/inventory?room_id=" + data.id) Voir l'inventaire
+            h3 Localisation
+            div
+                span Service :
+                span(name="service") #{data.service.title}
+            div
+                span Etage :
+                span(name="floor") #{ getFloorName(data.floor) }
+            if data.supervisor
+                h3 Superviseur
+                div
+                    span Nom :
+                    span(name="supervisor-lastname") #{data.supervisor.lastname}
+                div
+                    span Prénom :
+                    span(name="supervisor-firstname") #{data.supervisor.firstname}
+        script.
+            initRoom();

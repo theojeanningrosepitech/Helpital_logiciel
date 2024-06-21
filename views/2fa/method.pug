@@ -1,0 +1,35 @@
+doctype html
+html
+    head
+        title= title
+        link(rel='stylesheet', href='https://fonts.googleapis.com/css2?family=Nunito:wght@800&display=swap')
+        link(href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet")
+        link(rel='stylesheet', href='/stylesheets/styles.css')
+        link(rel='stylesheet', href='/stylesheets/login.css')
+        script(type='text/javascript' src='/javascripts/login.js')
+    body
+        #flex-container
+            .login-section
+                .login-header
+                    img(class="login-header image" src="/images/h_logo1.png")
+                .login-content
+                    span.login-content.title Connexion
+                    p Pour vous connecter vous devez renseigner un code de double authentification
+                    p Veuillez choisir une méthode d'envoi:
+
+                .send-2FA-method
+                    a(href="/auth/2fa/email")
+                        button Envoyer via email
+                if data.enableSMS
+                    .send-2FA-method
+                        a(href="/auth/2fa/sms")
+                            button Envoyer via SMS
+                if data.totpEnabled
+                    .send-2FA-method
+                        a(href="/auth/2fa/totp")
+                            button Utiliser le code TOTP
+                .send-2FA-method
+                    a(href="/")
+                        button Abandonner
+        script.
+            initNfcReader();

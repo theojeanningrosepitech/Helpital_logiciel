@@ -1,0 +1,82 @@
+extends ../header
+block content
+    include ../editor
+    link(rel='stylesheet', href='/stylesheets/prescription.css')
+    script(type='text/javascript' src='/javascripts/prescription.js')
+    script(type='text/javascript' src='https://www.kryogenix.org/code/browser/sorttable/sorttable.js')
+
+    #header-container 
+        .page-header
+            .page-informations
+                .page-title
+                    h1 Créations de prescription
+                .page-description
+                    p 💊 Préscrire une ordonnance a un patient
+            .page-options
+                .tutorial-button
+                    a(onclick="ShowTutorial()") 
+                        span(class="material-icons") help
+
+    #tutorial_display.display_none
+        #pop-up-container
+            .robothelp
+                img(src='/images/robothelp.gif', alt="robothelp")
+                .triangle
+                .tutorial_text_box
+                    div.message Sur cette page tu peux  créer une ordonnance pour un patient, celle-ci sera disponible dans ça capsule patient.
+            .triangle1
+            .tutorial_text_box_one
+                div.message Dans ce champ indiquait le numéro de sécurité sociale du patient auquel délivrer l ordonnance.
+            .triangle3
+            .tutorial_text_box_three
+                div.message Ici inscrivez les prescriptions médicales destiner au patient.
+            .triangle4
+            .tutorial_text_box_four
+                div.message Enfin cliquez ici pour délivrer l ordonnance !
+            .triangle5
+            .tutorial_text_box_five
+                div.message Clique sur ce bouton pour choisir un template et faciliter la création de l'ordonnance
+
+    .notecontainer
+        #form-container
+            .form-section
+                .form-header
+                    h2(class="form-header title") Créer une ordonnance :
+                .form-content
+                    //formulaire qui ajoute une ligne dans la table "prescription"
+                    form(name="prescription")
+                        input.entry(type='hidden' id='p_creator' value=`${data.my_user.login}` name='p_creator' onkeyup="searchListCreator()" placeholder="Identifiant utilisateur" required)
+                        input(type='hidden' id='namecrea' value=`${data.my_user.firstname} ${data.my_user.lastname}` name='namecrea')
+
+                        label(for='p_attached_to') Numéro de sécurité sociale du patient : 
+                        .search-box
+                            input(id="p_attached_to" name="p_attached_to" type="text" onkeyup="searchListAttached()" placeholder="Numéro de sécurité sociale" required)
+                            ul#patientDropdown
+                                each patients in data.all_patients.data
+                                    li(id=patients.id patients.ss_number onclick="displaySsNumber('" + patients.ss_number + "')")
+                                        a=patients.ss_number
+                                    script.
+                                        listenKeyEnter("#{patients.id}");
+
+                        label(for='p_content') Prescription médicale :
+                            +editor(type='text' id='p_content' name='p_content' required)
+                        label
+                            input(type='button', id='submit', value='Créer l ordonnance', onclick="addPrescri(this)")
+
+    .template-section
+        button(id='template', onClick="select_template()") Utiliser un template d'ordonnance
+                        
+        #template-popup.display_none
+            div.box
+                .box-header
+                    .close-pop-up
+                        a(onclick="hidePopUpForm()")
+                            span.material-icons clear
+                    h1 Sélectionné le template a utilisé.
+
+                    .firsttemplate Ordonnance simple : comporte l'établissement et le nom du medecin.
+                        img(src="images/p_simple.jpg", alt="p_simple" style="position: relative; top: 30px; left: 125px; height: 450px;")
+                        button(onClick="select_tempone()").bottombutton choisir
+                    .secondtemplate Ordonnance Bi-zone : ordonnance simple avec une zone pour les traitement longue durée en plus.
+                        img(src="images/p_bizone.png", alt="p_bizone" style="position: relative; left: -200px; height: 500px")
+                        button(onClick="select_temptwo()").bottombutton choisir

@@ -1,0 +1,36 @@
+extends ../../header
+block content
+    link(rel='stylesheet', href='/stylesheets/back_office/back_office.css')
+    link(rel='stylesheet', href='/stylesheets/back_office/repair/repair.css')
+    script(type='text/javascript', src='/javascripts/back_office/back_office.js')
+    script(type='text/javascript', src='/javascripts/back_office/repair/repair.js')
+    script(type='text/javascript' src='https://www.kryogenix.org/code/browser/sorttable/sorttable.js')
+    div.flex-box
+        div.navbar.flex-item
+            if favorites.length
+            div.navbar-title Accès rapide
+            ul.navbar-container
+                each section in favorites
+                    li.navbar-button(onclick='load(this)')
+                        a(href=`${section.section_path}`)=section.section_display_name
+            if sections.length
+            div.navbar-title Toutes
+            ul.navbar-container
+                each section in sections
+                    li.navbar-button(onclick='load(this)')
+                        a(href=`${section.section_path}`)=section.section_display_name
+        #inner-body.flex-item
+            .flex-box-table
+                .table-header
+                    .table-header-item Objet
+                    .table-header-item Lieu
+                    .table-header-item Service
+                    .table-header-item Etat de la demande
+                    .table-header-item Date de la demande
+                    .table-header-item Nombre de report
+                    .table-header-item Priorité
+                #list.wrap-row
+                    each row in data
+                        include repair_fragment.pug
+    script.
+        initRepairList()

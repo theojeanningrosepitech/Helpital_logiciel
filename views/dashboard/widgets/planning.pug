@@ -1,0 +1,13 @@
+.summary
+    ul.summary-header
+        li.active Planning du jour - #{today}
+    ul.summary-content(style="overflow: auto")
+        each p in planning_data
+            li#item(style="border-radius: 1vh 1vh 1vh 1vh; margin: 1vh 1vh 1vh 1vh; ")
+                div Nom: #{p.title}
+                div Description: #{p.description.length > 20 ? p.description.slice(0, 17) + "..." : p.description}
+                div Heure: #{p.begin_at.slice(11, 19)}
+                div Durée: #{p.duration_string}
+                div Type: #{p.type}
+    ul.summary-footer
+        button.active-button(onclick="window.location.href = \"/planning\"") Aller au planning

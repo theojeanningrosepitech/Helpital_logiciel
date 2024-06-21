@@ -1,0 +1,169 @@
+extends ../header
+block content
+    link(rel='stylesheet', href='/stylesheets/cloud.css')
+    script(type='text/javascript' src='/javascripts/cloud.js')
+
+    #tutorial_display.display_none
+        #pop-up-container-tuto
+            .robothelp
+                img(src='/images/robothelp.gif', alt="robothelp")
+                .triangle
+                .tutorial_text_box
+                    div.message Bienvenue sur la page Cloud de l'application. Ici tu peux consulter les fichiers partager et stocker les tiens.
+            .triangle2
+            .tutorial_text_box_two
+                div.message Cliquez sur ajouter un fichier pour ouvrir une interface et selectioner le fichier à ajouter.
+            .triangle3
+            .tutorial_text_box_three
+                div.message Utiliser la barre de recherche pour retrouver facilement vos fichiers dans le cloud.
+            .triangle5
+            .tutorial_text_box_five
+                div.message Ajoute un dossier dans l'espace cloud pour y ranger tes fichiers.
+
+    div#cloud
+        div(id='cloud-popup-background')
+            div(id='cloud-info', class='cloud-popup')
+                img(class='back', src='/images/arrow_back_black.svg', onClick="closePopup()")
+                h1 Informations
+                div.info
+                    div
+                        span Nom:
+                        span -
+                    div
+                        span Créateur:
+                        span -
+                    div#shared-user
+                        span Accès partagé:
+                        span -
+                        img#edit-shared-users-button(class="edit-button" src="/images/edit.svg")
+                    div
+                        span Date de création:
+                        span -
+                    div#files-info
+                        div
+                            span Date de dernière modification:
+                            span -
+                        div
+                            span Taille:
+                            span -
+                        div
+                            span Type:
+                            span -
+                        div#patient-line
+                            span Patient:
+                            span -
+                            img#edit-patient-button(class="edit-button" src="/images/add.svg")
+            div(id='cloud-shared-users', class='cloud-popup')
+                img(class='back', src='/images/arrow_back_black.svg', onClick="backFromSharedUsersPopup()")
+                h1 Accès partagé
+                div.shared-users
+                    div
+                        span Nom
+                        span Prénom
+                        img(class="edit-button" src="/images/close.svg")
+                    div
+                        span Nom
+                        span Prénom
+                        img(class="edit-button" src="/images/close.svg")
+                    div
+                        span Nom
+                        span Prénom
+                        img(class="edit-button" src="/images/close.svg")
+                div.buttons
+                    button.add(onClick="openSharedUsersAddPopup()") Ajouter un utilisateur
+            div(id='cloud-add-shared-users', class='cloud-popup')
+                img(class='back', src='/images/arrow_back_black.svg', onClick="closeSharedUsersAddPopup()")
+                h1 Utilisateurs
+                div.details
+                    input(id='search-shared-users-name', placeholder='Recherche utilisateur')
+                    select(id='search-shared-users-service')
+                    select(id='search-shared-users-role')
+                div.list-header
+                    p Service
+                    p Prénom nom
+                    p Login
+                    p Rôle
+                div.details.list(id="shared-users-list")
+            div(id='cloud-add-patient', class='cloud-popup')
+                img(class='back', src='/images/arrow_back_black.svg', onClick="closePatientAddPopup()")
+                h1 Patients
+                div.details
+                    input(id='search-patient-name', placeholder='Recherche patient')
+                    select(id='search-patient-service')
+                    select(id='search-patient-room-type')
+                    select(id='search-patient-floor')
+                div.list-header
+                    p Service
+                    p Prénom nom
+                    p Salle
+                    p N° Sécurité Sociale
+                div.details.list(id="patients-list")
+        div#cloud-nav
+            if data.location == '/cloud'
+                button#add-folder Ajouter un dossier
+            if data.location == '/cloud'
+                button#add-file Ajouter un fichier  
+
+                a.right-icon-button(onclick="ShowTutorial()")
+                    span.material-icons help  
+
+            div#cloud-nav-links
+                if data.location == '/cloud'
+                    a(href='/cloud').selected Mes fichiers
+                else
+                    a(href='/cloud') Mes fichiers
+                if data.location == '/cloud/shared'
+                    a(href='/cloud/shared').selected Partagés avec moi
+                else
+                    a(href='/cloud/shared') Partagés avec moi
+                span.cloud-separator
+                if data.location == '/cloud/recent'
+                    a(href='/cloud/recent').selected Récents
+                else
+                    a(href='/cloud/recent') Récents
+                if data.location == '/cloud/favorites'
+                    a(href='/cloud/favorites').selected Favoris
+                else
+                    a(href='/cloud/favorites') Favoris
+
+        div#cloud-lists
+            input#search-cloud(placeholder="Rechercher dans le Cloud", value=`${data.search}`)
+
+            h3(style="float: right") #{data.folder_name}
+            h3 Dossiers
+            span.cloud-separator
+            div#folders
+                each folder in data.folders
+                    include cloud_folder_fragment
+
+            div#order-cloud
+                select#cloud-order-column-select
+                    if data.orderColumn === 'filename'
+                        option(value="filename", selected) Nom
+                    else
+                        option(value="filename") Nom
+                    if data.orderColumn === 'creation'
+                        option(value="creation", selected) Date de création
+                    else
+                        option(value="creation") Date de création
+                    if data.orderColumn === 'last_update'
+                        option(value="last_update", selected) Date de modification
+                    else
+                        option(value="last_update") Date de modification
+                select#cloud-order-by-select
+                    if data.orderBy === 'DESC'
+                        option(value="DESC", selected) Descendant
+                    else
+                        option(value="DESC") Descendant
+                    if data.orderBy === 'ASC'
+                        option(value="ASC", selected) Ascendant
+                    else
+                        option(value="ASC") Ascendant
+            h3 Fichiers
+            span.cloud-separator
+            div#files
+                each file in data.files
+                    include cloud_file_fragment
+
+            script.
+                initCloud()

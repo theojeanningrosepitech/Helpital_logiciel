@@ -1,0 +1,229 @@
+.property-list {
+    position: relative;
+    width: calc(50vw - 4em);
+    transform: translate(-50%,0);
+    left: 50%;
+    padding: 1em 2em;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.property-list > div{
+    margin-bottom: 0.5em;
+    display: flex;
+    margin-left: 1em;
+}
+.property-list > div > *:first-child{
+    flex: 0.2;
+    text-align: left;
+}
+.property-list > div > *:last-child{
+    flex: 1;
+    text-align: left;
+}
+
+.property-list > .actions{
+    position: absolute;
+    right: 2em;
+    top: 1em;
+}
+.property-list > .actions > *{
+    display: inline-block;
+    margin-left: 0.5em;
+}
+
+.property-list > h3:nth-child(1),
+.property-list > h3:nth-child(2) {
+    margin-top: 0 !important;
+}
+
+.property-list > h3 {
+    text-decoration: underline;
+    text-align: left;
+    margin: 1em 0;
+}
+
+/*TUTORIAL CSS*/
+
+.display_none {
+    display: none;
+}
+
+#pop-up-container-tuto {
+    position: absolute;
+    width: 100%;
+    height: calc(100vh - 75px);
+    background-color: rgba(32, 32, 32, 0.2);
+    z-index: 2;
+}
+
+.robothelp {
+    position: absolute;
+    top: 20%;
+    left: -10%;
+}
+
+.tutorial_text_box {
+    height: 30%;
+    width: 40%;
+    position: absolute;
+    top: 0%;
+    left: 40%;
+    background-color: whitesmoke;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.triangle {
+    width: 0;
+	height: 0;
+    position: absolute;
+    top: 34%;
+    left: 50%;
+	border-left: 25px solid transparent;
+	border-right: 25px solid transparent;
+	border-top: 25px solid whitesmoke;
+}
+
+.tutorial_text_box_one {
+    height: 10%;
+    width: 15%;
+    position: absolute;
+    top: 1%;
+    left: 20%;
+    background-color: whitesmoke;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.triangle1 {
+    width: 0;
+	height: 0;
+    position: absolute;
+    top: 1%;
+    left: 19%;
+	border-top: 25px solid transparent;
+	border-right: 25px solid whitesmoke;
+	border-bottom: 25px solid transparent;
+}
+
+.tutorial_text_box_two {
+    height: 8%;
+    width: 20%;
+    position: absolute;
+    top: 1%;
+    left: 40%;
+    background-color: whitesmoke;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.triangle2 {
+    width: 0;
+	height: 0;
+    position: absolute;
+    top: 10%;
+    left: 45%;
+	border-left: 25px solid transparent;
+	border-right: 25px solid transparent;
+	border-top: 25px solid whitesmoke;
+}
+
+.tutorial_text_box_three {
+    height: 10%;
+    width: 16%;
+    position: absolute;
+    top: 62%;
+    left: 1%;
+    background-color: whitesmoke;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.tutorial_text_box::-webkit-scrollbar,.tutorial_text_box_one::-webkit-scrollbar,.tutorial_text_box_two::-webkit-scrollbar,.tutorial_text_box_three::-webkit-scrollbar,.tutorial_text_box_four::-webkit-scrollbar,.tutorial_text_box_five::-webkit-scrollbar {
+    width: 15px; /* width of the entire scrollbar */
+}
+
+.tutorial_text_box::-webkit-scrollbar-thumb,.tutorial_text_box_one::-webkit-scrollbar-thumb,.tutorial_text_box_two::-webkit-scrollbar-thumb,.tutorial_text_box_three::-webkit-scrollbar-thumb,.tutorial_text_box_four::-webkit-scrollbar-thumb,.tutorial_text_box_five::-webkit-scrollbar-thumb {
+    background-color: rgb(172, 172, 172); /* color of the scroll thumb */
+    border-radius: 25px; /* roundness of the scroll thumb */
+    border: 3px solid white; /* creates padding around scroll thumb */
+}
+
+.message {
+    color: black;
+    margin: 5px;
+}
+
+.help-button {
+    margin: 0;
+    padding: 0%, 10px, 0%, 10px;
+    cursor: pointer;
+    color: white !important;
+}
+
+/*TUTORIAL END CSS*/
+
+.inventory {
+    display: block;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    color: white;
+    background-color: var(--lightGrey);
+}
+
+.block-historie {
+    border-bottom: #3a3a3a;
+}
+.header-title {
+    background-color: var(--darkGrey);
+    padding: 10px;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    display: contents;
+    align-items: start;
+}
+.tab-content {
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto auto auto;
+    padding: 10px;
+}
+.content_block {
+    padding: 25px;
+    border: solid #D1D1D1;
+    background-color: #FFFFFF;
+    border-width: 1px;
+    min-width: 9%;
+
+}
+
+.title_block {
+    padding: 15px;
+    border-bottom: solid #D1D1D1;
+    border-right:  solid #D1D1D1;
+    background-color: #E1E1E1;
+    border-width: 2px;
+}
+.text_content {
+    text-align: center;
+    color: #777777;
+}
+
+/* Days header */
+.Nom-header, .Type-header, .Quantité-header, .D-header, .E-header, .F-header, .G-header {
+    border-left: 1px solid;
+    border-bottom: 1px solid;
+    border-color: var(--darkGrey);
+    color: var(--darkerGrey);
+    padding: 10px 0px 10px 0px;
+}
+

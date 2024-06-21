@@ -1,0 +1,10 @@
+.summary
+    ul.summary-header
+        li.active Pointage
+    ul.summary-content(style="overflow: auto")
+        li(style="background-color: white;display: flex")
+            button(style="margin: auto", onclick="checkIn()") Pointer
+        li(style="background-color: white;display: flex; margin: auto", id="check-in-time") Vous n'avez pas pointé aujourd'hui
+        li(style="background-color: white;display: flex; margin: auto", id="flowing-time")
+    ul.summary-footer
+        button.active-button(onclick="window.location.href = \"/equipe\"") Aller à mon équipe

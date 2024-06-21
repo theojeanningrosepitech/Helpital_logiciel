@@ -1,0 +1,34 @@
+extends ../header
+block content
+    link(rel='stylesheet', href='/stylesheets/messaging.css')
+    .block_msg
+        #pop_up_all_conv(class='display_none')
+            a.display_cross(onclick="backPopUpNewConv()")
+                i.fas.fa-times-circle
+            h2 Créer une conversation
+            div.create_conv_pop_up2
+                label Nom de la conversation
+                input(type="text" id="name_conv" name="name_conv" placeholder="Titre de la conversation")
+                label
+                input(type="submit" id="submit-conv" value="Créer la conversation", onclick=`createConvForAll(${JSON.stringify(data.conversations)})`)
+        .msg_content(id="width_content_msg")
+            .header_page_msg
+                h1 Messagerie
+                .page-option-msg
+                    each conversation in data.conversations
+                        if conversation.group_conv == 2
+                            if data.myUser.service == 1
+                                div(style = "display: flex;")
+                                    p.title_conv(onclick=`change_conv(${conversation.id})` style = "width: 75%;")=conversation.title
+                                    span.delete_conv_admin(style = "align-self: center; margin-left: 0;")
+                                        a(onclick=`delete_conv_for_all(${conversation.id})`)
+                                            i.fas.fa-times
+                            else
+                                p.title_conv(onclick=`change_conv(${conversation.id})`)=conversation.title
+                if data.myUser.service == 1
+                    .page-button-msg
+                        button(onclick=`showPopUpNewConv()`) Créer une conversation
+            .main_msg_container#clear
+                if data.conversation != null
+                    include messaging_widget
+    script(type='text/javascript' src='/javascripts/messaging_widget.js')

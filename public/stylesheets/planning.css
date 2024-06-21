@@ -1,0 +1,621 @@
+/* Planning container
+#planning-container {
+    display: flex;
+    justify-content: center;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.calendar-header, .calender-content, .calendar-footer {
+    padding: 20px;
+}
+
+.previous-date, .next-date {
+    background-color: transparent;
+    border: none;
+    height: 35px;
+    cursor: pointer;
+}
+
+.previous-date:hover, .next-date:hover {
+    background-color: transparent;
+}
+
+.previous-date .material-icons, .next-date .material-icons {
+    color: lightgray;
+    font-size: 20px !important;
+}
+
+.previous-date:hover .material-icons, .next-date:hover .material-icons {
+    color: rgb(255, 70, 70);
+}
+
+.weeks {
+    display: flex;
+    justify-content: center;
+}
+
+.summary-table, .old-table {
+    border-radius: 5px;
+    text-align: center;
+    table-layout: fixed;
+    width: -webkit-fill-available;
+    font-size: 0.8em;
+}
+
+.calendar-table th, .summary-table th, .old-table th {
+    background-color: #a5a5a5;
+    border-radius: 5px;
+    padding: 15px 0px 15px 0px;
+}
+
+.calendar-table th {
+    width: 150px;
+}
+
+.calendar-table thead tr th:empty {
+    width: 5%;
+    visibility: hidden;
+}
+
+.summary-table thead tr th:empty, .old-table thead tr th:empty {
+    width: 35px;
+    visibility: hidden;
+}
+
+.calendar-table td {
+    background-color: lightgrey;
+    border-radius: 5px;
+    padding: 10px 0px 10px 0px;
+    width: 150px;
+    
+}
+
+.summary-table td, .old-table td {
+    background-color: lightgrey;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+.calendar-table tbody tr td:first-child {
+    vertical-align: top;
+    text-align: left;
+    background-color: transparent;
+    color: #a3a3a3;
+    padding-top: 0;
+    width: 5%;
+}
+
+.summary-table tbody tr td:last-child, .old-table tbody tr td:last-child {
+    text-align: left;
+    background-color: transparent;
+    color: #a3a3a3;
+    padding-top: 0;
+}
+
+.calendar-table thead {
+    display: block;
+    margin: auto;
+
+
+.calendar-table tbody {
+    display: block;
+    height: 500px;
+    overflow-y: overlay;
+    margin: auto;
+    line-break: anywhere;
+}
+
+.calendar-table tbody::-webkit-scrollbar {
+    width: 15px;
+}
+
+.calendar-table tbody::-webkit-scrollbar-thumb {
+    background-color: rgb(172, 172, 172);color of the scroll thum
+    border-radius: 25px; roundness of the scroll thumb
+    border: 3px solid #fdebeb; creates padding around scroll thumb
+}
+
+/* Custom CSS for the planning */
+/* .filters {
+    display: flex;
+    justify-content:center;
+    margin: 25px 0 25px 0;
+}
+
+.reset {
+    background-color: rgb(156, 156, 156);
+    border: 1px solid #c7c7c7;
+    border-radius: 10px;
+    box-shadow: 1px 1px 10px #f3f2f2;
+    color: black;
+    padding: 10px 15px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.4s;
+    margin: 0 10px 0 10px;
+}
+
+.reset:hover {
+    background-color: rgb(204, 204, 204);
+}
+
+.hours-active-events {
+    display: inline-block;
+    width: 150px;
+    height: 50px;
+    background-color: rgb(255, 140, 64);
+    border-radius: 10px;
+    border: 1px solid rgb(224, 224, 224);
+    vertical-align: top;
+}
+
+.hours-active-service {
+    display: inline-block;
+    width: 150px;
+    height: 50px;
+    background-color: rgb(91, 224, 79);
+    border-radius: 10px;
+    border: 1px solid rgb(224, 224, 224);
+    vertical-align: top;
+}
+
+.hours-active-personal {
+    display: inline-block;
+    width: 150px;
+    height: 50px;
+    background-color: rgb(64, 163, 255);
+    border-radius: 10px;
+    border: 1px solid rgb(224, 224, 224);
+    vertical-align: top;
+}
+
+.events {
+    background-color: rgb(255, 140, 64);
+    border: 1px solid #c7c7c7;
+    border-radius: 10px;
+    box-shadow: 1px 1px 10px #f3f2f2;
+    color: black;
+    padding: 10px 15px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.4s;
+    margin: 0 10px 0 10px;
+}
+
+.events:hover {
+    background-color: rgb(255, 179, 129);
+}
+
+.service {
+    background-color: rgb(91, 224, 79);
+    border: 1px solid #c7c7c7;
+    border-radius: 10px;
+    box-shadow: 1px 1px 10px #f3f2f2;
+    color: black;
+    padding: 10px 15px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.4s;
+    margin: 0 10px 0 10px;
+}
+
+.service:hover {
+    background-color: rgb(147, 253, 137);
+}
+
+.personal {
+    background-color: rgb(64, 163, 255);
+    border: 1px solid #c7c7c7;
+    border-radius: 10px;
+    box-shadow: 1px 1px 10px #f3f2f2;
+    color: black;
+    padding: 10px 15px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    transition: background-color 0.4s;
+    margin: 0 10px 0 10px;
+}
+
+.personal:hover {
+    background-color: rgb(134, 197, 255);
+}
+
+.planning {
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 80%;
+    padding-bottom: 25px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+    box-shadow: 0px 0px 36px 0px rgba(0, 0, 0, 0.1);
+}
+
+.arrow {
+    display: inline-block;
+    width: 2%;
+    margin-left: 25px;
+    margin-right: 25px;
+}
+
+.inlineblock {
+    display: inline-block;
+}
+
+.days {
+    display: inline-block;
+    width: 150px;
+    height: 25px;
+    text-align: center;
+}
+
+.hours {
+    color: rgb(170, 170, 170);
+    display: inline-block;
+    width: 150px;
+    height: 50px;
+    background-color: rgb(255, 227, 227);
+    border-radius: 10px;
+    border: 1px solid rgb(224, 224, 224);
+    vertical-align: top;
+}
+
+.hours:hover {
+    display: inline-block;
+    width: 150px;
+    height: 50px;
+    background-color: rgb(255, 206, 206);
+    border-radius: 10px;
+    border: 1px solid rgb(224, 224, 224);
+    outline: none;
+}
+
+.hours:active, .hours:focus {
+    outline: none;
+}
+
+.hours-active {
+    display: inline-block;
+    width: 150px;
+    height: 50px;
+    background-color: rgb(255, 148, 148);
+    border-radius: 10px;
+    border: 1px solid rgb(224, 224, 224);
+    vertical-align: top;
+}
+
+.hours-active:hover {
+    display: inline-block;
+    width: 150px;
+    height: 50px;
+    background-color: rgb(255, 185, 185);
+    border-radius: 10px;
+    border: 1px solid rgb(224, 224, 224);
+    outline: none;
+}
+
+.hours-active:active, .hours-active:focus {
+    outline: none;
+}
+
+.active {
+    vertical-align: baseline;
+    background-color: rgb(255, 70, 70) !important;
+    color: white;
+    font-size: 0.8em;
+    cursor: pointer;
+}
+
+/* Custom container for the welcome pop-up on the homepage */
+
+/* Pop-up container */
+/* #pop-up-rights-container {
+    display: block;
+    z-index: 1;
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(32, 32, 32, 0.2);
+}
+
+#pop-up-form-container, #pop-up-summary-container, #pop-up-old-container {
+    display: none;
+    z-index: 1;
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(32, 32, 32, 0.2); 
+}*/
+/* 
+.rights-section, .form-section {
+    background-color: var(--section-bg-color);
+    border-radius: 10px;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    -webkit-box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    -moz-box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    color: var(--section-color);
+    padding: 10px 10px 20px 20px;
+    width: 500px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+}
+
+.summary-section, .old-section {
+    background-color: var(--section-bg-color);
+    border-radius: 10px;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    -webkit-box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    -moz-box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    color: var(--section-color);
+    padding: 10px 10px 20px 20px;
+    width: 500px;
+    height: 500px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+    overflow-y: scroll;
+    width: 500px;
+    height: 500px;
+}
+
+.summary-section::-webkit-scrollbar, .old-section::-webkit-scrollbar {
+    width: 15px;  width of the entire scrollbar
+}
+
+.summary-section::-webkit-scrollbar-thumb, .old-section::-webkit-scrollbar-thumb {
+    background-color: rgb(172, 172, 172); /* color of the scroll thumb
+    border-radius: 25px; /* roundness of the scroll thumb
+    border: 3px solid white; /* creates padding around scroll thumb
+}
+
+.close-pop-up {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.rights-header .title, .form-header .title, .summary-header .title, .old-header .title {
+    font-size: 1.5em;
+    display: block;
+}
+
+.summary-filter, .old-filter  {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.rights-content .text {
+    font-size: 1em;
+    color: rgb(161, 161, 161);
+}
+
+.form-content .text {
+    font-size: 1em;
+    margin-bottom: 0;
+    color: rgb(161, 161, 161);
+}
+
+.summary-content, .old-content {
+    margin-bottom: 10px;
+} */
+
+/* #### CSS input file */
+
+/* #label-file {
+    background: var(--primaryColor);
+    color: black;
+    border-radius: 1rem;
+    padding: 1rem;
+    cursor: pointer;
+} */
+
+/* #label-file {
+    background-color: var(--button-bg-color);
+    color: var(--button-color);
+    border: none;
+    border-radius: 10px;
+    padding: 10px 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 14px;
+    display: inline-block;
+    margin: 0;
+    position: relative;
+}
+
+#label-file:hover {
+    background-color: var(--button-hover-bg-color);
+    color: var(--button-hover-color);
+}
+
+#input-file {
+    width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+} */
+
+/* tutorial */
+
+.help-button {
+    margin: 0;
+    padding: 0%, 10px, 0%, 10px;
+    cursor: pointer;
+    color: white !important;
+}
+
+.display_none {
+    display: none;
+}
+
+#pop-up-container-tuto {
+    position: absolute;
+    width: 100%;
+    height: calc(100vh - 75px);
+    background-color: rgba(32, 32, 32, 0.2);
+    z-index: 2;
+}
+
+.robothelp {
+    position: absolute;
+    top: 35%;
+    left: -5%;
+}
+
+.tutorial_text_box {
+    height: 40%;
+    width: 40%;
+    position: absolute;
+    top: -40px;
+    left: 40%;
+    background-color: whitesmoke;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.triangle {
+    width: 0;
+	height: 0;
+    position: absolute;
+    top: 33%;
+    left: 50%;
+	border-left: 25px solid transparent;
+	border-right: 25px solid transparent;
+	border-top: 25px solid whitesmoke;
+}
+
+.tutorial_text_box_one {
+    height: 12%;
+    width: 15%;
+    position: absolute;
+    top: -10%;
+    left: 32%;
+    background-color: whitesmoke;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.triangle1 {
+    width: 0;
+	height: 0;
+    position: absolute;
+    top: -7%;
+    left: 48%;
+	border-top: 25px solid transparent;
+	border-left: 25px solid whitesmoke;
+	border-bottom: 25px solid transparent;
+}
+
+.tutorial_text_box_two {
+    height: 12%;
+    width: 15%;
+    position: absolute;
+    top: 6%;
+    left: 1%;
+    background-color: whitesmoke;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.triangle2 {
+    width: 0;
+	height: 0;
+    position: absolute;
+    top: 4%;
+    left: 8%;
+	border-left: 25px solid transparent;
+	border-right: 25px solid transparent;
+	border-bottom: 25px solid whitesmoke;
+}
+
+.tutorial_text_box_three {
+    height: 9%;
+    width: 15%;
+    position: absolute;
+    top: 0%;
+    left: 38%;
+    background-color: whitesmoke;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.triangle3 {
+    width: 0;
+	height: 0;
+    position: absolute;
+    top: 0%;
+    left: 37%;
+	border-top: 25px solid transparent;
+	border-right: 25px solid whitesmoke;
+	border-bottom: 25px solid transparent;
+}
+
+.tutorial_text_box_five {
+    height: 5%;
+    width: 18%;
+    position: absolute;
+    top: 90%;
+    left: 20%;
+    background-color: whitesmoke;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.triangle5 {
+    width: 0;
+	height: 0;
+    position: absolute;
+    top: 91%;
+    left: 19%;
+	border-top: 25px solid transparent;
+	border-right: 25px solid whitesmoke;
+	border-bottom: 25px solid transparent;
+}
+
+
+.tutorial_text_box::-webkit-scrollbar,.tutorial_text_box_one::-webkit-scrollbar,.tutorial_text_box_two::-webkit-scrollbar,.tutorial_text_box_three::-webkit-scrollbar,.tutorial_text_box_four::-webkit-scrollbar,.tutorial_text_box_five::-webkit-scrollbar {
+    width: 15px; /* width of the entire scrollbar */
+}
+
+.tutorial_text_box::-webkit-scrollbar-thumb,.tutorial_text_box_one::-webkit-scrollbar-thumb,.tutorial_text_box_two::-webkit-scrollbar-thumb,.tutorial_text_box_three::-webkit-scrollbar-thumb,.tutorial_text_box_four::-webkit-scrollbar-thumb,.tutorial_text_box_five::-webkit-scrollbar-thumb {
+    background-color: rgb(172, 172, 172); /* color of the scroll thumb */
+    border-radius: 25px; /* roundness of the scroll thumb */
+    border: 3px solid white; /* creates padding around scroll thumb */
+}
+
+.tutorial-button {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.tutorial-button a {
+    padding-bottom: 5%;
+}

@@ -1,0 +1,206 @@
+-let msg = [];
+-msg = message.content.split(' ');
+-let msg_filter = [];
+-msg_filter = message.content_filter.split(' ');
+if data.myUserID == message.sender_id
+    div(id=message.id class=(message.emergency == 0) ? 'sender' : 'sender user1_emergency ')
+        a.delete_msg(id="delete_msg" onclick=`deleteMsg(${message.id})`)
+            i.fas.fa-times
+        if message.group_msg == 1
+            each user in data.allUsers
+                if message.sender_id == user.id
+                    p=user.firstname + " " + user.lastname
+        if message.file != ""
+            if message.file[message.file.length - 1] === 'f'
+                a(id="img_link" href="#" onclick="display('" + message.file + "')")
+                    embed.user1_msg.img_width(src=message.file)
+                div.input_text_msg
+                    a(id="img_linka" href="#" onclick="display('" + message.file + "')")
+                        button Voir
+            else
+                if message.del_msg == 1
+                    span#message(class=(message.emergency == 0) ? 'user1_msg' : 'user1_msg_emergency') Message supprimé
+                else
+                    span#message(class=(message.emergency == 0) ? 'user1_msg' : 'user1_msg_emergency')
+                        -for (let i = 0; msg[i]; i++)
+                            -for (let y = 0; data.patients[y]; y++)
+                                -let patient_link = "#" + data.patients[y].firstname + data.patients[y].lastname + "#" + data.patients[y].id;
+                                if patient_link == msg[i]
+                                    if i == msg.length - 1
+                                        a.msg_split(onclick=`showPatientViewerFromConv(${JSON.stringify(data.patients[y])})`)=data.patients[y].firstname + " " + data.patients[y].lastname
+                                        -break;
+                                    else
+                                        a.msg_split(onclick=`showPatientViewerFromConv(${JSON.stringify(data.patients[y])})`)=data.patients[y].firstname + " " + data.patients[y].lastname + " "
+                                        -break;
+                                else if y == data.patients.length - 1 && data.myUser.filter == 0
+                                    if i == msg.length - 1
+                                        span.msg_split=msg[i]
+                                    else
+                                        span.msg_split=msg[i] + " "
+                                else if y == data.patients.length - 1 && data.myUser.filter == 1
+                                    if i == msg.length - 1
+                                        span.msg_split=msg_filter[i]
+                                    else
+                                        span.msg_split=msg_filter[i] + " "
+                a(id="img_link" href="#" onclick="display('" + message.file + "')")
+                    img.user1_msg.img_width(id="img_display" src=`${message.file}` alt=message.file)
+                span#date=message.send_at.substr(0, 19).replace('T', " à ")
+                -let state = [];
+                -state = message.state.split(',');
+                -let user_state_msg = [];
+                -user_state_msg = message.receiver_id.split(',');
+                if user_state_msg.length != state.length && state.length == 1
+                    p.view_msg Non vu
+                else if user_state_msg.length != state.length && state.length > 1
+                    p.view_msg="A été vue par " + (state.length - 1) + " personne(s)"
+                else if data.conversation.group_conv == 0
+                    p.view_msg="Vue"
+                else
+                    p.view_msg="Vue par tous le groupe"
+
+        if message.content != "" && message.file == ""
+            if message.del_msg == 1
+                span#message(class=(message.emergency == 0) ? 'user1_msg' : 'user1_msg_emergency') Message supprimé
+            else
+                span#message(class=(message.emergency == 0) ? 'user1_msg' : 'user1_msg_emergency')
+                    -for (let i = 0; msg[i]; i++)
+                        -for (let y = 0; data.patients[y]; y++)
+                            -let patient_link = "#" + data.patients[y].firstname + data.patients[y].lastname + "#" + data.patients[y].id;
+                            if patient_link == msg[i]
+                                if i == msg.length - 1
+                                    a.msg_split(onclick=`showPatientViewerFromConv(${JSON.stringify(data.patients[y])})`)=data.patients[y].firstname + " " + data.patients[y].lastname
+                                    -break;
+                                else
+                                    a.msg_split(onclick=`showPatientViewerFromConv(${JSON.stringify(data.patients[y])})`)=data.patients[y].firstname + " " + data.patients[y].lastname + " "
+                                    -break;
+                            else if y == data.patients.length - 1 && data.myUser.filter == 0
+                                if i == msg.length - 1
+                                    span.msg_split=msg[i]
+                                else
+                                    span.msg_split=msg[i] + " "
+                            else if y == data.patients.length - 1 && data.myUser.filter == 1
+                                if i == msg.length - 1
+                                    span.msg_split=msg_filter[i]
+                                else
+                                    span.msg_split=msg_filter[i] + " "
+            span#date=message.send_at.substr(0, 19).replace('T', " à ")
+            -let state = [];
+            -state = message.state.split(',');
+            -let user_state_msg = [];
+            -user_state_msg = message.receiver_id.split(',');
+            if user_state_msg.length != state.length && state.length == 1
+                p.view_msg Non vu
+            else if user_state_msg.length != state.length && state.length > 1
+                p.view_msg="A été vue par " + (state.length - 1) + " personne(s)"
+            else if data.conversation.group_conv == 0
+                p.view_msg="Vue"
+            else
+                p.view_msg="Vue par tous le groupe"
+        
+        //-         div.input_text_msg
+        //-             //a(id="img_link" href="#" onclick="downloadF('" + message.file + "', '" + message.file_name + "')")
+        //-               //  button Save
+        //-             a(id="img_link" href="#" onclick="display('" + message.file + "')")
+        //-                 button Voir
+        //- if message.del_msg == 1
+        //-     p(class=(message.emergency == 0) ? 'user1_msg' : 'user1_msg_emergency') Message supprimé
+        //- else if message.content != "" && data.myUser.filter == 0
+        //-     p(class=(message.emergency == 0) ? 'user1_msg' : 'user1_msg_emergency')=message.content
+        //- else if message.content != "" && data.myUser.filter == 1
+        //-     p(class=(message.emergency == 0) ? 'user1_msg' : 'user1_msg_emergency')=message.content_filter
+        //- p.date_msg=message.send_at.substr(0, 19).replace('T', " à ")
+        //-let state = [];
+        //- -state = message.state.split(',');
+        //- -let user_state_msg = [];
+        //- -user_state_msg = message.receiver_id.split(',');
+        //- if user_state_msg.length != state.length && state.length == 1
+        //-     p.view_msg Non vu
+        //- else if user_state_msg.length != state.length && state.length > 1
+        //-     p.view_msg="A été vue par " + (state.length - 1) + " personne(s)"
+        //- else if data.conversation.group_conv == 0
+        //-     p.view_msg="Vue"
+        //- else
+        //-     p.view_msg="Vue par tous le groupe"
+
+else
+    div(id=message.id class=(message.emergency == 0) ? 'receiver notif_msg' : 'user2_emergency receiver notif_msg')
+
+        if message.group_msg == 1
+            each user in data.allUsers
+                if message.sender_id == user.id
+                    p=user.firstname + " " + user.lastname
+
+        if message.file != ''
+            if message.file[message.file.length - 1] === 'f'
+                a(id="img_link" href="#" onclick="display('" + message.file + "')")
+                    embed.user1_msg.img_width(src=message.file width="500" height="375")
+                div.input_text_msg
+                    a(id="img_link" href="#" onclick="display('" + message.file + "')")
+                        button Voir
+            else
+                a(id="img_link" href="#" onclick="display('" + message.file + "')")
+                    img.user2_msg.img_width(id="img_display" src=`${message.file}` alt=message.file)
+        
+        if message.content != ""
+            if message.del_msg == 1
+                span#message(class=(message.emergency == 0) ? 'user2_msg' : 'user2_msg_emergency') Message supprimé
+            else
+                span#message(class=(message.emergency == 0) ? 'user2_msg' : 'user2_msg_emergency')
+                    -for (let i = 0; msg[i]; i++)
+                        -for (let y = 0; data.patients[y]; y++)
+                            -let patient_link = "#" + data.patients[y].firstname + data.patients[y].lastname + "#" + data.patients[y].id;
+                            if patient_link == msg[i]
+                                if i == msg.length - 1
+                                    a.msg_split(onclick=`showPatientViewerFromConv(${JSON.stringify(data.patients[y])})`)=data.patients[y].firstname + " " + data.patients[y].lastname
+                                    -break;
+                                else
+                                    a.msg_split(onclick=`showPatientViewerFromConv(${JSON.stringify(data.patients[y])})`)=data.patients[y].firstname + " " + data.patients[y].lastname + " "
+                                    -break;
+                            else if y == data.patients.length - 1 && data.myUser.filter == 0
+                                if i == msg.length - 1
+                                    span.msg_split=msg[i]
+                                else
+                                    span.msg_split=msg[i] + " "
+                            else if y == data.patients.length - 1 && data.myUser.filter == 1
+                                if i == msg.length - 1
+                                    span.msg_split=msg_filter[i]
+                                else
+                                    span.msg_split=msg_filter[i] + " "
+            span#date=message.send_at.substr(0, 19).replace('T', " à ")
+            -let state = [];
+            -state = message.state.split(',');
+            -let user_state_msg = [];
+            -user_state_msg = message.receiver_id.split(',');
+            if user_state_msg.length != state.length && state.length == 1
+                p.view_msg Non vu
+            else if user_state_msg.length != state.length && state.length > 1
+                p.view_msg="A été vue par " + (state.length - 1) + " personne(s)"
+            else if data.conversation.group_conv == 0
+                p.view_msg="Vue"
+            else
+                p.view_msg="Vue par tous le groupe"
+
+        //-         div.input_text_msg
+        //-             //a(id="img_link" href="#" onclick="downloadF('" + message.file + "', '" + message.file_name + "')")
+        //-             //    button Save
+        //-             a(id="img_link" href="#" onclick="display('" + message.file + "')")
+        //-                 button Voir
+        //- if message.del_msg == 1
+        //-     p(class=(message.emergency == 0) ? 'user2_msg' : 'user2_msg_emergency') Message supprimé
+        //- else if message.content != "" && data.myUser.filter == 0
+        //-     p(class=(message.emergency == 0) ? 'user2_msg' : 'user2_msg_emergency')=message.content
+        //- else if message.content != "" && data.myUser.filter == 1
+        //-     p(class=(message.emergency == 0) ? 'user2_msg' : 'user2_msg_emergency')=message.content_filter
+        //- p.date_msg=message.send_at.substr(0, 19).replace('T', " à ")
+        //-let state = [];
+        //- -state = message.state.split(',');
+        //- -let user_state_msg = [];
+        //- -user_state_msg = message.receiver_id.split(',');
+        //- if user_state_msg.length != state.length && state.length == 1
+        //-     p.view_msg Non vu
+        //- else if user_state_msg.length != state.length && state.length > 1
+        //-     p.view_msg="A été vue par " + (state.length - 1) + " personne(s)"
+        //- else if data.conversation.group_conv == 0
+        //-     p.view_msg="Vue"
+        //- else
+        //-     p.view_msg="Vue par tous le groupe"

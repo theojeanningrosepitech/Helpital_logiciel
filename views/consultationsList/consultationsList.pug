@@ -1,0 +1,88 @@
+extends ../header
+include ../popUp
+block content
+    script(type='text/javascript' src='/javascripts/consultationsList.js')
+    script(type='text/javascript' src='https://www.kryogenix.org/code/browser/sorttable/sorttable.js')
+
+    +popUp({
+        popUpName: "AlertUser",
+        id: "pop-up-container", 
+        className: "alert-user",
+        title: "Maintenance 👷", 
+        description: "Cet élément est actuellement en développement.", 
+        type: "alert"
+    })
+
+    +popUp({
+        popUpName: "DisplayReport",
+        id: "pop-up-container", 
+        className: "display-report",
+        title: "Rapport de consultation", 
+        description: "Description", 
+        type: "report", 
+        name: "display-report", 
+        method: "post", 
+        action: "api/planning", 
+        onSubmit: "event.preventDefault(); editEvent();",
+        inputs: {
+                0: { id: "report", name: "report", type: "text", placeholder: "Contenu" },
+        }
+    })
+
+    .page
+        .side-menu
+            .side-menu-header
+                button.active-button(onclick="showPopUpAlertUser()") Ajouter une consultation
+            .summary
+                ul.summary-content
+                    li#item(onclick="window.location.href='/consultationsList'") Toutes les consultations
+                    li#item(onclick="showPopUpAlertUser()") À venir
+                    li#item(onclick="showPopUpAlertUser()") Terminées
+            .side-menu-footer
+        .main-container
+            .main-container-header.white
+                label
+                    input(type='text' placeholder='Rechercher une consultation')
+            .consultations
+                table
+                    thead
+                        tr
+                            - let numberOfConsultations = 0;
+                            each event in data.planning
+                                if event.type == "Consultation"
+                                    - numberOfConsultations += 1;
+                            th Consultations (#{numberOfConsultations}) 
+                            th Date
+                            th Description
+                            th
+                            th
+                            th
+                    tbody
+                        //- each patient in data.patients
+                        //-     tr.blue
+                        //-         td=patient.firstname + " " + patient.lastname
+                        //-         td=patient.birthdate.slice(0, 10).split("-").reverse().join("/")
+                        //-         td=patient.ss_number
+                        //-         td
+                        //-         td
+                        each event in data.planning
+                            if event.type == "Consultation"
+                                tr
+                                    each patient in data.patients 
+                                        if event.ss_number == patient.ss_number
+                                            td=patient.firstname + " " + patient.lastname + " (" + patient.ss_number + ")"
+                                            - break
+                                    td Le #{event.begin_at.slice(0, 10).split("-").reverse().join("/")} à #{event.begin_at.slice(11, 16).split(":").join("h")}
+                                    td=event.description
+                                    if new Date() < new Date(event.end_at)
+                                        td 
+                                            button.green(onclick="showPopUpAlertUser()") Commencer
+                                        td 
+                                            button(onclick="showPopUpAlertUser()") Modifier
+                                        td
+                                            span.material-icons(onclick="apiDelete(\'planning\', '" + event.id + "')") clear
+                                    else
+                                        td 
+                                            button(onclick="displayReport('" + event.description + "')") Rapport
+                                        td
+                                        td

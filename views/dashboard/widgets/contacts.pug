@@ -1,0 +1,8 @@
+.summary
+    ul.summary-header
+        li.active Contacts
+    ul.summary-content(style="overflow: auto")
+        each contact in contacts
+            li #{contact.name}
+    ul.summary-footer
+        button.active-button(onclick="window.location.href = \"/directory\"") Accéder à mes contacts

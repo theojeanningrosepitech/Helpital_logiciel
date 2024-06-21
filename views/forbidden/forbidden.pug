@@ -1,0 +1,13 @@
+extends ../header
+block content
+    link(rel='stylesheet', href='/stylesheets/style.css')
+
+    #pop-up-container
+        .welcome-section
+            .rights-section
+                //PAGE D'ERREUR quand une utilisateur n'as pas les droit d'accès a une page de l'application
+                .rights-header
+                    h2(class="rights-header title") Vous n'avez pas la permission d'effectuer cette action.
+                .rights-content
+                    p(class="rights-content text") Contactez votre chef de service pour résoudre ce problème.
+                    button(onclick="window.location.href='/planning'") Fermer

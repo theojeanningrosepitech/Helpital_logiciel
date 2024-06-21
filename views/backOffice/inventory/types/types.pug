@@ -1,0 +1,29 @@
+extends ../../../header
+block content
+    link(rel='stylesheet', href='/stylesheets/back_office/back_office.css')
+    link(rel='stylesheet', href='/stylesheets/list.css')
+    script(type='text/javascript', src='/javascripts/back_office/back_office.js')
+    div.flex-box
+        div.navbar.flex-item
+            if favorites.length
+            div.navbar-title Accès rapide
+            ul.navbar-container
+                each section in favorites
+                    li.navbar-button(onclick='load(this)')
+                        a(href=`${section.section_path}`)=section.section_display_name
+            if sections.length
+            div.navbar-title Toutes
+            ul.navbar-container
+                each section in sections
+                    li.navbar-button(onclick='load(this)')
+                        a(href=`${section.section_path}`)=section.section_display_name
+        #inner-body.margin-top-element
+            div.list-box
+                div.list-header
+                    p Nom
+                    input.centered(id="search-input", placeholder="Recherche", search-uri="/api/inventory/types", object-uri='/back_office/inventory/types/type?id=', websocket-ressource='inventory_type')
+                    p Numéro
+                div.details.list(id="list")
+            div.bottom-buttons
+                a.add(href="/back_office/inventory/types/new") Créer une catégorie
+        script(type='text/javascript' src='/javascripts/list.js')

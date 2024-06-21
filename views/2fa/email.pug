@@ -1,0 +1,28 @@
+doctype html
+html
+    head
+        title= title
+        link(rel='stylesheet', href='https://fonts.googleapis.com/css2?family=Nunito:wght@800&display=swap')
+        link(href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet")
+        link(rel='stylesheet', href='/stylesheets/styles.css')
+        link(rel='stylesheet', href='/stylesheets/login.css')
+        script(type='text/javascript' src='/javascripts/login.js')
+    body
+        #flex-container
+            .login-section
+                .login-header
+                    img(class="login-header image" src="/images/h_logo1.png")
+                .login-content
+                    span.login-content.title Code de double authentification (email)
+                    p Un code vient de vous être envoyé à l'adresse suivante: #{data.receiver}
+                    form(name="login", method="post", action="/auth/2fa/login")
+                        label
+                            input(type='text', placeholder="Code", name="code")
+                        input(type='hidden', name="method", value='email')
+                        input(type='submit', id='submit', value='Connexion')
+                .login-footer
+                    a(href="/auth/2fa/method") Choisir une autre méthode d'envoi
+                .login-footer
+                    a(href="/") Abandonner
+        script.
+            initNfcReader();

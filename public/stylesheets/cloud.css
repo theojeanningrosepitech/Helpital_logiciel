@@ -1,0 +1,624 @@
+.cloud-separator {
+    width: 100%;
+    display: block;
+    border-top: 2px solid var(--h3-color);
+}
+
+#cloud {
+    overflow-x: hidden;
+}
+
+#cloud > #cloud-nav{
+    width: 19em;
+    height: 100%;
+    position: fixed;
+    background: linear-gradient(0, var(--lightGrey), transparent);
+}
+
+#cloud > #cloud-nav > #add-file{
+    position: relative;
+    margin-top: 2em;
+    margin-right: 10px;
+    left: 10.75em;
+    transform: translate(-50%, 0);
+    background-color: var(--primaryColor);
+    width: calc(100% - 3em);
+}
+#cloud > #cloud-nav > #add-file:hover{
+    background-color: var(--lightPrimaryColor);
+}
+
+#cloud > #cloud-nav > #add-folder{
+    position: fixed;
+    bottom: 2em;
+    left: 10.75em;
+    transform: translate(-50%, 0);
+    background-color: var(--h3-color);
+    width: calc(19em - 1em);
+}
+
+#cloud > #cloud-nav > #cloud-nav-links{
+    margin-top: 1.5em;
+    padding: 0.05em 0 0.05em 0;
+    border-radius: 0 8px 8px 0;
+}
+
+#cloud > #cloud-nav > #cloud-nav-links > a{
+    background-color: #e9e9e9;
+    display: block;
+    padding: 0.75em 1.5em;
+    margin: 0.25em 0.25em 0.25em 0;
+    border-radius: 0 8px 8px 0;
+}
+#cloud > #cloud-nav > #cloud-nav-links > a+a{
+    margin-top: 0;
+}
+#cloud > #cloud-nav > #cloud-nav-links > a:hover,
+#cloud > #cloud-nav > #cloud-nav-links > a.selected{
+    background-color: var(--darkerGrey);
+}
+
+#cloud > #cloud-nav > #cloud-nav-links > .cloud-separator{
+    margin: 0.5em 0;
+    width: calc(100% - 0.25em);
+}
+
+
+
+#cloud > #cloud-lists{
+    padding: 1em;
+    margin-left: 19em;
+}
+
+#cloud > #cloud-lists > #search-cloud {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 1em;
+    padding-left: 10px !important;
+}
+
+#cloud > #cloud-lists > h3 {
+    margin-bottom: 0.5em;
+}
+
+#cloud > #cloud-lists > #folders {
+    grid-gap: 1em;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 1em 0;
+}
+#cloud > #cloud-lists > #folders > div{
+    background-color: var(--darkerGrey);
+    border-radius: 8px;
+    padding: 1em;
+    position: relative;
+    cursor: pointer;
+}
+#cloud > #cloud-lists > #folders > div > span {
+    color: var(--secondaryColor);
+}
+#cloud > #cloud-lists > #folders > div > img.favorite {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    height: 1.5em;
+}
+
+#cloud > #cloud-lists > #order-cloud{
+    float: right;
+}
+
+#cloud > #cloud-lists > #order-cloud > select {
+    margin-left: 0.5em;
+    text-align: left;
+}
+
+#cloud > #cloud-lists > #files {
+    grid-gap: 1em;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(13em, 1fr));
+    padding: 1em 0;
+}
+#cloud > #cloud-lists > #files > div{
+    cursor: pointer;
+    background-color: var(--lightGrey);
+    border-radius: 8px;
+    padding: 1em;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+}
+#cloud > #cloud-lists > #files > div > h2 {
+    margin: 0;
+}
+#cloud > #cloud-lists > #files > div > p {
+    color: var(--h3-color);
+    font-size: small;
+}
+#cloud > #cloud-lists > #files > div > img.favorite {
+    position: absolute;
+    top: 0.75em;
+    right: 0.75em;
+    width: 2em;
+}
+#cloud > #cloud-lists > #files > div > img.patient {
+    position: absolute;
+    top: 0.75em;
+    left: 0.75em;
+    width: 2em;
+}
+#cloud > #cloud-lists > #files > div > .preview {
+    background-color: var(--secondaryColor);
+    height: 10em;
+    position: relative;
+    border-radius: 8px;
+}
+#cloud > #cloud-lists > #files > div > .preview > img {
+    object-fit: scale-down;
+    width: 100%;
+    height: 100%;
+}
+#cloud > #cloud-lists > #files > div > .preview > p {
+    position: absolute;
+    bottom: 0.5em;
+    margin: 0;
+    transform: translate(-50%, 0);
+    left: 50%;
+    background-color: var(--secondaryColor);
+    padding: 0.25em 0.5em;
+    border-radius: 8px;
+}
+
+#cloud-popup-background{
+    z-index: 1;
+    display: none;
+    position: fixed;
+    top: 3em;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: calc(100% - 3em);
+    padding: 0;
+    margin: 0;
+    background-color: #00000082;
+    border-radius: 0;
+    text-align: center;
+}
+
+.cloud-popup {
+    display: none;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%,-40%);
+    width: 65vw;
+    height: 70%;
+    flex-direction: column;
+    padding-top: 0.5em;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.cloud-popup div {
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.cloud-popup > img.back {
+    width: 2em;
+    height: 2em;
+    position: absolute;
+    top: 0.5em;
+    left: 0.5em;
+    cursor: pointer;
+}
+
+.cloud-popup > h1,
+.cloud-popup > a > h1{
+    margin-top: 0.25em;
+}
+
+.cloud-popup > div:not(#files-defails):not(.list-header):not(.list) {
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.cloud-popup div#files-defails div {
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.cloud-popup > button.close {
+    position: absolute;
+    top: -1.25em;
+    right: -1.25em;
+    padding: 0.5em;
+    width: 2.5em;
+    height: 2.5em;
+    text-align: center;
+    border-radius: 50%;
+    background: #000;
+    border: 0px;
+    color: #FFF;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cloud-popup > img.back {
+    width: 2em;
+    height: 2em;
+    position: absolute;
+    top: 0.5em;
+    left: 0.5em;
+    cursor: pointer;
+}
+
+.cloud-popup > h1,
+.cloud-popup > a > h1{
+    margin-top: 0.25em;
+}
+
+.cloud-popup > #add-patient{
+    position: absolute;
+    left: 1em;
+    top: 1em;
+}
+
+.cloud-popup > #create-patient,
+.cloud-popup > #create-inventory{
+    position: absolute;
+    right: 2em;
+    top: 1em;
+}
+
+
+.cloud-popup > .list-header {
+    display: flex;
+    padding-bottom: 0.5em !important;
+    margin: 0 4em;
+    background-color: var(--lightPrimaryColor);
+    padding: 0.5em 1em;
+}
+.cloud-popup > .list-header > p {
+    flex: 1;
+    text-align: left;
+}
+.cloud-popup > .list-header > p:nth-child(3) {
+    flex: 0.8;
+}
+.cloud-popup > .list-header > p:last-child {
+    text-align: right;
+}
+
+.cloud-popup > .list {
+    overflow-y: overlay;
+    height: 70%;
+    padding-top: 0 !important;
+}
+
+.cloud-popup > .list > div {
+    padding: 0.5em 1em;
+    border-bottom: 1px solid black;
+    border-radius: 0;
+    cursor: pointer;
+}
+.cloud-popup > .list > div:hover {
+    background-color: #e9b9b9;
+}
+
+.cloud-popup > .list > div > p {
+    flex: 1;
+    text-align: left;
+}
+.cloud-popup > .list > div > p:nth-child(3) {
+    flex: 0.8;
+}
+.cloud-popup > .list > div > p:last-child {
+    text-align: right;
+}
+
+.cloud-popup > .info {
+    padding: 2em 4em;
+}
+
+.cloud-popup > .info > div:not(#files-info),
+.cloud-popup > .info > div#files-info > div {
+    display: flex;
+    margin-bottom: 1em;
+}
+
+.cloud-popup > .info > div:not(#files-info) > span:nth-child(1),
+.cloud-popup > .info > div#files-info > div > span:nth-child(1) {
+    width: 35%;
+    text-align: left;
+}
+
+.cloud-popup > .info > div:not(#files-info) > span:nth-child(2),
+.cloud-popup > .info > div#files-info > div > span:nth-child(2) {
+    width: 60%;
+    text-align: left;
+}
+
+.cloud-popup > .info > div > input,
+.cloud-popup > .info > div > select {
+    flex-grow: 1;
+    margin-bottom: 0.5em;
+}
+
+.cloud-popup > .info > input:not(:last-child),
+.cloud-popup > .info > select:not(:last-child) {
+    margin-right: 0.5em;
+}
+
+.cloud-popup > .details {
+    padding: 2em 4em;
+}
+
+.cloud-popup > .details > div {
+    display: flex;
+}
+
+.cloud-popup > .details > div > span {
+    width: 35%;
+    text-align: left;
+}
+.cloud-popup > .details > div > input,
+.cloud-popup > .details > div > select {
+    flex-grow: 1;
+    margin-bottom: 0.5em;
+}
+
+.cloud-popup > .details > input:not(:last-child),
+.cloud-popup > .details > select:not(:last-child) {
+    margin-right: 0.5em;
+}
+
+.cloud-popup > .buttons {
+    position: absolute;
+    bottom: 3em;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+
+.cloud-popup .edit-button {
+    height: 2em;
+    width: auto;
+    cursor: pointer;
+}
+
+.cloud-popup > .list-header {
+    display: flex;
+    padding-bottom: 0.5em !important;
+    margin: 0 4em;
+    background-color: var(--lightPrimaryColor);
+    padding: 0.5em 1em;
+}
+.cloud-popup > .list-header > p {
+    flex: 1;
+    text-align: left;
+}
+.cloud-popup > .list-header > p:nth-child(3) {
+    flex: 0.8;
+}
+.cloud-popup > .list-header > p:last-child {
+    text-align: right;
+}
+
+.cloud-popup > .list {
+    overflow-y: overlay;
+    height: 70%;
+    padding-top: 0 !important;
+}
+
+.cloud-popup > .list > div {
+    padding: 0.5em 1em;
+    border-bottom: 1px solid black;
+    border-radius: 0;
+    cursor: pointer;
+}
+.cloud-popup > .list > div:hover {
+    background-color: #e9b9b9;
+}
+
+.cloud-popup > .list > div > p {
+    flex: 1;
+    text-align: left;
+}
+.cloud-popup > .list > div > p:nth-child(3) {
+    flex: 0.8;
+}
+.cloud-popup > .list > div > p:last-child {
+    text-align: right;
+}
+
+#cloud-shared-users > .shared-users {
+    padding: 2em;
+}
+
+#cloud-shared-users > .shared-users > div {
+    display: flex;
+    width: 100%;
+    text-align: left !important;
+    border-bottom: 1px solid black;
+    border-radius: 0 !important;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+}
+
+#cloud-shared-users > .shared-users > div > :nth-child(1),
+#cloud-shared-users > .shared-users > div > :nth-child(2){
+    padding-top: 0.3em;
+    flex: 1;
+}
+
+/* tutorial */
+
+.help-button {
+    position: flex;
+    margin: 0;
+    padding: 0%, 10px, 0%, 10px;
+    cursor: pointer;
+    color: grey !important;
+}
+
+.display_none {
+    display: none;
+}
+
+#pop-up-container-tuto {
+    position: absolute;
+    width: 100%;
+    height: calc(100vh - 75px);
+    background-color: rgba(32, 32, 32, 0.2);
+    z-index: 2;
+}
+
+.robothelp {
+    position: absolute;
+    top: 35%;
+    left: -5%;
+}
+
+.tutorial_text_box {
+    height: 30%;
+    width: 40%;
+    position: absolute;
+    top: 0px;
+    left: 40%;
+    background-color: whitesmoke;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.triangle {
+    width: 0;
+	height: 0;
+    position: absolute;
+    top: 33%;
+    left: 50%;
+	border-left: 25px solid transparent;
+	border-right: 25px solid transparent;
+	border-top: 25px solid whitesmoke;
+}
+
+.tutorial_text_box_one {
+    height: 12%;
+    width: 15%;
+    position: absolute;
+    top: -10%;
+    left: 32%;
+    background-color: whitesmoke;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.triangle1 {
+    width: 0;
+	height: 0;
+    position: absolute;
+    top: -7%;
+    left: 48%;
+	border-top: 25px solid transparent;
+	border-left: 25px solid whitesmoke;
+	border-bottom: 25px solid transparent;
+}
+
+.tutorial_text_box_two {
+    height: 8%;
+    width: 15%;
+    position: absolute;
+    top: 7%;
+    left: 1%;
+    background-color: whitesmoke;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.triangle2 {
+    width: 0;
+	height: 0;
+    position: absolute;
+    top: 6%;
+    left: 8%;
+	border-left: 25px solid transparent;
+	border-right: 25px solid transparent;
+	border-bottom: 25px solid whitesmoke;
+}
+
+.tutorial_text_box_three {
+    height: 8%;
+    width: 14%;
+    position: absolute;
+    top: 1%;
+    left: 38%;
+    background-color: whitesmoke;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.triangle3 {
+    width: 0;
+	height: 0;
+    position: absolute;
+    top: 2%;
+    left: 37%;
+	border-top: 25px solid transparent;
+	border-right: 25px solid whitesmoke;
+	border-bottom: 25px solid transparent;
+}
+
+.tutorial_text_box_five {
+    height: 5%;
+    width: 18%;
+    position: absolute;
+    top: 91%;
+    left: 17%;
+    background-color: whitesmoke;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.triangle5 {
+    width: 0;
+	height: 0;
+    position: absolute;
+    top: 92%;
+    left: 16%;
+	border-top: 25px solid transparent;
+	border-right: 25px solid whitesmoke;
+	border-bottom: 25px solid transparent;
+}
+
+
+.tutorial_text_box::-webkit-scrollbar,.tutorial_text_box_one::-webkit-scrollbar,.tutorial_text_box_two::-webkit-scrollbar,.tutorial_text_box_three::-webkit-scrollbar,.tutorial_text_box_four::-webkit-scrollbar,.tutorial_text_box_five::-webkit-scrollbar {
+    width: 15px; /* width of the entire scrollbar */
+}
+
+.tutorial_text_box::-webkit-scrollbar-thumb,.tutorial_text_box_one::-webkit-scrollbar-thumb,.tutorial_text_box_two::-webkit-scrollbar-thumb,.tutorial_text_box_three::-webkit-scrollbar-thumb,.tutorial_text_box_four::-webkit-scrollbar-thumb,.tutorial_text_box_five::-webkit-scrollbar-thumb {
+    background-color: rgb(172, 172, 172); /* color of the scroll thumb */
+    border-radius: 25px; /* roundness of the scroll thumb */
+    border: 3px solid white; /* creates padding around scroll thumb */
+}
+
+.tutorial-button {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.tutorial-button a {
+    padding-bottom: 5%;
+}

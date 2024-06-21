@@ -1,0 +1,30 @@
+doctype html
+html
+    head
+        title= title
+        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;700;800;900;1000&display=swap" rel="stylesheet">
+        link(href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet")
+        link(rel='stylesheet', href='/stylesheets/styles-2.1.0.css')
+        link(rel='stylesheet', href='/stylesheets/login.css')
+        script(type='text/javascript' src='/javascripts/login.js')
+    body
+        -if (users.length == 0)
+            #login-container
+            script.
+                update("", "#{machineId}");
+        -else
+            #login-container
+                .login-section
+                    .login-header
+                        img(class="login-header image" src="/images/h_logo1.png")
+                    .login-content
+                        each user in users
+                            .accounts-section
+                                input(type="submit" onclick="update( '" + user.login + "'," + machineId + ")" value=user.login)
+                                button(class="delete-account" onclick="deleteUser( '" + user.id + "', '" + machineId + "'  ,this)")
+                                    span(class="material-icons") clear
+                    .login-footer
+                        button(onclick="update('', " + machineId + ")") Ajouter un utilisateur
+                        if err
+                            .error
+                                span Erreur lors de la connexion. Veuillez réessayer.

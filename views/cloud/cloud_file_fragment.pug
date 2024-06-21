@@ -1,0 +1,14 @@
+div(item-id=`${file.uuid}`, creator=`${file.user_id}`, filename=`${file.filename}`, display_name=`${file.display_name}`)
+    h2 #{file.display_name}
+    p Crée le #{file.formatedCreationDate}
+    div.preview
+        img(src=`${file.preview}`)
+        p #{file.formatedSize}
+    if (file.patient_id)
+        img.patient(src="/images/person.svg")
+    else
+        img.patient(style="display: none", src="/images/person.svg")
+    if (file.favorite)
+        img.favorite(src="/images/star.svg")
+    else
+        img.favorite(src="/images/star-outline.svg")

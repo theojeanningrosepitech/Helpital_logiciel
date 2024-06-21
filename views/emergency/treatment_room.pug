@@ -1,0 +1,44 @@
+extends  ../header
+block content
+    link(rel='stylesheet' href='/stylesheets/emergency.css')
+    script(type='text/javascript' src='/javascripts/treatment_room.js')
+
+    #header-container
+        .page-header
+            .page-informations
+                .page-title
+                    h1 Salle de soin
+                .page-description
+                    p ⏲️ Placer des patients dans des lits dans la salle de soin
+
+    .grid-container
+        .flex-box-table-em
+            each treatment_room, index in data.treatment_room
+                .table-bed-elem.grid-item(id=`grid-item-${treatment_room.id}`)
+                    if Object.keys(data.treatment_patients[index]).length >0
+                        button.popup-open(onclick="showPopUpPatient(this)" treatment_room_id=`${treatment_room.id}`) Place indisponible
+                        p #{data.treatment_patients[index].firstname} #{data.treatment_patients[index].lastname}
+                    else
+                        button.popup-open(onclick="showPopUpPatient(this)" treatment_room_id=`${treatment_room.id}`) Place disponible
+
+
+    #pop-up-form-container-patient
+        .form-section
+            .form-header
+                .close-pop-up
+                    a(onclick="hidePopUpPatient()")
+                        span.material-icons clear
+                h2(class="form-header title") Ajouter un patient
+            .form-content
+                .event
+                    label
+                        input.entry(type='text' id="add_patient" onkeyup="searchListPatient()" placeholder='Entrer un patient' autocomplete='off' required)
+                        ul#displayPatient
+                            each patient in data.patients.all_patients
+                                li(id=patient.id onclick="displayPatientInformations('" + JSON.stringify(patient) +"',)")
+                                    a=patient.firstname + " " + patient.lastname
+                        .Patient
+                            div(th:each='element : ${interestList}')
+                                span(th:text='${element}')
+                        select.input(id ="listPatient")
+                    button.btnSave(onclick="saveInfo(this)") Enregistrer

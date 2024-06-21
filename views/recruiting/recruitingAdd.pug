@@ -1,0 +1,34 @@
+extends ../header
+block content
+    link(rel='stylesheet', href='/stylesheets/planning.css')
+    link(rel='stylesheet', href='/stylesheets/mailPage.css')
+    script(type='text/javascript' src='/javascripts/utils.js')
+    script(type='text/javascript' src='/javascripts/recruiting.js')
+
+    #header-container
+        .page-header
+            .page-informations
+                .page-title
+                    h1 Création d'offres d'emplois
+                .page-description
+                    p 📥 Créez une offre d'emploi pour l'hôpital
+
+    .container-mail
+        .form-section
+            h2.form-header Décrivez l'offre d'emploi à ajouter
+            .form-content
+                .form-dest
+                    label Type d'emploi : 
+                        input.input_dest(name="type" id="type" type='text')
+                .form-subject
+                    label Date de début : 
+                        input.input_dest(name="date" id="date" type='text')
+                .form-subject
+                    label Rémunération : 
+                        input.input_dest(name="compensation" id="compensation" type='text')
+                .form-subject
+                    label Compétences recherchées : 
+                        input.input_dest(name="skills" id="skills" type='text')
+            label
+                input.add(type='submit', id='submit', value='Poster', onClick=`addOffer()`)
+            a(href='/recruiting' style=" margin-top: 1rem;") Liste des offres d'emploi

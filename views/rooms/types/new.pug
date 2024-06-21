@@ -1,0 +1,12 @@
+extends ../../header
+block content
+    link(rel='stylesheet', href='/stylesheets/room.css')
+    script(type='text/javascript' src='/javascripts/room.js')
+    #inner-body.margin-top-element
+        div.property-list
+            div.actions
+                button.add(onClick="createRoomCategory()") Créer
+            h3 Informations
+            div
+                span Nom :
+                input#category-name(placeholder="nom")

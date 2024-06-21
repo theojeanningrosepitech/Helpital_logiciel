@@ -1,0 +1,861 @@
+/* ################################################ */
+/* ###### Global variables for HTML elements ###### */
+/* ################################################ */
+
+:root {
+    /* Variables for background and primary color */
+    --bg-color: #fdebeb;
+    --color: #b52323;
+
+    /* Variables for headers */
+    /* => h1 */
+    --h1-color: rgb(17, 17, 17);
+    --h1-font-weight: bolder;
+    --h1-font-size: 22px;
+    /* => h2 */
+    --h2-color: rgb(58, 58, 58);
+    --h2-font-weight: bold;
+    --h2-font-size: 18px;
+    /* => h3 */
+    --h3-color: rgb(119, 119, 119);
+    --h3-font-weight: bold;
+    --h3-font-size: 16px;
+
+    /* Variables for text */
+    /* => span */
+    --span-color: rgb(71, 71, 71);
+    /* => p */
+    --p-color: rgb(71, 71, 71);
+
+    /* Variables for anchor and button */
+    /* => a */
+    --a-color: #afafaf;
+    --a-hover-color: rgb(236, 58, 58);
+    /* => button */
+    --button-bg-color: #c4c4c4;
+    --button-color: white;
+    --button-hover-bg-color: rgb(255, 50, 50);
+    --button-hover-color: white;
+
+    /* Variables for #container */
+    --container-width: 99%;
+
+    /* Variables of margin and padding */
+    --general-margin: 50px 1vh 0vh 1vh;
+    --general-padding: 5vh;
+
+    /* Variables for text-decoration and font */
+    --text-decoration: none;
+    --font-family: 'Nunito', sans-serif;
+    --font-weight: normal;
+    --font-style: normal;
+
+    /* Variables for custom scroll bar (comment l.86) */
+    --scroll-bar-bg-color: white;
+    --scroll-bar-color: #a1a1a1;
+    --scroll-bar-size: 0 0 0 0;
+    --scroll-bar-width: 10px;
+
+    /* Sections varables */
+    --section-bg-color: white;
+    --section-color: black;
+    --section-height: 80vh;
+    --section-border-radius: 10px; /* 0px 0px 10px 10px */
+}
+
+/* Parameters for all the application */
+* {
+    font-family: var(--font-family);
+    font-weight: var(--font-weight);
+    font-style: var(--font-style);
+}
+
+/* CSS for icons used by Google Icons */
+.material-icons {
+    font-size: 30px !important;
+    color: var(--a-color);
+    vertical-align: middle;
+    transition: color 0.3s;
+}
+
+.material-icons:hover {
+    color: var(--a-hover-color);
+}
+
+/* Custom scroll bar */
+/* html::-webkit-scrollbar
+{
+    background-color: var(--scroll-bar-bg-color);
+    border-radius: var(--scroll-bar-size);
+    width: var(--scroll-bar-width);
+}
+
+html::-webkit-scrollbar-thumb
+{
+    background-color: var(--scroll-bar-color);
+    border-radius: var(--scroll-bar-size);
+} */
+
+.hidden{
+    display: none;
+}
+
+tr > td {
+    color: black;
+}
+
+/* Simple container */
+#container {
+    width: var(--container-width);
+    margin: auto;
+}
+
+/* Flex container */
+#flex-container {
+    height: 95vh;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+/* Pop-up container */
+#pop-up-container {
+    z-index: 1;
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(32, 32, 32, 0.2);
+}
+
+#right-click-menu{
+    z-index: 505;
+    position: absolute;
+    background-color: #ffffff;
+    border: 1px  solid var(--a-color);
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    border-radius: 8px;
+    display: none;
+}
+#right-click-menu > p{
+    margin: 0;
+    padding: 0.5em 1em;
+}
+#right-click-menu > p:first-child{
+    border-radius: 8px 8px 0 0;
+}
+#right-click-menu > p:last-child{
+    border-radius: 0 0 8px 8px;
+}
+#right-click-menu > p:hover{
+    background-color:  var(--a-color);
+}
+/* CSS for HTML elements */
+body {
+    background-color: var(--bg-color);
+    margin: 0;
+    margin-top: 75px !important;
+}
+
+/* Custom navigation bar for all the application */
+
+/* Vertical navigation bar */
+/* nav {
+  background-color: white;
+  margin: 0;
+  top: 0;
+  left: 0;
+  position: fixed;
+  box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
+  border-right: 3px solid;
+  border-color: #ff6565;
+  z-index: 2;
+  width: 150px;
+  height: 100vh;
+  text-align: center;
+}
+
+nav a {
+  text-align: center;
+}
+
+nav img {
+  width: 50px;
+  vertical-align: middle;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+li a {
+  display: block;
+  color: #000;
+  padding: 8px 16px;
+  text-decoration: none;
+}
+
+li a:hover {
+  color: #ff6565;
+} */
+
+/* Horizontal navigation bar */
+nav {
+    background-color: white;
+    margin: 0;
+    top: 0;
+    left: 0;
+    position: fixed;
+    box-shadow: 0px 0px 30px 0px rgba(0, 0, 0, 0.1);
+    border-bottom: 3px solid;
+    border-color: #ff6565;
+    width: 100%;
+    z-index: 2;
+    max-height: 50px;
+    outline: none;
+}
+
+nav img {
+    width: 30px;
+    vertical-align: middle;
+    outline: none;
+}
+
+nav ul, nav li {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    outline: none;
+}
+
+nav ul {
+    display: flex;
+    align-items: center;
+}
+
+nav li {
+    width: auto;
+    padding: 10px 10px 10px 10px;
+}
+
+nav li:nth-child(6) {
+    margin-left: auto;
+}
+
+nav a {
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+nav a:active {
+    color: var(--a-color);
+    text-decoration: var(--text-decoration);
+    cursor: pointer;
+}
+
+.nav-dropdown-child {
+    display: none;
+    background-color: rgb(236, 85, 85);
+    box-shadow: 0px 0px 36px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 0 10px 10px 10px;
+    position: absolute;
+    width: 200px;
+    padding: 10px;
+    top: 40px;
+    z-index: 2;
+}
+
+.nav-dropdown::after {
+    content: " ▼";
+    font-size: 12px;
+}
+
+li:hover .nav-dropdown-child {
+    display: block;
+    transition: background-color 0.3s;
+}
+
+ul li .nav-dropdown-child:hover {
+    background-color: rgb(255, 66, 66);
+}
+
+.nav-dropdown-child li {
+    display: inline-block;
+    width: 100%;
+    text-align: left;
+}
+
+.nav-dropdown-child li:last-child {
+    margin-left: 0;
+}
+
+.nav-dropdown-child a {
+    color: white;
+}
+
+.nav-dropdown-child a:hover {
+    color:var(--a-color);
+}
+
+/* h1, h2, h3 with global variables set on the :root */
+h1 {
+    color: var(--h1-color);
+    font-weight: var(--h1-font-weight);
+    font-size: var(--h1-font-size);
+}
+
+h2 {
+    color: var(--h2-color);
+    font-weight: var(--h2-font-weight);
+    font-size: var(--h2-font-size);
+}
+
+h3 {
+    color: var(--h3-color);
+    font-weight: var(--h3-font-weight);
+    font-size: var(--h3-font-size);
+}
+
+/* span and p with global variables set on the :root */
+span {
+    color: var(--span-color);
+}
+
+p {
+    color: var(--p-color);
+}
+
+/* a and button with global variables set on the :root */
+a {
+    color: var(--a-color);
+    text-decoration: var(--text-decoration);
+    cursor: pointer;
+}
+
+a:hover {
+    color: var(--a-hover-color);
+}
+
+button {
+    background-color: var(--button-bg-color);
+    color: var(--button-color);
+    border: none;
+    border-radius: 10px;
+    padding: 10px 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: var(--button-hover-bg-color);
+    color: var(--button-hover-color);
+}
+
+button.red {
+    background-color: var(--button-hover-bg-color);
+    color: var(--button-hover-color);
+}
+button.red:hover {
+    background-color: rgb(247, 128, 128);
+}
+
+/* label and inputs with global variables set on the :root */
+label {
+    display: block;
+    margin: 10px 0 10px 0;
+    position: relative;
+}
+
+input {
+    background-color: #f3f2f2;
+    color: black;
+    border: none;
+    padding: 10px 15px 10px 15px !important;
+    border-radius: 10px;
+    padding: 10px 15px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+}
+
+input:hover {
+    background-color: #dadada;
+}
+
+input:active, input:focus {
+    background-color: white;
+    box-shadow: 0 0 0 #f3f2f2;
+}
+
+input[type=email], input[type=password], input[type=text] {
+    width: 200px !important;
+}
+
+input[type="checkbox" i] {
+    margin: 5px;
+    vertical-align: middle;
+}
+
+input[type=submit] {
+    width: 200px !important;
+    background-color: rgb(255, 70, 70);
+    color: white;
+}
+
+input[type=submit]:hover {
+    background-color: rgb(247, 128, 128);
+    color: white;
+}
+
+.input-icon {
+    position: absolute;
+    color: white !important;
+    left: 195px;
+    font-size: 20px !important;
+    margin: 10px 10px 10px 0px;
+    cursor: pointer;
+}
+
+.input-icon:hover {
+    color: rgb(192, 192, 192) !important;
+}
+
+.input-icon-start {
+    position: absolute;
+    color: rgb(255, 45, 45) !important;
+    left: 20px;
+    font-size: 20px !important;
+    margin: 10px 10px 10px 0px;
+    cursor: pointer;
+}
+
+/* ##################################### */
+/* ###### Custom CSS for sections ###### */
+/* ##################################### */
+
+
+/* Custom section to display page informations */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: lightgrey;
+}
+
+
+/* Custom section to display errors */
+.error {
+    background-color: rgb(255, 70, 70);
+    border: none;
+    border-radius: 10px;
+    padding: 10px 15px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    width: 200px;
+    margin: auto;
+    margin-top: 2em;
+}
+
+.error span {
+    color: white;
+    font-size: 14px;
+}
+
+/* Custom container for the welcome pop-up on the homepage */
+.welcome-section {
+    background-color: var(--section-bg-color);
+    border-radius: 10px;
+    box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    -webkit-box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    -moz-box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    color: var(--section-color);
+    padding: var(--general-padding);
+    width: 500px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.welcome-header .image {
+    width: 5em;
+    vertical-align: middle;
+}
+
+.welcome-content .title {
+    font-size: 1.5em;
+    display: inline-block;
+}
+
+.welcome-content .text {
+    font-size: 1em;
+    margin-bottom: 0;
+    color: rgb(161, 161, 161);
+}
+
+/* Custom sections with different sizes for all the application */
+/* Simple section */
+.section-1 {
+    background-color: var(--section-bg-color);
+    border-radius: var(--section-border-radius);
+    color: var(--section-color);
+    height: var(--section-height);
+    padding: var(--general-padding);
+    width: 90%;
+}
+
+.section-1-flex-box {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    /* align-items: center; */
+}
+
+.section-1-flex-box img {
+    width: 100px;
+}
+
+.section-1-flex-box .arrow {
+    width: 20px;
+    height: 2vh;
+}
+
+.section-1-flex-box button {
+    margin: 0px 5px 0px 5px !important;
+}
+
+.search-patient {
+    margin-bottom: 2%;
+}
+
+.section-1 input {
+    text-align: left;
+    padding-left: 40px !important;
+    margin: 0px 10px 0px 10px;
+}
+
+.section-1 input .search {
+    text-align: center;
+    padding-left: 40px !important;
+    margin: 0px !important;
+}
+
+/* Flex sections */
+.section-2, .section-3, .section-4, .section-5 {
+    display: flex;
+    justify-content: center;
+}
+
+/* Flex left side sections */
+.section-2-child-div, .section-3-child-div, .section-4-child-div-large, .section-4-child-div-small, .section-5-child-div {
+    background-color: var(--section-bg-color);
+    border-radius: var(--section-border-radius);
+    color: var(--section-color);
+    width: var(--container-width);
+    height: var(--section-height);
+    margin: var(--general-margin);
+    padding: var(--general-padding);
+    justify-content: left;
+}
+
+/* Flex large section */
+.section-4-child-div-large {
+    width: 70% !important;
+}
+
+/* Flex small section */
+.section-4-child-div-small {
+    width: 30% !important;
+}
+
+/* ##################################################################### */
+/* ##################################################################### */
+/* ############################## OLD CSS ############################## */
+/* ##################################################################### */
+/* ##################################################################### */
+
+select {
+    background-color: #f3f2f2;
+    color: black;
+    border: none;
+    padding: 10px 10px 10px 10px !important;
+    border-radius: 10px;
+    padding: 10px 15px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+}
+
+.anchor-redirect {
+    margin: 10px;
+    display: inline-block;
+    background-color: var(--button-bg-color);
+    color: var(--button-color);
+    border: none;
+    border-radius: 10px;
+    padding: 10px 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.anchor-redirect:hover {
+    background-color: var(--button-hover-bg-color);
+    color: var(--button-hover-color);
+}
+
+.white-box {
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  text-align: center;
+}
+
+.margin-top-element {
+    margin-top: 8em;
+}
+
+#page-title {
+    width: 50%;
+    transform: translate(50%, 0);
+    padding: 0.5em 1em;
+    margin-top: 4em;
+    margin-bottom: 1em;
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    text-align: center;
+}
+
+#overlay {
+    display: block;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    cursor: pointer;
+}
+
+#underlay {
+    display: none;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    cursor: pointer;
+}
+
+/**** Custom alert classes ****/
+#error-status {
+    text-align: start;
+    padding: 1em;
+    margin: 3em;
+    margin-top: 6em;
+}
+
+
+#alert-box-background {
+    z-index: 500;
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: #0000007D;
+    top: 0;
+    left: 0;
+    display: none;
+}
+
+#alert-box-background > #alert-box {
+    background-color: white;
+    position: fixed;
+    width: 50vw;
+    top: 50%;
+    max-height: 65vh;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 3ch;
+    border-radius: 2px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+#alert-box-background > #alert-box::-webkit-scrollbar {
+    display: none;
+}
+
+#alert-box-background > #alert-box > .notification > h1 {
+    margin: 0;
+    display: inline-block;
+}
+
+#alert-box-background > #alert-box > .notification > p,
+#alert-box-background > #alert-box > .notification input,
+#alert-box-background > #alert-box > .notification button {
+    margin-top: 1em;
+}
+
+#alert-box-background > #alert-box > .notification > .prompt {
+    width: 100%;
+}
+#alert-box-background > #alert-box > .notification > .prompt input {
+    width: calc(100% - 4ch);
+    text-align: left;
+}
+#alert-box-background > #alert-box > .notification > .prompt button {
+    float: right;
+}
+
+#alert-box-background > #alert-box > #close-alert {
+    position: absolute;
+    top: -1.25em;
+    right: -1.25em;
+    padding: 0.5em;
+    width: 2.5em;
+    height: 2.5em;
+    text-align: center;
+    border-radius: 50%;
+    background: #000;
+    border: 0px;
+    color: #FFF;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#header-search-bar {
+    padding: 0 10px 0 10px;
+    margin: auto;
+}
+
+#navigation-bar {
+    background-color: white;
+    font-size: 1.3em;
+    position: relative;
+    border-top: 1px solid;
+    border-color: #ff6565;
+}
+
+#navigation-bar > div {
+    display: inline-block;
+    position: relative;
+}
+
+#navigation-bar > div:nth-child(2) {
+    margin-left: 2em;
+}
+
+#navigation-bar > button {
+    position: absolute;
+    padding: 0;
+    background: #ffffff00;
+    left: 0.5em;
+}
+
+#navigation-bar > button > img {
+    height: 1.3em;
+    width: 1.3em;
+}
+
+#navigation-bar > i {
+    border: solid var(--a-hover-color);
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 5px;
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+
+#navigation-bar > div > a {
+    padding: 0 1em;
+}
+
+#navigation-bar > div > div.list {
+    display: none;
+    background-color: var(--bg-color);
+    box-shadow: 0px 6px 8px 0px #9b9b9b;
+    position: absolute;
+    top: 1.3em;
+    left: 0;
+    border-radius: 10px;
+    height: auto;
+}
+
+#navigation-bar > div:hover > div.list {
+    display: block;
+}
+
+#navigation-bar > div > div.list > a {
+    display: block;
+    padding: 0.2em 1em;
+}
+
+#navigation-bar > div > div > div.list > a:first-child {
+    padding-top: 0.5em;
+}
+
+#navigation-bar > div > div.list > a:last-child {
+    padding-bottom: 0.5em;
+}
+
+#navigation-bar > div > div.list > a:hover {
+    background-color: white;
+}
+#navigation-bar > div > div.list > a:hover:first-child {
+    border-radius: 10px 10px 0 0;
+}
+#navigation-bar > div > div.list > a:hover:last-child {
+    border-radius: 0 0 10px 10px;
+}
+
+#navigation-bar > div > div.list > a.selected {
+    color: var(--a-hover-color);
+}
+
+.notificationElementBox {
+    padding: 10px;
+    border-bottom: #ff6565 2px solid;
+    min-height: 17%;
+    display: flex;
+    text-align: left;
+    flex-direction: column;
+    justify-content: space-between;
+    color: #474747;
+    background-color: #efefef;
+}
+
+.notificationBox {
+    width: 20%;
+    height: 35vh;
+    top: 252px;
+    left: 85%;
+    background-color: var(--section-bg-color);
+    border-radius: 10px;
+    box-shadow: 0px 0px 30px 0px rgb(0 0 0 / 10%) !important;
+    -webkit-box-shadow: 0px 0px 30px 0px rgb(0 0 0 / 10%) !important;
+    -moz-box-shadow: 0px 0px 30px 0px rgba(0,0,0,0.1);
+    color: var(--section-color);
+    position: absolute;
+    transform: translate(-50%,-50%);
+    text-align: center;
+    overflow-y: auto;
+    z-index: 1;
+}
+
+.notificationCheckContent {
+    display: flex;
+    justify-content: right;
+    font-size: 14px;
+    color: #adadad;
+    cursor: pointer;
+}
+
+.notificationCheckContent:hover {
+    display: flex;
+    justify-content: right;
+    font-size: 14px;
+    color: #adadad;
+}

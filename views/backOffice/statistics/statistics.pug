@@ -1,0 +1,56 @@
+extends ../../header
+block content
+    link(rel='stylesheet', href='/stylesheets/statistics.css')
+    script(type='text/javascript' src='/javascripts/statistics.js')
+
+    div#statistics
+        span Du:
+        input#date-from(type="date" name="date-from" maxlength="10" placeholder="jj/mm/aaaa")
+        span Jusqu'au
+        input#date-to(type="date" name="date-to" maxlength="10" placeholder="jj/mm/aaaa")
+        br
+        div#statistics-content
+            div
+                h3 Age des patients
+                canvas(data="patientsAges")
+            div
+                h3 Occupation des services
+                canvas(data="patientsServices")
+            div
+                h3 Personnel par service
+                canvas(data="usersServices")
+            div
+                h3 Roles du personnel
+                canvas(data="usersRoles")
+            div
+                h3 Salles par service
+                canvas(data="roomsServices")
+            div
+                h3 Types de salles
+                canvas(data="roomsTypes")
+            div
+                h3 Nouveaux fichiers cloud
+                canvas(data="cloudFilesCreation")
+            div
+                h3 Réparation fichiers/dossiers
+                canvas(data="cloudFilesFolders")
+            div
+                h3 Nouveaux évenements (planning)
+                canvas(data="planningEventsBegin")
+            div
+                h3 Nouveaux messages
+                canvas(data="messagesCreation")
+            div
+                h3 Nouvelles notifications
+                canvas(data="notificationsCreation")
+            div
+                h3 Types de notifications
+                canvas(data="notificationsTypes")
+            div
+                h3 Nouveux contracts
+                canvas(data="contractsStart")
+            div
+                h3 Nouvelles demandes de réparation
+                canvas(data="repairCreation")
+    script.
+        initStatistics()

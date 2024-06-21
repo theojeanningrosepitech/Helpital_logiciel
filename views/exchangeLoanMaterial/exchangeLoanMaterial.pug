@@ -1,0 +1,50 @@
+extends ../header
+block content
+    link(rel='stylesheet', href='/stylesheets/planning.css')
+    link(rel='stylesheet', href='/stylesheets/exchangeLoanMaterial.css')
+    script(type='text/javascript' src='/javascripts/exchangeLoanMaterial.js')
+
+    #header-container
+        .page-header
+            .page-informations
+                .page-title
+                    h1 👨‍⚕️ Échange/prêt matériel
+                .page-description
+                    p Visualisez le matériel disponible dans votre hôpital et ceux aux alentours
+
+    .list_materiels
+        .list_meteriel_int
+            table.table
+                th Nom
+                th Quantité
+                th Chambre
+                th Disponible
+                caption Liste du matériel dans votre hôpital
+                tbody
+                    each exchangeLoanMaterial in exchangeLoanMaterials
+                        tr
+                            td #{exchangeLoanMaterial.title}
+                            td #{exchangeLoanMaterial.quantity}
+                            td #{exchangeLoanMaterial.room_id}
+                            td
+                                a(href='#')
+                                    i.fa.fa-check-circle(aria-hidden='true')
+        .list_meteriel_ext
+            table.table
+                th Nom
+                th Quantité
+                th Chambre
+                th Contacter
+                caption Liste du matériel dans les hôpitaux alentours
+                tbody
+                    each inventory_other_hospital in inventory_other_hospitals.data
+                        tr
+                            td #{inventory_other_hospital.title}
+                            td #{inventory_other_hospital.nb}
+                            td #{inventory_other_hospital.chambre}
+                            td
+                                a(onClick=`sendMail("${inventory_other_hospital.title}", "${inventory_other_hospital.mail}")`)
+                                    i.fa.i.fa.fa-envelope(aria-hidden='true')
+                            td
+                                a(href=`/mailPage`)
+                                    i.fa.i.fa.fa-envelope-open(aria-hidden='true')

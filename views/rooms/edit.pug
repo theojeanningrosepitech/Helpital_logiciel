@@ -1,0 +1,33 @@
+extends ../header
+block content
+    link(rel='stylesheet', href='/stylesheets/room.css')
+    script(type='text/javascript' src='/javascripts/room.js')
+    #inner-body.margin-top-element(item-id=`${data.room.id}`)
+        div.property-list
+            div.actions
+                button.add(onClick="saveRoom(" + data.room.id + ")") Sauvegarder
+            h3 Informations
+            div
+                span Nom :
+                input#name(placeholder="nom", value=data.room.title)
+            div
+                span Type :
+                select#room-type
+                    each type in data.roomTypes
+                        -if (type.id == data.room.type.id)
+                            option(value=type.id, selected) #{type.display_name}
+                        -else
+                            option(value=type.id) #{type.display_name}
+            div
+                span Capacité :
+                input#capacity(placeholder="capacité", type="number", value=data.room.capacity)
+            div
+                span Superviseur :
+                select#supervisor
+                    each user in data.supervisors
+                        -if (data.room.supervisor && user.id == data.room.supervisor.id)
+                            option(value=user.id, selected) #{user.lastname} #{user.firstname}
+                        -else
+                            option(value=user.id) #{user.lastname} #{user.firstname}
+    script.
+        initRoomEdit();

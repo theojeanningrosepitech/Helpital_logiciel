@@ -1,0 +1,18 @@
+extends ../../header
+block content
+    link(rel='stylesheet', href='/stylesheets/room.css')
+    script(type='text/javascript' src='/javascripts/room.js')
+    #inner-body.margin-top-element(item-id=`${data.id}`)
+        div.property-list
+            div.actions
+                button.add(onClick="openLink('/rooms/types/edit?id=" + data.id + "')") Modifier
+                button.add(onClick="deleteRoomCategory(" + data.id + ")") Supprimer
+            h3 Informations
+            div
+                span Numéro :
+                span #{data.id}
+            div
+                span Nom :
+                span #{data.display_name}
+    script.
+        initRoomType();

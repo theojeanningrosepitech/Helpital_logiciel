@@ -1,0 +1,20 @@
+extends ../../header
+block content
+    link(rel='stylesheet', href='/stylesheets/back_office/back_office.css')
+    script(type='text/javascript', src='/javascripts/back_office/back_office.js')
+    .block_msg
+        .content_msg(id="width_content_msg")
+            .page-header
+                .page-informations
+                    .page-title
+                        h1 Administration système
+                    .page-description
+                        p ⚙️ Outil de gestion du système informatique Helpital
+            #inner-body.flex-item
+                h2 Gmail OAuth2
+                div#oauth2
+                    - var oauth2Style1 = (data.gmailOauth2Email != '' ? '' : 'display: none')
+                    - var oauth2Style2 = (data.gmailOauth2Email != '' ? 'display: none' : '')
+                    button(style=oauth2Style1, onclick="revokeGmailOAuth2()") Déconnecter #{data.gmailOauth2Email}
+                    button#btn-oauth2-gmail(style=oauth2Style2, onclick='connectGmailOAuth2()', client-id=`${data.gmailClientID}`, base-url=`${data.baseUrl}`) Se connecter
+            script(type='text/javascript', src='/javascripts/back_office/admin/admin.js')

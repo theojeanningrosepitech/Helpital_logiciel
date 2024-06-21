@@ -1,0 +1,6 @@
+div(creator=`${folder.user_id}`, item-id=`${folder.uuid}`, filename=`${folder.filename}`)
+    span #{folder.filename}
+    if (folder.favorite)
+        img.favorite(src="/images/star.svg")
+    else
+        img.favorite(src="/images/star-outline.svg")

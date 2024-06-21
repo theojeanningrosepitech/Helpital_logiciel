@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+    database:
+        image: postgres
+        restart: always
+        environment:
+            POSTGRES_USER: 'postgres'
+            POSTGRES_PASSWORD: 'password'
+            POSTGRES_DB: 'electron_app'
+        volumes:
+            - ./schema.sql:/docker-entrypoint-initdb.d/init.sql
+            - ./postgres/db-data:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+    database_test:
+        image: postgres
+        restart: always
+        environment:
+            POSTGRES_USER: 'postgres'
+            POSTGRES_PASSWORD: 'password'
+            POSTGRES_DB: 'helpital_test'
+        volumes:
+            - ./schema.sql:/docker-entrypoint-initdb.d/init.sql
+        ports:
+            - "5000:5432"
+    server:
+        build: ..
+        restart: always
+        volumes:
+            - .:/app
+        links:
+            - database
+        depends_on:
+            - database
+        expose:
+            - "3000"
+        ports:
+            - "3000:3000"
+volumes:
+    db-data:

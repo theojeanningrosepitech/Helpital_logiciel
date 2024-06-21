@@ -1,0 +1,8 @@
+extends ../header
+block content
+    link(rel='stylesheet', href='/stylesheets/landingBackOffice.css')
+    script(type='text/javascript', src='/javascripts/back_office/back_office.js')
+    .flex-container
+        each section in all_sections
+            .flex-item
+                a(href=`${section.section_path}`)=section.section_display_name

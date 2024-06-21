@@ -1,0 +1,63 @@
+extends ../header
+block content
+    link(rel='stylesheet', href='/stylesheets/roomManagement.css')
+    link(rel='stylesheet', href='/stylesheets/specialistes.css')
+    link(rel='stylesheet', href='/stylesheets/restauration.css')
+    script(type='text/javascript' src='/javascripts/restauration.js')
+
+    .page
+        .side-menu
+            .side-menu-header
+                p Menu restaurants
+            #menu_relais_h
+                img(src='/images/cantine.jpeg' alt='login' class="img_restau")
+                each plate in menu_relais_h.data
+                    .plate
+                        span.text_plate #{plate.title}
+                        .plate_info
+                            p #{plate.menu_type}
+                            p Allergies: #{plate.allergies}
+                            p Nutri-score: #{plate.nutri_score}
+            #menu_medirest
+                img(src='/images/cantine2.jpeg' alt='login' class="img_restau")
+                each plate in menu_medirest.data
+                    .plate
+                        span.text_plate #{plate.title}
+                        .plate_info
+                            p #{plate.menu_type}
+                            p Allergies: #{plate.allergies}
+                            p Nutri-score: #{plate.nutri_score}
+            #menu_helpifood
+                img(src='/images/cantine3.png' alt='login' class="img_restau")
+                each plate in menu_helpifood.data
+                    .plate
+                        span.text_plate #{plate.title}
+                        .plate_info
+                            p #{plate.menu_type}
+                            p Allergies: #{plate.allergies}
+                            p Nutri-score: #{plate.nutri_score}
+            .side-menu-footer
+        .bloc_list
+            table
+                thead
+                    tr
+                        th Nom
+                        th Type de restaurant
+                        th Horaires
+                caption Liste des restaurants
+                tbody(class="restau_list")
+                    each restaurant in restaurants.data
+                        tr
+                            td(onclick="showMenu" + restaurant.title + "()")
+                                a #{restaurant.title}
+                            td
+                                span #{restaurant.res_type}
+                            td
+                                span #{restaurant.hours}
+                    //- each plate in menu_relais_h.data
+                    //-     td 
+                    //-         span #{plate.title}
+            //- each plate in menu_medirest.data
+            //-     p #{plate.title}
+            //- each plate in menu_helpifood.data
+            //-     p #{plate.title}

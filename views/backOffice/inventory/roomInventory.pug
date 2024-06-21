@@ -1,0 +1,41 @@
+extends ../../header
+block content
+    link(rel='stylesheet', href='/stylesheets/back_office/back_office.css')
+    script(type='text/javascript', src='/javascripts/back_office/back_office.js')
+    script(type='text/javascript' src='https://www.kryogenix.org/code/browser/sorttable/sorttable.js')
+    div.flex-box
+        div.navbar.flex-item
+            if favorites.length
+            div.navbar-title Accès rapide
+            ul.navbar-container
+                each section in favorites
+                    li.navbar-button(onclick='load(this)')
+                        a(href=`${section.section_path}`)=section.section_display_name
+            if sections.length
+            div.navbar-title Toutes
+            ul.navbar-container
+                each section in sections
+                    li.navbar-button(onclick='load(this)')
+                        a(href=`${section.section_path}`)=section.section_display_name
+        #inner-body.flex-item
+            .page-header
+                .page-informations
+                    .page-title
+                        h1 Inventaire salle
+                    .page-description
+                        p 🏬 Gestionnaire d'objet au sein de la salle: #{data.room.title}
+            .flex-box-table
+                .table-header
+                    .table-header-item Nom
+                    .table-header-item Quantité
+                    .table-header-item Dernière mise à jour
+                    .table-header-item Type
+                    .table-header-item
+                each row in data.inventory
+                    .table-row
+                        .table-row-item #{row.name}
+                        .table-row-item #{row.quantity}
+                        .table-row-item #{row.update.slice(0, 10).split("-").reverse().join("-")}
+                        .table-row-item #{row.type.display_name}
+                        .table-row-item
+                            button(onclick='order(this)') Commander

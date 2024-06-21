@@ -1,0 +1,149 @@
+extends ../header
+include ../popUp
+block content
+    link(rel='stylesheet', href='/stylesheets/back_office/back_office.css')
+    link(rel='stylesheet' href='/stylesheets/waiting.css')
+    link(rel='stylesheet' href='/stylesheets/planning.css')
+    link(rel='stylesheet' href='/stylesheets/meeting.css')
+    //link(rel='stylesheet' href='/stylesheets/patients.css')
+    script(type='text/javascript', src='/javascripts/reception.js')
+    script(type='text/javascript' src='/javascripts/waiting.js')
+
+    #header-container
+        .page-header
+            .page-informations
+                .page-title
+                    h1 Réception
+                .page-description
+                    p 🧑 Réception et création de profil patient, consultation des salle d'attente.
+            .page-option
+                .tutorial-button
+                    a(onclick="ShowTutorial()")
+                        span(class="material-icons") help
+
+    +popUp({
+        popUpName: "AddPatientForm",
+        id: "pop-up-container",
+        className: "add-patient-form",
+        title: "Ajouter un patient",
+        description: "Description",
+        type: "patient",
+        name: "add-patient-form",
+        method: "post",
+        action: "api/patients",
+        onSubmit: "event.preventDefault(); addPatient();",
+        columnLeft: {
+                0: { id: "firstname", columnType:"input", name: "firstname", type: "text", placeholder: "Prénom du patient", title: "Prénom du patient" },
+                1: { id: "lastname", columnType:"input", name: "lastname", type: "text", placeholder: "Nom de famille du patient", title: "Nom de famille du patient" },
+                2: { id: "birthdate", columnType:"input", name: "birthdate", type: "date", placeholder: "Date de naissance du patient", title: "Date de naissance du patient" },
+                3: { id: "ss_number", columnType:"input", name: "ss_number", type: "text", placeholder: "Numéro de sécurité sociale", title: "Numéro de sécurité sociale" },
+                4: { id: "height", columnType:"input", name: "height", type: "number", min: "30", max: "300", placeholder: "Taille", title: "Taille" },
+                5: { id: "weight", columnType:"input", name: "weight", type: "number", min: "0", max: "1000", placeholder: "Poids", title: "Poids" }
+        },
+        columnRight: {
+                0: { id: "age", columnType:"input", name: "age", type: "number", min: "0", max: "200", placeholder: "Âge", title: "Âge" },
+                1: { id: "blood_type", columnType:"select", name: "blood_type", type: "text", title: "Groupe sanguin", options: data.bloodTypes },
+                2: { id: "gender", columnType:"select", name: "gender", type: "text", title: "Genre", options: data.genres },
+                3: { id: "allergies", columnType:"input", name: "allergies", type: "text", placeholder: "Allergies", title: "Allergies" },
+                4: { id: "service_id", columnType:"select", name: "service_id", type: "text", title: "Service", options: data.services },
+                5: { id: "doctor", columnType:"select", name: "doctor_id", type: "text", title: "Médecin responsable", options: data.users }
+        },
+        inputs: {
+                0: { id: "submit", type: "submit", value: "Ajouter" }
+        }
+    })
+
+        #pop-up-form-container
+            .form-section-patient
+                .form-header
+                    .close-pop-up
+                            a(onclick="hidePopUpForm()")
+                                span.material-icons clear
+                    h2(class="form-header title") Ajouter un patient
+                //- .form-content
+                //-     div(name="event")
+                //-         label
+                //-             input(type="text" id="firstname" name="firstname" placeholder="Prénom" required)
+                //-         label
+                //-             input(type="text" id="lastname" name="lastname" placeholder="Nom" required)
+                //-         label
+                //-             input(type="date" id="birthdate" name="birthdate" placeholder="Date de naissance" required)
+                //-         label
+                //-             input(type="text" id="ss_number" name="ss_number" placeholder="Numéro de securite sociale" required)
+                //-         label
+                //-             input(type="text" id="height" name="height" placeholder="Taille" required)
+                //-         label
+                //-             input(type="text" id="weight" name="weight" placeholder="Poids" required)
+                //-         label
+                //-             input(type="text" id="age" name="age" placeholder="Âge" required)
+                //-         label
+                //-             input(type="text" id="blood_type" name="blood_type" placeholder="Groupe sanguin" required)
+                //-         label
+                //-             input(type="text" id="gender" name="gender" placeholder="Genre" required)
+                //-         label
+                //-             input(type="text" id="allergies" name="allergies" placeholder="Allergies" required)
+                //-         label
+                //-             input(type="hidden" id="service_id" name="service_id" placeholder="choisir un service" value="Reception" required)
+                //-         label
+                //-             input(type="text" id="doctor" name="doctor" placeholder="Docteur" required)
+                //-         label
+                //-             button(id="submit" value="Ajouter", onclick="addPatient()") Ajouter
+                //- .form-footer
+                //-     button(onclick="hidePopUpForm()") Annuler
+
+
+    #inner-body-recep.flex-item
+            .flex-box-table
+                .table-header
+                    .table-header-item Prénom
+                    .table-header-item Nom
+                    .table-header-item N° securité social
+                    .table-header-item Date de naissance
+                    .table-header-item Taille
+                    .table-header-item Poids
+                    .table-header-item Service
+                    .table-header-item 
+                        a(onclick="showPopUpAddPatientForm()" id="showform") Nouveau patient
+                    .table-header-item
+                #list.wrap-row-recep
+                    each patient in data.patients
+                        include reception_fragment
+    
+    #inner-body-em.flex-item
+        .flex-box-table-em
+            .waitroom_list
+                each waiting_room in data.waiting
+                    div(class="waitroom")
+                        waiting_id=`${waiting_room.id}`
+                        span(class="room_title") #{waiting_room.title}
+                        br
+                        span(class="floor") Etage : #{waiting_room.floor}
+                        br
+                        span(class="maxsize") Place maximale : #{waiting_room.capacity}
+                        br
+                        a(href=`/rooms?id=${waiting_room.id}`, class="details") Détail
+                        a(class="btnlist" onclick="showPopUpPatient(this)" waiting_id=`${waiting_room.id}`) Modifier la liste des patients
+                        //a.button(onclick="showPopUpInfo(this)" waiting_id=`${waiting_room.id}`) #{waiting_room.title}
+
+        #pop-up-form-container-meeting
+            .form-section
+                .form-header
+                    .close-pop-up
+                        a(onclick="hidePopUpPatient()")
+                            span.material-icons clear
+                    h2(class="form-header title") Ajouter un patient
+                .form-content
+                    .event
+                        label
+                            input.entry(type='text' id="add_patient" onkeyup="searchListParticipent()" placeholder='Entrer un patient' autocomplete='off' required)
+                            ul#displayPatient
+                                each patient in data.patients
+                                    //- .all_patients FONCTIONNE PAS JE GALERE
+                                    li(id=patient.id onclick="displayParticipantInformations('" + JSON.stringify(patient) +"',)")
+                                        a=patient.firstname + " " + patient.lastname
+                            .delPatient
+                                div(th:each='element : ${interestList}')
+                                    span(th:text='${element}')
+                                    //- button.btnRemove(onclick="removePatient(this)") test
+                            select.list(id ="listPatient" multiple='')
+                        button.btnSave(onclick="saveInfo(this)") Enregistrer

@@ -1,0 +1,95 @@
+extends ../header
+include ../popUp
+block content
+    link(rel='stylesheet', href='/stylesheets/roomManagement.css')
+    link(rel='stylesheet', href='/stylesheets/specialistes.css')
+    script(type='text/javascript' src='/javascripts/room.js')
+    //- script(type='text/javascript' src='/javascripts/patients.js')
+
+    +popUp({
+        popUpName: "AlertUser",
+        id: "pop-up-container",
+        className: "alert-user",
+        title: "Maintenance 👷",
+        description: "Cet élément est actuellement en développement.",
+        type: "alert"
+    })
+
+    +popUp({
+        popUpName: "NewCategory",
+        id: "pop-up-container",
+        className: "new-cat-form",
+        title: "Créez une catégorie de chambre 🛏",
+        description: "Créez une nouvelle catégorie de chambre",
+        type: "form",
+        name: "add-offer-form",
+        method: "post",
+        action: "api/offer", 
+        onSubmit: "event.preventDefault(); createRoomCategory();",
+        inputs: {
+                0: { id: "category-name", name: "type", type: "text", placeholder: "Nom"}, 
+                1: { id: "submit", type: "submit", value: "Créer"}
+        }
+    })
+
+    .page
+        .side-menu
+            .side-menu-header
+                button.active-button(onclick="window.location.href='/plan'") Ajouter une chambre
+            .summary
+                ul.summary-content
+                    button.active-button(onclick="showPopUpNewCategory()") Ajouter une catégorie
+                    .spe-dropdown
+                        a.floor-title Étage
+                            ul.spe-dropdown-child
+                                li
+                                    a(href='/room_management') Tous
+                                li
+                                    a(href='/room_management?floor=-1') Étage -1
+                                li
+                                    a(href='/room_management?floor=0') Étage 0
+                                li
+                                    a(href='/room_management?floor=1') Étage 1
+                                li
+                                    a(href='/room_management?floor=2') Étage 2
+                                li
+                                    a(href='/room_management?floor=3') Étage 3
+                                li
+                                    a(href='/room_management?floor=4') Étage 4
+                    .spe-dropdown
+                        a.floor-title Service
+                            ul.spe-dropdown-child
+                                li
+                                    a(href='/room_management') Tous
+                                li
+                                    a(href='/room_management?service_id=-2') Radiologie
+                                li
+                                    a(href='/room_management?service_id=3') Cardiologie
+                                li
+                                    a(href='/room_management?service_id=4') Pédiatrie
+                                li
+                                    a(href='/room_management?service_id=5') Pneumologie
+                                li
+                                    a(href='/room_management?service_id=6') Neurologie
+                                li
+                                    a(href='/room_management?service_id=7') Cancerologie
+            .side-menu-footer
+        .rooms-list
+            each room in data
+                include room_fragment
+
+    script(type='text/javascript' src='/javascripts/roomManagement.js')
+
+    //- #tutorial_display.display_none
+    //-     #pop-up-container
+    //-         .robothelp
+    //-             img(src='/images/robothelp.gif', alt="robothelp")
+    //-             .triangle
+    //-             .tutorial_text_box
+    //-                 div.message Sur cette page tu peut consulter toutes les chambres de l'hopital et avoir accès a leur details.
+    //-         .triangle1
+    //-         .tutorial_text_box_one
+    //-             div.message En cliquant sur ce lien vous pourrez consulter les catégories déjà existantes et en ajouter si vous possédez les droits.
+    //-         .triangle2
+    //-         .tutorial_text_box_two
+    //-             div.message En cliquant sur détail vous aurez accès au contenu de la chambre et aux patients a l'intérieur.

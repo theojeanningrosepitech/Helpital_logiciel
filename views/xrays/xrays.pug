@@ -1,0 +1,49 @@
+extends ../header
+block content
+    link(rel='stylesheet', href='/stylesheets/xrays.css')
+    script(type='text/javascript' src='/javascripts/xrays.js')
+
+    #pop-up-view-container
+        .view-section
+            .view-header
+                .close-pop-up
+                        a(onclick="hidePopUpView()")
+                            span.material-icons clear
+                h2(class="view-header title")
+            .view-content
+            .view-footer
+
+    #header-container
+        .page-header
+            .page-informations
+                .page-title
+                    h1 Radiographies
+                .page-description
+                    p 📍 Consultez les radiographies
+            .page-option
+                //- input(id="searchInput" type="text" placeholder="Rechercher une radiographie")
+                button(onclick="refreshXRays()") Rafraîchir
+
+    #xray-container
+        .section-1-flex-box
+            .viewer
+                .viewer-header
+                #list.viewer-content
+                    each xray in data.xrays
+                        .xray-div(item-id=`${xray.id}`)
+                            .xray-header
+                                .xray-title
+                                    span=xray.href
+                                .xray-delete
+                                    script.
+                                    a(onclick="apiDelete(\'xrays\'," + xray.id + ")")
+                                        span.material-icons clear
+                            .xray-content
+                                img(id=xray.id src=`/xrays/${xray.href}` onclick="showPopUpView('" + xray.href + "')")
+                            .xray-footer
+                                .xray-date
+                                    span=xray.date.slice(0, 10).split("-").reverse().join("-")
+                .viewer-footer
+
+    script.
+        loadXRays();
