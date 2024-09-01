@@ -11,8 +11,8 @@ Helpital est un logiciel d'optimisation et d'organisation destiné aux hôpitaux
 - Paul Riba
 - Irama Chaouch
 - Arnaud Lubert
-- Théo
-- Bryan
+- Théo Jeanningros
+- Bryan Fortin
 
 
 ### Project dependencies
